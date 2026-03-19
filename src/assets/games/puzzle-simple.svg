@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dbeafe" />
+      <stop offset="100%" stop-color="#fef3c7" />
+    </linearGradient>
+  </defs>
+  <rect width="900" height="900" rx="60" fill="url(#bg)" />
+
+  <rect x="80" y="80" width="240" height="240" rx="24" fill="#38bdf8" />
+  <rect x="330" y="80" width="240" height="240" rx="24" fill="#34d399" />
+  <rect x="580" y="80" width="240" height="240" rx="24" fill="#f59e0b" />
+
+  <rect x="80" y="330" width="240" height="240" rx="24" fill="#a78bfa" />
+  <rect x="330" y="330" width="240" height="240" rx="24" fill="#f472b6" />
+  <rect x="580" y="330" width="240" height="240" rx="24" fill="#fb7185" />
+
+  <rect x="80" y="580" width="240" height="240" rx="24" fill="#22d3ee" />
+  <rect x="330" y="580" width="240" height="240" rx="24" fill="#60a5fa" />
+  <rect x="580" y="580" width="240" height="240" rx="24" fill="#facc15" />
+
+  <g font-family="Nunito, Arial, sans-serif" font-size="92" font-weight="900" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">
+    <text x="200" y="200">1</text>
+    <text x="450" y="200">2</text>
+    <text x="700" y="200">3</text>
+    <text x="200" y="450">4</text>
+    <text x="450" y="450">5</text>
+    <text x="700" y="450">6</text>
+    <text x="200" y="700">7</text>
+    <text x="450" y="700">8</text>
+    <text x="700" y="700">9</text>
+  </g>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220">
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ecfeff"/>
+      <stop offset="100%" stop-color="#eef2ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="220" rx="26" fill="url(#g1)"/>
+  <g transform="translate(72 34)">
+    <rect width="154" height="154" rx="20" fill="#fff" stroke="#cbd5e1" stroke-width="4"/>
+    <circle cx="52" cy="62" r="22" fill="#38bdf8"/>
+    <circle cx="104" cy="62" r="22" fill="#f472b6"/>
+    <path d="M52 84 C68 116,88 116,104 84" fill="none" stroke="#22c55e" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(262 46)">
+    <rect width="150" height="130" rx="18" fill="#fff" stroke="#cbd5e1" stroke-width="4"/>
+    <text x="75" y="42" text-anchor="middle" font-size="26" font-family="Arial" font-weight="800" fill="#0f172a">?</text>
+    <text x="75" y="78" text-anchor="middle" font-size="18" font-family="Arial" font-weight="700" fill="#2563eb">Qaysi biri</text>
+    <text x="75" y="104" text-anchor="middle" font-size="18" font-family="Arial" font-weight="700" fill="#2563eb">to'g'ri?</text>
+  </g>
+  <g transform="translate(448 44)">
+    <rect width="120" height="140" rx="18" fill="#fff" stroke="#cbd5e1" stroke-width="4"/>
+    <text x="60" y="48" text-anchor="middle" font-size="22" font-family="Arial" font-weight="900" fill="#ef4444">A</text>
+    <text x="60" y="80" text-anchor="middle" font-size="22" font-family="Arial" font-weight="900" fill="#f59e0b">B</text>
+    <text x="60" y="112" text-anchor="middle" font-size="22" font-family="Arial" font-weight="900" fill="#22c55e">C</text>
+    <text x="60" y="144" text-anchor="middle" font-size="22" font-family="Arial" font-weight="900" fill="#3b82f6">D</text>
+  </g>
+</svg>

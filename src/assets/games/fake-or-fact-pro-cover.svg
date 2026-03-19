@@ -1,0 +1,59 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" rx="48" fill="url(#bg)"/>
+  <circle cx="247" cy="180" r="180" fill="url(#cyanGlow)" fill-opacity="0.7"/>
+  <circle cx="1364" cy="190" r="150" fill="url(#pinkGlow)" fill-opacity="0.55"/>
+  <circle cx="1220" cy="742" r="210" fill="url(#greenGlow)" fill-opacity="0.35"/>
+  <rect x="114" y="120" width="1372" height="660" rx="40" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.14"/>
+  <rect x="166" y="196" width="1268" height="84" rx="24" fill="#FFFFFF" fill-opacity="0.06"/>
+  <rect x="166" y="320" width="600" height="320" rx="36" fill="#38BDF8" fill-opacity="0.08" stroke="#38BDF8" stroke-opacity="0.28"/>
+  <rect x="834" y="320" width="600" height="320" rx="36" fill="#F472B6" fill-opacity="0.08" stroke="#F472B6" stroke-opacity="0.24"/>
+  <text x="188" y="176" fill="#9AE6FF" font-size="26" font-family="Arial, sans-serif" font-weight="700" letter-spacing="7">MEDIA SAVOD VA MANTIQ</text>
+  <text x="184" y="264" fill="#FFFFFF" font-size="92" font-family="Arial, sans-serif" font-weight="900">FAKE or FACT PRO</text>
+  <text x="188" y="384" fill="#A5F3FC" font-size="28" font-family="Arial, sans-serif" font-weight="700">FAKT jamoasi</text>
+  <text x="854" y="384" fill="#F9A8D4" font-size="28" font-family="Arial, sans-serif" font-weight="700">FEYK jamoasi</text>
+  <text x="188" y="454" fill="#FFFFFF" font-size="38" font-family="Arial, sans-serif" font-weight="700">"Yer Quyosh atrofida aylanadi."</text>
+  <text x="188" y="520" fill="#D8F8FF" font-size="28" font-family="Arial, sans-serif" font-weight="600">Qaror: FAKT yoki FEYK</text>
+  <rect x="188" y="562" width="230" height="64" rx="22" fill="url(#factBtn)"/>
+  <rect x="446" y="562" width="230" height="64" rx="22" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.16"/>
+  <text x="257" y="604" fill="#062E1F" font-size="30" font-family="Arial, sans-serif" font-weight="900">FAKT</text>
+  <text x="523" y="604" fill="#FFFFFF" font-size="30" font-family="Arial, sans-serif" font-weight="900">FEYK</text>
+  <text x="854" y="454" fill="#FFFFFF" font-size="38" font-family="Arial, sans-serif" font-weight="700">"Oy o'zidan yorug'lik chiqarmaydi."</text>
+  <text x="854" y="520" fill="#FCE7F3" font-size="28" font-family="Arial, sans-serif" font-weight="600">Izoh raunddan keyin ochiladi</text>
+  <rect x="854" y="562" width="230" height="64" rx="22" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.16"/>
+  <rect x="1112" y="562" width="230" height="64" rx="22" fill="url(#fakeBtn)"/>
+  <text x="922" y="604" fill="#FFFFFF" font-size="30" font-family="Arial, sans-serif" font-weight="900">FAKT</text>
+  <text x="1187" y="604" fill="#3F0712" font-size="30" font-family="Arial, sans-serif" font-weight="900">FEYK</text>
+  <text x="188" y="720" fill="#D6E4FF" font-size="26" font-family="Arial, sans-serif" font-weight="700">Intro animatsiya - izohli natija - ustoz savol banki - premium arena</text>
+  <defs>
+    <linearGradient id="bg" x1="178" y1="90" x2="1404" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050B18"/>
+      <stop offset="0.55" stop-color="#0D1630"/>
+      <stop offset="1" stop-color="#1C0F35"/>
+    </linearGradient>
+    <radialGradient id="cyanGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(247 180) rotate(90) scale(180)">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pinkGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1364 190) rotate(90) scale(150)">
+      <stop stop-color="#F472B6"/>
+      <stop offset="1" stop-color="#F472B6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="greenGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1220 742) rotate(90) scale(210)">
+      <stop stop-color="#22C55E"/>
+      <stop offset="1" stop-color="#22C55E" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panel" x1="200" y1="130" x2="1420" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#091326" stop-opacity="0.95"/>
+      <stop offset="0.58" stop-color="#111E3B" stop-opacity="0.94"/>
+      <stop offset="1" stop-color="#1B1131" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="factBtn" x1="188" y1="562" x2="418" y2="626" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6EE7B7"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="fakeBtn" x1="1112" y1="562" x2="1342" y2="626" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FB7185"/>
+      <stop offset="1" stop-color="#F472B6"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,0 +1,23 @@
+<svg width="520" height="320" viewBox="0 0 520 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="520" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DCFCE7"/>
+      <stop offset="1" stop-color="#CCFBF1"/>
+    </linearGradient>
+  </defs>
+  <rect x="12" y="12" width="496" height="296" rx="30" fill="url(#bg3)"/>
+  <rect x="112" y="48" width="296" height="224" rx="24" fill="#F8FAFC" stroke="#10B981" stroke-width="8"/>
+  <g fill="#0F172A" font-family="Arial, sans-serif" font-size="24" font-weight="700">
+    <text x="136" y="88">A T O P S H I R I Q</text>
+    <text x="136" y="116">L Y S O Z Q I D I R</text>
+    <text x="136" y="144">I M A N T I Q U Z B</text>
+    <text x="136" y="172">B I L I M O Y I N L</text>
+    <text x="136" y="200">F I K R L A S H K T</text>
+    <text x="136" y="228">Q I Z I Q A R L I X</text>
+  </g>
+  <rect x="198" y="63" width="30" height="30" rx="6" fill="#FDE68A" opacity="0.9"/>
+  <rect x="282" y="119" width="30" height="30" rx="6" fill="#93C5FD" opacity="0.9"/>
+  <rect x="338" y="175" width="30" height="30" rx="6" fill="#F9A8D4" opacity="0.9"/>
+  <circle cx="418" cy="228" r="28" fill="#F8FAFC" stroke="#0F172A" stroke-width="6"/>
+  <line x1="437" y1="247" x2="460" y2="270" stroke="#0F172A" stroke-width="8" stroke-linecap="round"/>
+</svg>

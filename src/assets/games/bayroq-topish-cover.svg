@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#eaf7ff" />
+      <stop offset="52%" stop-color="#f3fbff" />
+      <stop offset="100%" stop-color="#fff3dc" />
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.26" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="540" rx="34" fill="url(#bg)" />
+  <circle cx="124" cy="86" r="76" fill="#22d3ee" fill-opacity="0.2" />
+  <circle cx="842" cy="454" r="98" fill="#38bdf8" fill-opacity="0.16" />
+
+  <rect x="118" y="92" width="724" height="356" rx="28" fill="#ffffff" stroke="#b5d9ea" stroke-width="3" />
+
+  <clipPath id="flagClip">
+    <rect x="138" y="112" width="684" height="316" rx="20" />
+  </clipPath>
+
+  <g clip-path="url(#flagClip)">
+    <rect x="138" y="112" width="342" height="316" fill="#ffffff" />
+    <rect x="138" y="112" width="342" height="102" fill="#17a8e0" />
+    <rect x="138" y="214" width="342" height="8" fill="#d81920" />
+    <rect x="138" y="318" width="342" height="8" fill="#d81920" />
+    <rect x="138" y="326" width="342" height="102" fill="#18a457" />
+
+    <circle cx="188" cy="162" r="22" fill="#ffffff" />
+    <circle cx="196" cy="162" r="18" fill="#17a8e0" />
+
+    <g fill="#ffffff">
+      <circle cx="232" cy="140" r="4" />
+      <circle cx="248" cy="140" r="4" />
+      <circle cx="264" cy="140" r="4" />
+      <circle cx="280" cy="140" r="4" />
+      <circle cx="296" cy="140" r="4" />
+
+      <circle cx="240" cy="154" r="4" />
+      <circle cx="256" cy="154" r="4" />
+      <circle cx="272" cy="154" r="4" />
+      <circle cx="288" cy="154" r="4" />
+
+      <circle cx="248" cy="168" r="4" />
+      <circle cx="264" cy="168" r="4" />
+      <circle cx="280" cy="168" r="4" />
+    </g>
+
+    <rect x="480" y="112" width="342" height="316" fill="#ffffff" />
+    <rect x="480" y="112" width="342" height="24.31" fill="#b22234" />
+    <rect x="480" y="160.62" width="342" height="24.31" fill="#b22234" />
+    <rect x="480" y="209.24" width="342" height="24.31" fill="#b22234" />
+    <rect x="480" y="257.86" width="342" height="24.31" fill="#b22234" />
+    <rect x="480" y="306.48" width="342" height="24.31" fill="#b22234" />
+    <rect x="480" y="355.1" width="342" height="24.31" fill="#b22234" />
+    <rect x="480" y="403.72" width="342" height="24.31" fill="#b22234" />
+
+    <rect x="480" y="112" width="150" height="170.17" fill="#3c3b6e" />
+    <g fill="#ffffff">
+      <circle cx="496" cy="126" r="2.8" />
+      <circle cx="516" cy="126" r="2.8" />
+      <circle cx="536" cy="126" r="2.8" />
+      <circle cx="556" cy="126" r="2.8" />
+      <circle cx="576" cy="126" r="2.8" />
+      <circle cx="596" cy="126" r="2.8" />
+      <circle cx="616" cy="126" r="2.8" />
+
+      <circle cx="506" cy="142" r="2.8" />
+      <circle cx="526" cy="142" r="2.8" />
+      <circle cx="546" cy="142" r="2.8" />
+      <circle cx="566" cy="142" r="2.8" />
+      <circle cx="586" cy="142" r="2.8" />
+      <circle cx="606" cy="142" r="2.8" />
+
+      <circle cx="496" cy="158" r="2.8" />
+      <circle cx="516" cy="158" r="2.8" />
+      <circle cx="536" cy="158" r="2.8" />
+      <circle cx="556" cy="158" r="2.8" />
+      <circle cx="576" cy="158" r="2.8" />
+      <circle cx="596" cy="158" r="2.8" />
+      <circle cx="616" cy="158" r="2.8" />
+
+      <circle cx="506" cy="174" r="2.8" />
+      <circle cx="526" cy="174" r="2.8" />
+      <circle cx="546" cy="174" r="2.8" />
+      <circle cx="566" cy="174" r="2.8" />
+      <circle cx="586" cy="174" r="2.8" />
+      <circle cx="606" cy="174" r="2.8" />
+
+      <circle cx="496" cy="190" r="2.8" />
+      <circle cx="516" cy="190" r="2.8" />
+      <circle cx="536" cy="190" r="2.8" />
+      <circle cx="556" cy="190" r="2.8" />
+      <circle cx="576" cy="190" r="2.8" />
+      <circle cx="596" cy="190" r="2.8" />
+      <circle cx="616" cy="190" r="2.8" />
+
+      <circle cx="506" cy="206" r="2.8" />
+      <circle cx="526" cy="206" r="2.8" />
+      <circle cx="546" cy="206" r="2.8" />
+      <circle cx="566" cy="206" r="2.8" />
+      <circle cx="586" cy="206" r="2.8" />
+      <circle cx="606" cy="206" r="2.8" />
+
+      <circle cx="496" cy="222" r="2.8" />
+      <circle cx="516" cy="222" r="2.8" />
+      <circle cx="536" cy="222" r="2.8" />
+      <circle cx="556" cy="222" r="2.8" />
+      <circle cx="576" cy="222" r="2.8" />
+      <circle cx="596" cy="222" r="2.8" />
+      <circle cx="616" cy="222" r="2.8" />
+
+      <circle cx="506" cy="238" r="2.8" />
+      <circle cx="526" cy="238" r="2.8" />
+      <circle cx="546" cy="238" r="2.8" />
+      <circle cx="566" cy="238" r="2.8" />
+      <circle cx="586" cy="238" r="2.8" />
+      <circle cx="606" cy="238" r="2.8" />
+    </g>
+  </g>
+
+  <rect x="476" y="112" width="8" height="316" fill="#0f172a" fill-opacity="0.14" />
+  <rect x="138" y="112" width="684" height="316" fill="url(#shine)" />
+
+  <rect x="150" y="34" width="248" height="56" rx="14" fill="#0f766e" fill-opacity="0.92" />
+  <text x="274" y="69" font-family="Nunito, Arial, sans-serif" font-size="24" font-weight="900" fill="#ffffff" text-anchor="middle">
+    BAYROQ TOPISH
+  </text>
+
+  <rect x="728" y="34" width="168" height="56" rx="14" fill="#1d4ed8" fill-opacity="0.9" />
+  <text x="812" y="69" font-family="Nunito, Arial, sans-serif" font-size="20" font-weight="900" fill="#ffffff" text-anchor="middle">
+    UZBEK + AQSH
+  </text>
+</svg>

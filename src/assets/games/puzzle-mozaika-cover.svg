@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dff3ff" />
+      <stop offset="52%" stop-color="#eff8ff" />
+      <stop offset="100%" stop-color="#fff3d6" />
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fcff" />
+      <stop offset="100%" stop-color="#eef6fb" />
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="540" rx="34" fill="url(#bg)" />
+  <circle cx="130" cy="88" r="82" fill="#38bdf8" fill-opacity="0.18" />
+  <circle cx="824" cy="468" r="106" fill="#f59e0b" fill-opacity="0.17" />
+
+  <rect x="214" y="58" width="532" height="420" rx="34" fill="url(#panel)" stroke="#8de4df" stroke-width="3" />
+
+  <rect x="236" y="82" width="206" height="120" rx="18" fill="#38bdf8" />
+  <rect x="458" y="82" width="206" height="120" rx="18" fill="#f8fafc" stroke="#bfd4e3" stroke-dasharray="8 8" />
+  <rect x="680" y="82" width="206" height="120" rx="18" fill="#f59e0b" />
+
+  <rect x="236" y="218" width="206" height="120" rx="18" fill="#60a5fa" />
+  <rect x="458" y="218" width="206" height="120" rx="18" fill="#34d399" />
+  <rect x="680" y="218" width="206" height="120" rx="18" fill="#22d3ee" />
+
+  <rect x="236" y="354" width="206" height="120" rx="18" fill="#a78bfa" />
+  <rect x="458" y="354" width="206" height="120" rx="18" fill="#fb7185" />
+  <rect x="680" y="354" width="206" height="120" rx="18" fill="#f472b6" />
+
+  <g font-family="Nunito, Arial, sans-serif" font-weight="900" text-anchor="middle" dominant-baseline="middle">
+    <text x="339" y="143" font-size="66" fill="#ffffff">1</text>
+    <text x="561" y="143" font-size="40" fill="#94a3b8">BO'SH</text>
+    <text x="783" y="143" font-size="66" fill="#ffffff">3</text>
+    <text x="339" y="279" font-size="66" fill="#ffffff">8</text>
+    <text x="561" y="279" font-size="66" fill="#ffffff">2</text>
+    <text x="783" y="279" font-size="66" fill="#ffffff">7</text>
+    <text x="339" y="415" font-size="66" fill="#ffffff">4</text>
+    <text x="561" y="415" font-size="66" fill="#ffffff">6</text>
+    <text x="783" y="415" font-size="66" fill="#ffffff">5</text>
+  </g>
+
+  <rect x="42" y="40" width="148" height="58" rx="16" fill="#1e3a8a" fill-opacity="0.92" />
+  <text x="116" y="77" font-family="Nunito, Arial, sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle">
+    1-JAMOA
+  </text>
+
+  <rect x="772" y="40" width="146" height="58" rx="16" fill="#0f766e" fill-opacity="0.92" />
+  <text x="845" y="76" font-family="Nunito, Arial, sans-serif" font-size="24" font-weight="900" fill="#ffffff" text-anchor="middle">
+    NAVBAT
+  </text>
+
+  <rect x="46" y="460" width="286" height="44" rx="18" fill="#0ea5e9" fill-opacity="0.86" />
+  <text x="189" y="488" font-family="Nunito, Arial, sans-serif" font-size="24" font-weight="900" fill="#ffffff" text-anchor="middle">
+    PUZZLE MOZAIKA
+  </text>
+</svg>

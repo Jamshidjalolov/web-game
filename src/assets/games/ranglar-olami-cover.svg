@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7ec" />
+      <stop offset="52%" stop-color="#fffaf4" />
+      <stop offset="100%" stop-color="#ebf6ff" />
+    </linearGradient>
+    <linearGradient id="leftHead" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+    <linearGradient id="rightHead" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d946ef" />
+      <stop offset="100%" stop-color="#f43f5e" />
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="540" rx="34" fill="url(#bg)" />
+  <circle cx="120" cy="88" r="80" fill="#fb923c" fill-opacity="0.18" />
+  <circle cx="846" cy="456" r="96" fill="#38bdf8" fill-opacity="0.18" />
+
+  <rect x="44" y="38" width="236" height="58" rx="14" fill="#b45309" fill-opacity="0.93" />
+  <text x="162" y="74" font-family="Nunito, Arial, sans-serif" font-size="24" font-weight="900" fill="#ffffff" text-anchor="middle">
+    RANGLAR OLAMI
+  </text>
+
+  <rect x="306" y="38" width="174" height="58" rx="14" fill="#0f766e" fill-opacity="0.9" />
+  <text x="393" y="74" font-family="Nunito, Arial, sans-serif" font-size="22" font-weight="900" fill="#ffffff" text-anchor="middle">
+    STROOP RACE
+  </text>
+
+  <rect x="500" y="38" width="154" height="58" rx="14" fill="#1d4ed8" fill-opacity="0.9" />
+  <text x="577" y="74" font-family="Nunito, Arial, sans-serif" font-size="22" font-weight="900" fill="#ffffff" text-anchor="middle">
+    12 RUND
+  </text>
+
+  <rect x="674" y="38" width="136" height="58" rx="14" fill="#ea580c" fill-opacity="0.9" />
+  <text x="742" y="74" font-family="Nunito, Arial, sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle">
+    16s
+  </text>
+
+  <rect x="78" y="116" width="804" height="360" rx="30" fill="#ffffff" stroke="#fdba74" stroke-width="3" />
+
+  <rect x="102" y="140" width="756" height="78" rx="18" fill="#fff7ed" stroke="#fed7aa" />
+  <text x="126" y="172" font-family="Nunito, Arial, sans-serif" font-size="16" font-weight="800" fill="#9a3412">
+    CHALLENGE
+  </text>
+  <text x="480" y="191" font-family="Nunito, Arial, sans-serif" font-size="34" font-weight="900" fill="#111827" text-anchor="middle">
+    Qaysi kartada yozuv rangi "Yashil"?
+  </text>
+
+  <rect x="102" y="236" width="364" height="216" rx="24" fill="#f0f9ff" stroke="#bae6fd" />
+  <rect x="102" y="236" width="364" height="48" rx="24" fill="url(#leftHead)" />
+  <text x="284" y="267" font-family="Nunito, Arial, sans-serif" font-size="20" font-weight="900" fill="#ffffff" text-anchor="middle">
+    1-JAMOA
+  </text>
+
+  <rect x="114" y="296" width="168" height="66" rx="16" fill="#fde68a" />
+  <text x="198" y="339" font-family="Nunito, Arial, sans-serif" font-size="34" font-weight="900" fill="#2563eb" text-anchor="middle">
+    QIZIL
+  </text>
+
+  <rect x="286" y="296" width="168" height="66" rx="16" fill="#dbeafe" />
+  <text x="370" y="339" font-family="Nunito, Arial, sans-serif" font-size="34" font-weight="900" fill="#22c55e" text-anchor="middle">
+    SARIQ
+  </text>
+
+  <rect x="114" y="372" width="168" height="66" rx="16" fill="#fbcfe8" />
+  <text x="198" y="415" font-family="Nunito, Arial, sans-serif" font-size="34" font-weight="900" fill="#f97316" text-anchor="middle">
+    KOK
+  </text>
+
+  <rect x="286" y="372" width="168" height="66" rx="16" fill="#dcfce7" />
+  <text x="370" y="415" font-family="Nunito, Arial, sans-serif" font-size="34" font-weight="900" fill="#8b5cf6" text-anchor="middle">
+    OQ
+  </text>
+
+  <rect x="494" y="236" width="364" height="216" rx="24" fill="#fdf4ff" stroke="#f5d0fe" />
+  <rect x="494" y="236" width="364" height="48" rx="24" fill="url(#rightHead)" />
+  <text x="676" y="267" font-family="Nunito, Arial, sans-serif" font-size="20" font-weight="900" fill="#ffffff" text-anchor="middle">
+    2-JAMOA
+  </text>
+
+  <rect x="506" y="296" width="168" height="66" rx="16" fill="#e0f2fe" />
+  <text x="590" y="339" font-family="Nunito, Arial, sans-serif" font-size="34" font-weight="900" fill="#ef4444" text-anchor="middle">
+    YASHIL
+  </text>
+
+  <rect x="678" y="296" width="168" height="66" rx="16" fill="#fef3c7" />
+  <text x="762" y="339" font-family="Nunito, Arial, sans-serif" font-size="34" font-weight="900" fill="#3b82f6" text-anchor="middle">
+    QORA
+  </text>
+
+  <rect x="506" y="372" width="168" height="66" rx="16" fill="#fce7f3" />
+  <text x="590" y="415" font-family="Nunito, Arial, sans-serif" font-size="34" font-weight="900" fill="#0ea5e9" text-anchor="middle">
+    PUSHTI
+  </text>
+
+  <rect x="678" y="372" width="168" height="66" rx="16" fill="#ecfccb" />
+  <text x="762" y="415" font-family="Nunito, Arial, sans-serif" font-size="34" font-weight="900" fill="#ef4444" text-anchor="middle">
+    KULRANG
+  </text>
+</svg>

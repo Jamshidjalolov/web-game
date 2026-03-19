@@ -1,0 +1,1502 @@
+[
+  {
+    "id": "visual-brainteaser-001",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0000.png",
+    "options": [
+      "yashil",
+      "qizil",
+      "to'q sariq",
+      "sariq"
+    ],
+    "correct_answer": "to'q sariq",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob to'q sariq."
+  },
+  {
+    "id": "visual-brainteaser-002",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0001.png",
+    "options": [
+      "to'q sariq",
+      "binafsha",
+      "ko'k",
+      "qizil"
+    ],
+    "correct_answer": "binafsha",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob binafsha."
+  },
+  {
+    "id": "visual-brainteaser-003",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0002.png",
+    "options": [
+      "ko'k",
+      "to'q sariq",
+      "sariq",
+      "binafsha"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob ko'k."
+  },
+  {
+    "id": "visual-brainteaser-004",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0003.png",
+    "options": [
+      "qizil",
+      "to'q sariq",
+      "ko'k",
+      "yashil"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob ko'k."
+  },
+  {
+    "id": "visual-brainteaser-005",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0004.png",
+    "options": [
+      "to'q sariq",
+      "qizil",
+      "ko'k",
+      "yashil"
+    ],
+    "correct_answer": "yashil",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob yashil."
+  },
+  {
+    "id": "visual-brainteaser-006",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0005.png",
+    "options": [
+      "qizil",
+      "yashil",
+      "ko'k",
+      "to'q sariq"
+    ],
+    "correct_answer": "yashil",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob yashil."
+  },
+  {
+    "id": "visual-brainteaser-007",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0006.png",
+    "options": [
+      "sariq",
+      "yashil",
+      "binafsha",
+      "ko'k"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob ko'k."
+  },
+  {
+    "id": "visual-brainteaser-008",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0007.png",
+    "options": [
+      "binafsha",
+      "ko'k",
+      "yashil",
+      "sariq"
+    ],
+    "correct_answer": "binafsha",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob binafsha."
+  },
+  {
+    "id": "visual-brainteaser-009",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0008.png",
+    "options": [
+      "yashil",
+      "qizil",
+      "sariq",
+      "ko'k"
+    ],
+    "correct_answer": "sariq",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob sariq."
+  },
+  {
+    "id": "visual-brainteaser-010",
+    "question_uz": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0009.png",
+    "options": [
+      "to'q sariq",
+      "ko'k",
+      "binafsha",
+      "yashil"
+    ],
+    "correct_answer": "yashil",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Doiralardagi ranglar joylashuv bo'yicha takrorlanmoqda. Burchak va markaz yonidagi bo'laklar o'z naqshini saqlagan, shuning uchun javob yashil."
+  },
+  {
+    "id": "visual-brainteaser-011",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0000.png",
+    "options": [
+      "sariq",
+      "binafsha",
+      "ko'k",
+      "to'q sariq"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga ko'k keladi."
+  },
+  {
+    "id": "visual-brainteaser-012",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0001.png",
+    "options": [
+      "qizil",
+      "yashil",
+      "ko'k",
+      "binafsha"
+    ],
+    "correct_answer": "yashil",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga yashil keladi."
+  },
+  {
+    "id": "visual-brainteaser-013",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0002.png",
+    "options": [
+      "binafsha",
+      "yashil",
+      "to'q sariq",
+      "sariq"
+    ],
+    "correct_answer": "binafsha",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga binafsha keladi."
+  },
+  {
+    "id": "visual-brainteaser-014",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0003.png",
+    "options": [
+      "to'q sariq",
+      "ko'k",
+      "qizil",
+      "sariq"
+    ],
+    "correct_answer": "to'q sariq",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga to'q sariq keladi."
+  },
+  {
+    "id": "visual-brainteaser-015",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0004.png",
+    "options": [
+      "ko'k",
+      "sariq",
+      "yashil",
+      "to'q sariq"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga ko'k keladi."
+  },
+  {
+    "id": "visual-brainteaser-016",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0005.png",
+    "options": [
+      "to'q sariq",
+      "binafsha",
+      "qizil",
+      "ko'k"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga ko'k keladi."
+  },
+  {
+    "id": "visual-brainteaser-017",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0006.png",
+    "options": [
+      "yashil",
+      "binafsha",
+      "qizil",
+      "to'q sariq"
+    ],
+    "correct_answer": "to'q sariq",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga to'q sariq keladi."
+  },
+  {
+    "id": "visual-brainteaser-018",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0007.png",
+    "options": [
+      "ko'k",
+      "binafsha",
+      "yashil",
+      "to'q sariq"
+    ],
+    "correct_answer": "binafsha",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga binafsha keladi."
+  },
+  {
+    "id": "visual-brainteaser-019",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0008.png",
+    "options": [
+      "sariq",
+      "qizil",
+      "to'q sariq",
+      "binafsha"
+    ],
+    "correct_answer": "to'q sariq",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga to'q sariq keladi."
+  },
+  {
+    "id": "visual-brainteaser-020",
+    "question_uz": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0009.png",
+    "options": [
+      "sariq",
+      "yashil",
+      "binafsha",
+      "ko'k"
+    ],
+    "correct_answer": "binafsha",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Qarama-qarshi bo'laklar bir xil rang bilan juftlangan. Shu naqsh bo'yicha bo'sh joyga binafsha keladi."
+  },
+  {
+    "id": "visual-brainteaser-021",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0000.png",
+    "options": [
+      "to'q yashil",
+      "och binafsha",
+      "och ko'k",
+      "to'q binafsha"
+    ],
+    "correct_answer": "och binafsha",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob och binafsha."
+  },
+  {
+    "id": "visual-brainteaser-022",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0001.png",
+    "options": [
+      "light red",
+      "light yellow",
+      "light green",
+      "dark red"
+    ],
+    "correct_answer": "dark red",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob dark red."
+  },
+  {
+    "id": "visual-brainteaser-023",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0002.png",
+    "options": [
+      "to'q yashil",
+      "dark blue",
+      "och binafsha",
+      "to'q binafsha"
+    ],
+    "correct_answer": "och binafsha",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob och binafsha."
+  },
+  {
+    "id": "visual-brainteaser-024",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0003.png",
+    "options": [
+      "light red",
+      "light green",
+      "to'q yashil",
+      "dark red"
+    ],
+    "correct_answer": "light red",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob light red."
+  },
+  {
+    "id": "visual-brainteaser-025",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0004.png",
+    "options": [
+      "to'q yashil",
+      "light green",
+      "och binafsha",
+      "dark orange"
+    ],
+    "correct_answer": "light green",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob light green."
+  },
+  {
+    "id": "visual-brainteaser-026",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0005.png",
+    "options": [
+      "dark red",
+      "dark orange",
+      "light orange",
+      "light green"
+    ],
+    "correct_answer": "light orange",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob light orange."
+  },
+  {
+    "id": "visual-brainteaser-027",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0006.png",
+    "options": [
+      "light red",
+      "och binafsha",
+      "light yellow",
+      "dark red"
+    ],
+    "correct_answer": "dark red",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob dark red."
+  },
+  {
+    "id": "visual-brainteaser-028",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0007.png",
+    "options": [
+      "dark yellow",
+      "to'q binafsha",
+      "och ko'k",
+      "dark blue"
+    ],
+    "correct_answer": "och ko'k",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob och ko'k."
+  },
+  {
+    "id": "visual-brainteaser-029",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0008.png",
+    "options": [
+      "dark blue",
+      "to'q binafsha",
+      "light green",
+      "och binafsha"
+    ],
+    "correct_answer": "och binafsha",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob och binafsha."
+  },
+  {
+    "id": "visual-brainteaser-030",
+    "question_uz": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0009.png",
+    "options": [
+      "light yellow",
+      "dark blue",
+      "och binafsha",
+      "dark yellow"
+    ],
+    "correct_answer": "dark yellow",
+    "difficulty": "easy",
+    "category": "pattern logic",
+    "explanation_uz": "Aylana kattalashgan sari rang to'qroq, kichraygan sari esa ochroq bo'lib boryapti. Shu qoidaga ko'ra javob dark yellow."
+  },
+  {
+    "id": "visual-brainteaser-031",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0000.png",
+    "options": [
+      "katta",
+      "kichik",
+      "o'rta",
+      "juda kichik"
+    ],
+    "correct_answer": "katta",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga katta mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-032",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0001.png",
+    "options": [
+      "katta",
+      "kichik",
+      "o'rta",
+      "juda kichik"
+    ],
+    "correct_answer": "katta",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga katta mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-033",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0002.png",
+    "options": [
+      "katta",
+      "o'rta",
+      "kichik",
+      "juda kichik"
+    ],
+    "correct_answer": "kichik",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga kichik mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-034",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0003.png",
+    "options": [
+      "katta",
+      "o'rta",
+      "kichik",
+      "juda kichik"
+    ],
+    "correct_answer": "o'rta",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga o'rta mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-035",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0004.png",
+    "options": [
+      "o'rta",
+      "katta",
+      "kichik",
+      "juda kichik"
+    ],
+    "correct_answer": "o'rta",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga o'rta mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-036",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0005.png",
+    "options": [
+      "kichik",
+      "katta",
+      "o'rta",
+      "juda kichik"
+    ],
+    "correct_answer": "kichik",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga kichik mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-037",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0006.png",
+    "options": [
+      "kichik",
+      "o'rta",
+      "katta",
+      "juda kichik"
+    ],
+    "correct_answer": "o'rta",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga o'rta mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-038",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0007.png",
+    "options": [
+      "kichik",
+      "o'rta",
+      "katta",
+      "juda kichik"
+    ],
+    "correct_answer": "katta",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga katta mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-039",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0008.png",
+    "options": [
+      "o'rta",
+      "katta",
+      "kichik",
+      "juda kichik"
+    ],
+    "correct_answer": "o'rta",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga o'rta mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-040",
+    "question_uz": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0009.png",
+    "options": [
+      "kichik",
+      "o'rta",
+      "katta",
+      "juda kichik"
+    ],
+    "correct_answer": "katta",
+    "difficulty": "easy",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Har bir spiral yo'lda aylana o'lchamlari kichik, o'rta va katta tarzida ketmoqda. Demak, bo'sh joyga katta mos keladi."
+  },
+  {
+    "id": "visual-brainteaser-041",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0000.png",
+    "options": [
+      "7",
+      "9",
+      "1",
+      "5"
+    ],
+    "correct_answer": "5",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 5 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-042",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0001.png",
+    "options": [
+      "7",
+      "5",
+      "4",
+      "3"
+    ],
+    "correct_answer": "3",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 3 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-043",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0002.png",
+    "options": [
+      "3",
+      "8",
+      "2",
+      "9"
+    ],
+    "correct_answer": "9",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 9 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-044",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0003.png",
+    "options": [
+      "9",
+      "3",
+      "8",
+      "7"
+    ],
+    "correct_answer": "7",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 7 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-045",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0004.png",
+    "options": [
+      "8",
+      "2",
+      "3",
+      "4"
+    ],
+    "correct_answer": "4",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 4 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-046",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0005.png",
+    "options": [
+      "9",
+      "4",
+      "5",
+      "8"
+    ],
+    "correct_answer": "8",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 8 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-047",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0006.png",
+    "options": [
+      "9",
+      "1",
+      "8",
+      "6"
+    ],
+    "correct_answer": "6",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 6 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-048",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0007.png",
+    "options": [
+      "8",
+      "6",
+      "2",
+      "9"
+    ],
+    "correct_answer": "9",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 9 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-049",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0008.png",
+    "options": [
+      "9",
+      "2",
+      "7",
+      "4"
+    ],
+    "correct_answer": "4",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 4 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-050",
+    "question_uz": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0009.png",
+    "options": [
+      "2",
+      "9",
+      "5",
+      "3"
+    ],
+    "correct_answer": "3",
+    "difficulty": "medium",
+    "category": "missing number",
+    "explanation_uz": "Har bir qatordagi sonlar bir xil yig'indi berayotganini ko'rish mumkin. Shu qoida bilan noma'lum son 3 bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-051",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0000.png",
+    "options": [
+      "beshburchak",
+      "kvadrat",
+      "olti burchak",
+      "uchburchak"
+    ],
+    "correct_answer": "olti burchak",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga olti burchak kerak."
+  },
+  {
+    "id": "visual-brainteaser-052",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0001.png",
+    "options": [
+      "olti burchak",
+      "uchburchak",
+      "beshburchak",
+      "kvadrat"
+    ],
+    "correct_answer": "beshburchak",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga beshburchak kerak."
+  },
+  {
+    "id": "visual-brainteaser-053",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0002.png",
+    "options": [
+      "olti burchak",
+      "uchburchak",
+      "beshburchak",
+      "kvadrat"
+    ],
+    "correct_answer": "olti burchak",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga olti burchak kerak."
+  },
+  {
+    "id": "visual-brainteaser-054",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0003.png",
+    "options": [
+      "kvadrat",
+      "uchburchak",
+      "olti burchak",
+      "beshburchak"
+    ],
+    "correct_answer": "beshburchak",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga beshburchak kerak."
+  },
+  {
+    "id": "visual-brainteaser-055",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0004.png",
+    "options": [
+      "olti burchak",
+      "beshburchak",
+      "uchburchak",
+      "kvadrat"
+    ],
+    "correct_answer": "kvadrat",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga kvadrat kerak."
+  },
+  {
+    "id": "visual-brainteaser-056",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0005.png",
+    "options": [
+      "uchburchak",
+      "kvadrat",
+      "olti burchak",
+      "beshburchak"
+    ],
+    "correct_answer": "beshburchak",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga beshburchak kerak."
+  },
+  {
+    "id": "visual-brainteaser-057",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0006.png",
+    "options": [
+      "beshburchak",
+      "kvadrat",
+      "uchburchak",
+      "olti burchak"
+    ],
+    "correct_answer": "olti burchak",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga olti burchak kerak."
+  },
+  {
+    "id": "visual-brainteaser-058",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0007.png",
+    "options": [
+      "beshburchak",
+      "uchburchak",
+      "olti burchak",
+      "kvadrat"
+    ],
+    "correct_answer": "uchburchak",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga uchburchak kerak."
+  },
+  {
+    "id": "visual-brainteaser-059",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0008.png",
+    "options": [
+      "olti burchak",
+      "uchburchak",
+      "beshburchak",
+      "kvadrat"
+    ],
+    "correct_answer": "uchburchak",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga uchburchak kerak."
+  },
+  {
+    "id": "visual-brainteaser-060",
+    "question_uz": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0009.png",
+    "options": [
+      "beshburchak",
+      "kvadrat",
+      "uchburchak",
+      "olti burchak"
+    ],
+    "correct_answer": "kvadrat",
+    "difficulty": "medium",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Pastki qism tepada turgan shakllarning aksini takrorlaydi. Shu sabab bo'sh joyga kvadrat kerak."
+  },
+  {
+    "id": "visual-brainteaser-061",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0000.png",
+    "options": [
+      "uchburchak",
+      "olti burchak",
+      "kvadrat",
+      "beshburchak"
+    ],
+    "correct_answer": "uchburchak",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan uchburchak to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-062",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0001.png",
+    "options": [
+      "circle",
+      "kvadrat",
+      "beshburchak",
+      "uchburchak"
+    ],
+    "correct_answer": "beshburchak",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan beshburchak to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-063",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0002.png",
+    "options": [
+      "circle",
+      "uchburchak",
+      "olti burchak",
+      "kvadrat"
+    ],
+    "correct_answer": "circle",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan circle to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-064",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0003.png",
+    "options": [
+      "circle",
+      "kvadrat",
+      "uchburchak",
+      "olti burchak"
+    ],
+    "correct_answer": "circle",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan circle to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-065",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0004.png",
+    "options": [
+      "circle",
+      "beshburchak",
+      "kvadrat",
+      "olti burchak"
+    ],
+    "correct_answer": "circle",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan circle to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-066",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0005.png",
+    "options": [
+      "circle",
+      "kvadrat",
+      "beshburchak",
+      "uchburchak"
+    ],
+    "correct_answer": "kvadrat",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan kvadrat to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-067",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0006.png",
+    "options": [
+      "circle",
+      "uchburchak",
+      "kvadrat",
+      "olti burchak"
+    ],
+    "correct_answer": "kvadrat",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan kvadrat to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-068",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0007.png",
+    "options": [
+      "kvadrat",
+      "circle",
+      "uchburchak",
+      "beshburchak"
+    ],
+    "correct_answer": "beshburchak",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan beshburchak to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-069",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0008.png",
+    "options": [
+      "kvadrat",
+      "circle",
+      "uchburchak",
+      "olti burchak"
+    ],
+    "correct_answer": "uchburchak",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan uchburchak to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-070",
+    "question_uz": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0009.png",
+    "options": [
+      "kvadrat",
+      "uchburchak",
+      "beshburchak",
+      "circle"
+    ],
+    "correct_answer": "circle",
+    "difficulty": "medium",
+    "category": "pattern logic",
+    "explanation_uz": "Shakllar bosqichma-bosqich boshqa ko'rinishga o'tib boryapti. Oxirgi bo'sh joyni shu o'tishning davomi bo'lgan circle to'ldiradi."
+  },
+  {
+    "id": "visual-brainteaser-071",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0000.png",
+    "options": [
+      "62",
+      "46",
+      "39",
+      "20"
+    ],
+    "correct_answer": "20",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 20."
+  },
+  {
+    "id": "visual-brainteaser-072",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0001.png",
+    "options": [
+      "7",
+      "9",
+      "1",
+      "5"
+    ],
+    "correct_answer": "5",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 5."
+  },
+  {
+    "id": "visual-brainteaser-073",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0002.png",
+    "options": [
+      "9",
+      "2",
+      "5",
+      "0"
+    ],
+    "correct_answer": "2",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 2."
+  },
+  {
+    "id": "visual-brainteaser-074",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0003.png",
+    "options": [
+      "29",
+      "31",
+      "18",
+      "73"
+    ],
+    "correct_answer": "18",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 18."
+  },
+  {
+    "id": "visual-brainteaser-075",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0004.png",
+    "options": [
+      "9",
+      "3",
+      "5",
+      "1"
+    ],
+    "correct_answer": "3",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 3."
+  },
+  {
+    "id": "visual-brainteaser-076",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0005.png",
+    "options": [
+      "3",
+      "2",
+      "5",
+      "7"
+    ],
+    "correct_answer": "5",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 5."
+  },
+  {
+    "id": "visual-brainteaser-077",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0006.png",
+    "options": [
+      "8",
+      "2",
+      "9",
+      "7"
+    ],
+    "correct_answer": "2",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 2."
+  },
+  {
+    "id": "visual-brainteaser-078",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0007.png",
+    "options": [
+      "4",
+      "1",
+      "9",
+      "7"
+    ],
+    "correct_answer": "9",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 9."
+  },
+  {
+    "id": "visual-brainteaser-079",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0008.png",
+    "options": [
+      "0",
+      "7",
+      "6",
+      "8"
+    ],
+    "correct_answer": "8",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 8."
+  },
+  {
+    "id": "visual-brainteaser-080",
+    "question_uz": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0009.png",
+    "options": [
+      "11",
+      "14",
+      "48",
+      "47"
+    ],
+    "correct_answer": "48",
+    "difficulty": "medium",
+    "category": "math visual puzzles",
+    "explanation_uz": "Har uchlikda oxirgi son qolgan ikki sonning ko'paytmasi bo'lib chiqyapti. Shuning uchun to'g'ri javob 48."
+  },
+  {
+    "id": "visual-brainteaser-081",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0000.png",
+    "options": [
+      "yashil",
+      "binafsha",
+      "qizil",
+      "sariq"
+    ],
+    "correct_answer": "qizil",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang qizil bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-082",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0001.png",
+    "options": [
+      "to'q sariq",
+      "sariq",
+      "ko'k",
+      "binafsha"
+    ],
+    "correct_answer": "sariq",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang sariq bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-083",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0002.png",
+    "options": [
+      "qizil",
+      "to'q sariq",
+      "ko'k",
+      "binafsha"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang ko'k bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-084",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0003.png",
+    "options": [
+      "ko'k",
+      "qizil",
+      "sariq",
+      "yashil"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang ko'k bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-085",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0004.png",
+    "options": [
+      "yashil",
+      "ko'k",
+      "to'q sariq",
+      "sariq"
+    ],
+    "correct_answer": "sariq",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang sariq bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-086",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0005.png",
+    "options": [
+      "yashil",
+      "qizil",
+      "binafsha",
+      "ko'k"
+    ],
+    "correct_answer": "qizil",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang qizil bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-087",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0006.png",
+    "options": [
+      "binafsha",
+      "sariq",
+      "qizil",
+      "yashil"
+    ],
+    "correct_answer": "sariq",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang sariq bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-088",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0007.png",
+    "options": [
+      "ko'k",
+      "sariq",
+      "yashil",
+      "qizil"
+    ],
+    "correct_answer": "sariq",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang sariq bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-089",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0008.png",
+    "options": [
+      "binafsha",
+      "qizil",
+      "ko'k",
+      "sariq"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang ko'k bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-090",
+    "question_uz": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0009.png",
+    "options": [
+      "binafsha",
+      "yashil",
+      "to'q sariq",
+      "ko'k"
+    ],
+    "correct_answer": "ko'k",
+    "difficulty": "hard",
+    "category": "visual IQ puzzles",
+    "explanation_uz": "Kvadratlar kesishgan joyda ranglar aralashib yangi rang hosil qilmoqda. Berilgan aralash ranglarga qarab noma'lum rang ko'k bo'ladi."
+  },
+  {
+    "id": "visual-brainteaser-091",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0000.png",
+    "options": [
+      "4",
+      "8",
+      "1",
+      "9"
+    ],
+    "correct_answer": "1",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 1."
+  },
+  {
+    "id": "visual-brainteaser-092",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0001.png",
+    "options": [
+      "4",
+      "8",
+      "1",
+      "7"
+    ],
+    "correct_answer": "8",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 8."
+  },
+  {
+    "id": "visual-brainteaser-093",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0002.png",
+    "options": [
+      "6",
+      "4",
+      "5",
+      "7"
+    ],
+    "correct_answer": "5",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 5."
+  },
+  {
+    "id": "visual-brainteaser-094",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0003.png",
+    "options": [
+      "9",
+      "7",
+      "8",
+      "0"
+    ],
+    "correct_answer": "9",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 9."
+  },
+  {
+    "id": "visual-brainteaser-095",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0004.png",
+    "options": [
+      "3",
+      "1",
+      "4",
+      "9"
+    ],
+    "correct_answer": "9",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 9."
+  },
+  {
+    "id": "visual-brainteaser-096",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0005.png",
+    "options": [
+      "3",
+      "2",
+      "8",
+      "1"
+    ],
+    "correct_answer": "2",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 2."
+  },
+  {
+    "id": "visual-brainteaser-097",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0006.png",
+    "options": [
+      "9",
+      "7",
+      "4",
+      "0"
+    ],
+    "correct_answer": "9",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 9."
+  },
+  {
+    "id": "visual-brainteaser-098",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0007.png",
+    "options": [
+      "4",
+      "0",
+      "7",
+      "8"
+    ],
+    "correct_answer": "7",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 7."
+  },
+  {
+    "id": "visual-brainteaser-099",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0008.png",
+    "options": [
+      "8",
+      "1",
+      "9",
+      "7"
+    ],
+    "correct_answer": "1",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 1."
+  },
+  {
+    "id": "visual-brainteaser-100",
+    "question_uz": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image_url": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0009.png",
+    "options": [
+      "6",
+      "1",
+      "2",
+      "4"
+    ],
+    "correct_answer": "4",
+    "difficulty": "hard",
+    "category": "math visual puzzles",
+    "explanation_uz": "Kesishgan qismlardagi sonlar doiralardagi sonlarning yig'indisini ko'rsatmoqda. Shu qoidaga ko'ra noma'lum son 4."
+  }
+]

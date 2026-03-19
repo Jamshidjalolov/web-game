@@ -1,0 +1,1402 @@
+[
+  {
+    "id": "visual-iq-001",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0000.png",
+    "options": {
+      "A": "yashil",
+      "B": "qizil",
+      "C": "to'q sariq",
+      "D": "sariq"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-002",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0001.png",
+    "options": {
+      "A": "to'q sariq",
+      "B": "binafsha",
+      "C": "ko'k",
+      "D": "qizil"
+    },
+    "correctAnswer": "B",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-003",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0002.png",
+    "options": {
+      "A": "ko'k",
+      "B": "to'q sariq",
+      "C": "sariq",
+      "D": "binafsha"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-004",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0003.png",
+    "options": {
+      "A": "qizil",
+      "B": "to'q sariq",
+      "C": "ko'k",
+      "D": "yashil"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-005",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0004.png",
+    "options": {
+      "A": "to'q sariq",
+      "B": "qizil",
+      "C": "ko'k",
+      "D": "yashil"
+    },
+    "correctAnswer": "D",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-006",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0005.png",
+    "options": {
+      "A": "qizil",
+      "B": "yashil",
+      "C": "ko'k",
+      "D": "to'q sariq"
+    },
+    "correctAnswer": "B",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-007",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0006.png",
+    "options": {
+      "A": "sariq",
+      "B": "yashil",
+      "C": "binafsha",
+      "D": "ko'k"
+    },
+    "correctAnswer": "D",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-008",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0007.png",
+    "options": {
+      "A": "binafsha",
+      "B": "ko'k",
+      "C": "yashil",
+      "D": "sariq"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-009",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0008.png",
+    "options": {
+      "A": "yashil",
+      "B": "qizil",
+      "C": "sariq",
+      "D": "ko'k"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-010",
+    "type": "pattern logic",
+    "question": "Rasmda savol belgisi turgan joyga qaysi rang mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_grid/color_grid_0009.png",
+    "options": {
+      "A": "to'q sariq",
+      "B": "ko'k",
+      "C": "binafsha",
+      "D": "yashil"
+    },
+    "correctAnswer": "D",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-011",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0000.png",
+    "options": {
+      "A": "sariq",
+      "B": "binafsha",
+      "C": "ko'k",
+      "D": "to'q sariq"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-012",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0001.png",
+    "options": {
+      "A": "qizil",
+      "B": "yashil",
+      "C": "ko'k",
+      "D": "binafsha"
+    },
+    "correctAnswer": "B",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-013",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0002.png",
+    "options": {
+      "A": "binafsha",
+      "B": "yashil",
+      "C": "to'q sariq",
+      "D": "sariq"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-014",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0003.png",
+    "options": {
+      "A": "to'q sariq",
+      "B": "ko'k",
+      "C": "qizil",
+      "D": "sariq"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-015",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0004.png",
+    "options": {
+      "A": "ko'k",
+      "B": "sariq",
+      "C": "yashil",
+      "D": "to'q sariq"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-016",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0005.png",
+    "options": {
+      "A": "to'q sariq",
+      "B": "binafsha",
+      "C": "qizil",
+      "D": "ko'k"
+    },
+    "correctAnswer": "D",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-017",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0006.png",
+    "options": {
+      "A": "yashil",
+      "B": "binafsha",
+      "C": "qizil",
+      "D": "to'q sariq"
+    },
+    "correctAnswer": "D",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-018",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0007.png",
+    "options": {
+      "A": "ko'k",
+      "B": "binafsha",
+      "C": "yashil",
+      "D": "to'q sariq"
+    },
+    "correctAnswer": "B",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-019",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0008.png",
+    "options": {
+      "A": "sariq",
+      "B": "qizil",
+      "C": "to'q sariq",
+      "D": "binafsha"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-020",
+    "type": "pattern logic",
+    "question": "Olti burchakdagi savol belgisi o'rniga qaysi rang tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_hexagon/color_hexagon_0009.png",
+    "options": {
+      "A": "sariq",
+      "B": "yashil",
+      "C": "binafsha",
+      "D": "ko'k"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-021",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0000.png",
+    "options": {
+      "A": "to'q yashil",
+      "B": "och binafsha",
+      "C": "och ko'k",
+      "D": "to'q binafsha"
+    },
+    "correctAnswer": "B",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-022",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0001.png",
+    "options": {
+      "A": "light red",
+      "B": "light yellow",
+      "C": "light green",
+      "D": "dark red"
+    },
+    "correctAnswer": "D",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-023",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0002.png",
+    "options": {
+      "A": "to'q yashil",
+      "B": "dark blue",
+      "C": "och binafsha",
+      "D": "to'q binafsha"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-024",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0003.png",
+    "options": {
+      "A": "light red",
+      "B": "light green",
+      "C": "to'q yashil",
+      "D": "dark red"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-025",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0004.png",
+    "options": {
+      "A": "to'q yashil",
+      "B": "light green",
+      "C": "och binafsha",
+      "D": "dark orange"
+    },
+    "correctAnswer": "B",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-026",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0005.png",
+    "options": {
+      "A": "dark red",
+      "B": "dark orange",
+      "C": "light orange",
+      "D": "light green"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-027",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0006.png",
+    "options": {
+      "A": "light red",
+      "B": "och binafsha",
+      "C": "light yellow",
+      "D": "dark red"
+    },
+    "correctAnswer": "D",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-028",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0007.png",
+    "options": {
+      "A": "dark yellow",
+      "B": "to'q binafsha",
+      "C": "och ko'k",
+      "D": "dark blue"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-029",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0008.png",
+    "options": {
+      "A": "dark blue",
+      "B": "to'q binafsha",
+      "C": "light green",
+      "D": "och binafsha"
+    },
+    "correctAnswer": "D",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-030",
+    "type": "pattern logic",
+    "question": "Rasmda o'lcham va rang orasidagi bog'lanishga qarab qaysi rang yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_size_circle/color_size_circle_0009.png",
+    "options": {
+      "A": "light yellow",
+      "B": "dark blue",
+      "C": "och binafsha",
+      "D": "dark yellow"
+    },
+    "correctAnswer": "D",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-031",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0000.png",
+    "options": {
+      "A": "katta",
+      "B": "kichik",
+      "C": "o'rta",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-032",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0001.png",
+    "options": {
+      "A": "katta",
+      "B": "kichik",
+      "C": "o'rta",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-033",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0002.png",
+    "options": {
+      "A": "katta",
+      "B": "o'rta",
+      "C": "kichik",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-034",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0003.png",
+    "options": {
+      "A": "katta",
+      "B": "o'rta",
+      "C": "kichik",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "B",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-035",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0004.png",
+    "options": {
+      "A": "o'rta",
+      "B": "katta",
+      "C": "kichik",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-036",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0005.png",
+    "options": {
+      "A": "kichik",
+      "B": "katta",
+      "C": "o'rta",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-037",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0006.png",
+    "options": {
+      "A": "kichik",
+      "B": "o'rta",
+      "C": "katta",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "B",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-038",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0007.png",
+    "options": {
+      "A": "kichik",
+      "B": "o'rta",
+      "C": "katta",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-039",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0008.png",
+    "options": {
+      "A": "o'rta",
+      "B": "katta",
+      "C": "kichik",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "A",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-040",
+    "type": "visual IQ puzzles",
+    "question": "Spiral ketma-ketlikdagi savol belgisi o'rnida qaysi o'lcham bo'lishi kerak?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/size_cycle/size_cycle_0009.png",
+    "options": {
+      "A": "kichik",
+      "B": "o'rta",
+      "C": "katta",
+      "D": "juda kichik"
+    },
+    "correctAnswer": "C",
+    "difficulty": "easy"
+  },
+  {
+    "id": "visual-iq-041",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0000.png",
+    "options": {
+      "A": "7",
+      "B": "9",
+      "C": "1",
+      "D": "5"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-042",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0001.png",
+    "options": {
+      "A": "7",
+      "B": "5",
+      "C": "4",
+      "D": "3"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-043",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0002.png",
+    "options": {
+      "A": "3",
+      "B": "8",
+      "C": "2",
+      "D": "9"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-044",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0003.png",
+    "options": {
+      "A": "9",
+      "B": "3",
+      "C": "8",
+      "D": "7"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-045",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0004.png",
+    "options": {
+      "A": "8",
+      "B": "2",
+      "C": "3",
+      "D": "4"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-046",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0005.png",
+    "options": {
+      "A": "9",
+      "B": "4",
+      "C": "5",
+      "D": "8"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-047",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0006.png",
+    "options": {
+      "A": "9",
+      "B": "1",
+      "C": "8",
+      "D": "6"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-048",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0007.png",
+    "options": {
+      "A": "8",
+      "B": "6",
+      "C": "2",
+      "D": "9"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-049",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0008.png",
+    "options": {
+      "A": "9",
+      "B": "2",
+      "C": "7",
+      "D": "4"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-050",
+    "type": "missing number",
+    "question": "Raqamlar jadvalidagi savol belgisi o'rniga qaysi son to'g'ri keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/grid_number/grid_number_0009.png",
+    "options": {
+      "A": "2",
+      "B": "9",
+      "C": "5",
+      "D": "3"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-051",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0000.png",
+    "options": {
+      "A": "beshburchak",
+      "B": "kvadrat",
+      "C": "olti burchak",
+      "D": "uchburchak"
+    },
+    "correctAnswer": "C",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-052",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0001.png",
+    "options": {
+      "A": "olti burchak",
+      "B": "uchburchak",
+      "C": "beshburchak",
+      "D": "kvadrat"
+    },
+    "correctAnswer": "C",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-053",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0002.png",
+    "options": {
+      "A": "olti burchak",
+      "B": "uchburchak",
+      "C": "beshburchak",
+      "D": "kvadrat"
+    },
+    "correctAnswer": "A",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-054",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0003.png",
+    "options": {
+      "A": "kvadrat",
+      "B": "uchburchak",
+      "C": "olti burchak",
+      "D": "beshburchak"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-055",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0004.png",
+    "options": {
+      "A": "olti burchak",
+      "B": "beshburchak",
+      "C": "uchburchak",
+      "D": "kvadrat"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-056",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0005.png",
+    "options": {
+      "A": "uchburchak",
+      "B": "kvadrat",
+      "C": "olti burchak",
+      "D": "beshburchak"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-057",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0006.png",
+    "options": {
+      "A": "beshburchak",
+      "B": "kvadrat",
+      "C": "uchburchak",
+      "D": "olti burchak"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-058",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0007.png",
+    "options": {
+      "A": "beshburchak",
+      "B": "uchburchak",
+      "C": "olti burchak",
+      "D": "kvadrat"
+    },
+    "correctAnswer": "B",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-059",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0008.png",
+    "options": {
+      "A": "olti burchak",
+      "B": "uchburchak",
+      "C": "beshburchak",
+      "D": "kvadrat"
+    },
+    "correctAnswer": "B",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-060",
+    "type": "visual IQ puzzles",
+    "question": "Aks ettirish qoidasiga ko'ra savol belgisi o'rniga qaysi shakl tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_reflect/shape_reflect_0009.png",
+    "options": {
+      "A": "beshburchak",
+      "B": "kvadrat",
+      "C": "uchburchak",
+      "D": "olti burchak"
+    },
+    "correctAnswer": "B",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-061",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0000.png",
+    "options": {
+      "A": "uchburchak",
+      "B": "olti burchak",
+      "C": "kvadrat",
+      "D": "beshburchak"
+    },
+    "correctAnswer": "A",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-062",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0001.png",
+    "options": {
+      "A": "circle",
+      "B": "kvadrat",
+      "C": "beshburchak",
+      "D": "uchburchak"
+    },
+    "correctAnswer": "C",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-063",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0002.png",
+    "options": {
+      "A": "circle",
+      "B": "uchburchak",
+      "C": "olti burchak",
+      "D": "kvadrat"
+    },
+    "correctAnswer": "A",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-064",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0003.png",
+    "options": {
+      "A": "circle",
+      "B": "kvadrat",
+      "C": "uchburchak",
+      "D": "olti burchak"
+    },
+    "correctAnswer": "A",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-065",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0004.png",
+    "options": {
+      "A": "circle",
+      "B": "beshburchak",
+      "C": "kvadrat",
+      "D": "olti burchak"
+    },
+    "correctAnswer": "A",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-066",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0005.png",
+    "options": {
+      "A": "circle",
+      "B": "kvadrat",
+      "C": "beshburchak",
+      "D": "uchburchak"
+    },
+    "correctAnswer": "B",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-067",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0006.png",
+    "options": {
+      "A": "circle",
+      "B": "uchburchak",
+      "C": "kvadrat",
+      "D": "olti burchak"
+    },
+    "correctAnswer": "C",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-068",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0007.png",
+    "options": {
+      "A": "kvadrat",
+      "B": "circle",
+      "C": "uchburchak",
+      "D": "beshburchak"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-069",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0008.png",
+    "options": {
+      "A": "kvadrat",
+      "B": "circle",
+      "C": "uchburchak",
+      "D": "olti burchak"
+    },
+    "correctAnswer": "C",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-070",
+    "type": "pattern logic",
+    "question": "Shakllarning o'zgarish ketma-ketligiga qarab qaysi shakl yetishmayapti?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/shape_morph/shape_morph_0009.png",
+    "options": {
+      "A": "kvadrat",
+      "B": "uchburchak",
+      "C": "beshburchak",
+      "D": "circle"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-071",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0000.png",
+    "options": {
+      "A": "62",
+      "B": "46",
+      "C": "39",
+      "D": "20"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-072",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0001.png",
+    "options": {
+      "A": "7",
+      "B": "9",
+      "C": "1",
+      "D": "5"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-073",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0002.png",
+    "options": {
+      "A": "9",
+      "B": "2",
+      "C": "5",
+      "D": "0"
+    },
+    "correctAnswer": "B",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-074",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0003.png",
+    "options": {
+      "A": "29",
+      "B": "31",
+      "C": "18",
+      "D": "73"
+    },
+    "correctAnswer": "C",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-075",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0004.png",
+    "options": {
+      "A": "9",
+      "B": "3",
+      "C": "5",
+      "D": "1"
+    },
+    "correctAnswer": "B",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-076",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0005.png",
+    "options": {
+      "A": "3",
+      "B": "2",
+      "C": "5",
+      "D": "7"
+    },
+    "correctAnswer": "C",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-077",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0006.png",
+    "options": {
+      "A": "8",
+      "B": "2",
+      "C": "9",
+      "D": "7"
+    },
+    "correctAnswer": "B",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-078",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0007.png",
+    "options": {
+      "A": "4",
+      "B": "1",
+      "C": "9",
+      "D": "7"
+    },
+    "correctAnswer": "C",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-079",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0008.png",
+    "options": {
+      "A": "0",
+      "B": "7",
+      "C": "6",
+      "D": "8"
+    },
+    "correctAnswer": "D",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-080",
+    "type": "math visual puzzles",
+    "question": "Uchburchakli sonlar boshqotirmasida savol belgisi o'rniga qaysi son mos keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/triangle/triangle_0009.png",
+    "options": {
+      "A": "11",
+      "B": "14",
+      "C": "48",
+      "D": "47"
+    },
+    "correctAnswer": "C",
+    "difficulty": "medium"
+  },
+  {
+    "id": "visual-iq-081",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0000.png",
+    "options": {
+      "A": "yashil",
+      "B": "binafsha",
+      "C": "qizil",
+      "D": "sariq"
+    },
+    "correctAnswer": "C",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-082",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0001.png",
+    "options": {
+      "A": "to'q sariq",
+      "B": "sariq",
+      "C": "ko'k",
+      "D": "binafsha"
+    },
+    "correctAnswer": "B",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-083",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0002.png",
+    "options": {
+      "A": "qizil",
+      "B": "to'q sariq",
+      "C": "ko'k",
+      "D": "binafsha"
+    },
+    "correctAnswer": "C",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-084",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0003.png",
+    "options": {
+      "A": "ko'k",
+      "B": "qizil",
+      "C": "sariq",
+      "D": "yashil"
+    },
+    "correctAnswer": "A",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-085",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0004.png",
+    "options": {
+      "A": "yashil",
+      "B": "ko'k",
+      "C": "to'q sariq",
+      "D": "sariq"
+    },
+    "correctAnswer": "D",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-086",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0005.png",
+    "options": {
+      "A": "yashil",
+      "B": "qizil",
+      "C": "binafsha",
+      "D": "ko'k"
+    },
+    "correctAnswer": "B",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-087",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0006.png",
+    "options": {
+      "A": "binafsha",
+      "B": "sariq",
+      "C": "qizil",
+      "D": "yashil"
+    },
+    "correctAnswer": "B",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-088",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0007.png",
+    "options": {
+      "A": "ko'k",
+      "B": "sariq",
+      "C": "yashil",
+      "D": "qizil"
+    },
+    "correctAnswer": "B",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-089",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0008.png",
+    "options": {
+      "A": "binafsha",
+      "B": "qizil",
+      "C": "ko'k",
+      "D": "sariq"
+    },
+    "correctAnswer": "C",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-090",
+    "type": "visual IQ puzzles",
+    "question": "Ustma-ust tushgan kvadratlar rangiga qarab savol belgisi o'rniga qaysi rang keladi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/color_overlap_squares/color_overlap_squares_0009.png",
+    "options": {
+      "A": "binafsha",
+      "B": "yashil",
+      "C": "to'q sariq",
+      "D": "ko'k"
+    },
+    "correctAnswer": "D",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-091",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0000.png",
+    "options": {
+      "A": "4",
+      "B": "8",
+      "C": "1",
+      "D": "9"
+    },
+    "correctAnswer": "C",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-092",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0001.png",
+    "options": {
+      "A": "4",
+      "B": "8",
+      "C": "1",
+      "D": "7"
+    },
+    "correctAnswer": "B",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-093",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0002.png",
+    "options": {
+      "A": "6",
+      "B": "4",
+      "C": "5",
+      "D": "7"
+    },
+    "correctAnswer": "C",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-094",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0003.png",
+    "options": {
+      "A": "9",
+      "B": "7",
+      "C": "8",
+      "D": "0"
+    },
+    "correctAnswer": "A",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-095",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0004.png",
+    "options": {
+      "A": "3",
+      "B": "1",
+      "C": "4",
+      "D": "9"
+    },
+    "correctAnswer": "D",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-096",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0005.png",
+    "options": {
+      "A": "3",
+      "B": "2",
+      "C": "8",
+      "D": "1"
+    },
+    "correctAnswer": "B",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-097",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0006.png",
+    "options": {
+      "A": "9",
+      "B": "7",
+      "C": "4",
+      "D": "0"
+    },
+    "correctAnswer": "A",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-098",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0007.png",
+    "options": {
+      "A": "4",
+      "B": "0",
+      "C": "7",
+      "D": "8"
+    },
+    "correctAnswer": "C",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-099",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0008.png",
+    "options": {
+      "A": "8",
+      "B": "1",
+      "C": "9",
+      "D": "7"
+    },
+    "correctAnswer": "B",
+    "difficulty": "hard"
+  },
+  {
+    "id": "visual-iq-100",
+    "type": "math visual puzzles",
+    "question": "Venn doiralari orasidagi bog'lanishga qarab savol belgisi o'rniga qaysi son tushadi?",
+    "image": "https://raw.githubusercontent.com/declare-lab/LLM-PuzzleTest/master/PuzzleVQA/data/images/venn/venn_0009.png",
+    "options": {
+      "A": "6",
+      "B": "1",
+      "C": "2",
+      "D": "4"
+    },
+    "correctAnswer": "D",
+    "difficulty": "hard"
+  }
+]

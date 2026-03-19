@@ -1,0 +1,28 @@
+<svg width="520" height="320" viewBox="0 0 520 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="520" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E0F2FE"/>
+      <stop offset="1" stop-color="#CFFAFE"/>
+    </linearGradient>
+    <linearGradient id="wheelA" x1="170" y1="58" x2="350" y2="238" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <linearGradient id="wheelB" x1="178" y1="64" x2="342" y2="230" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FCD34D"/>
+      <stop offset="1" stop-color="#F97316"/>
+    </linearGradient>
+  </defs>
+  <rect x="12" y="12" width="496" height="296" rx="30" fill="url(#bg1)"/>
+  <circle cx="260" cy="160" r="102" fill="url(#wheelA)" opacity="0.16"/>
+  <circle cx="260" cy="160" r="90" fill="url(#wheelB)"/>
+  <path d="M260 70L301 160H219L260 70Z" fill="#EF4444"/>
+  <path d="M350 160L260 201V119L350 160Z" fill="#0EA5E9"/>
+  <path d="M260 250L219 160H301L260 250Z" fill="#22C55E"/>
+  <path d="M170 160L260 119V201L170 160Z" fill="#F97316"/>
+  <circle cx="260" cy="160" r="24" fill="#F8FAFC" stroke="#0F172A" stroke-width="6"/>
+  <path d="M260 34L272 55H248L260 34Z" fill="#0F172A"/>
+  <circle cx="260" cy="66" r="11" fill="#F43F5E"/>
+  <rect x="58" y="52" width="82" height="20" rx="10" fill="#22C55E" opacity="0.75"/>
+  <rect x="380" y="245" width="82" height="20" rx="10" fill="#F43F5E" opacity="0.7"/>
+</svg>

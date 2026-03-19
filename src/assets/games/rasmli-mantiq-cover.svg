@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1080" y2="700" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#082032"/>
+      <stop offset="0.48" stop-color="#0F3D5E"/>
+      <stop offset="1" stop-color="#164863"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="250" y1="140" x2="910" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#DCEBFA" stop-opacity="0.92"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="780" y1="140" x2="1030" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+    <filter id="shadow" x="168" y="102" width="872" height="556" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#03111D" flood-opacity="0.36"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="760" rx="40" fill="url(#bg)"/>
+  <circle cx="140" cy="130" r="150" fill="#22D3EE" fill-opacity="0.12"/>
+  <circle cx="1060" cy="110" r="130" fill="#F59E0B" fill-opacity="0.12"/>
+  <circle cx="1090" cy="690" r="180" fill="#38BDF8" fill-opacity="0.08"/>
+
+  <g filter="url(#shadow)">
+    <rect x="200" y="130" width="808" height="500" rx="34" fill="#0B1D2A" fill-opacity="0.72" stroke="#67E8F9" stroke-opacity="0.18"/>
+    <rect x="232" y="164" width="516" height="432" rx="28" fill="url(#panel)"/>
+    <rect x="778" y="164" width="198" height="200" rx="28" fill="url(#accent)"/>
+    <rect x="778" y="390" width="198" height="92" rx="24" fill="#0D2538" stroke="#5EEAD4" stroke-opacity="0.28"/>
+    <rect x="778" y="500" width="198" height="96" rx="24" fill="#0D2538" stroke="#FCD34D" stroke-opacity="0.24"/>
+  </g>
+
+  <text x="260" y="118" fill="#CFFAFE" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="4">RASMli IQ O'YINI</text>
+  <text x="780" y="238" fill="white" font-family="Arial, sans-serif" font-size="56" font-weight="800">Rasmli</text>
+  <text x="780" y="304" fill="white" font-family="Arial, sans-serif" font-size="56" font-weight="800">mantiq</text>
+  <text x="780" y="423" fill="#D1FAE5" font-family="Arial, sans-serif" font-size="22" font-weight="700">Savol tepada</text>
+  <text x="780" y="452" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="18" font-weight="600">Rasm markazda</text>
+  <text x="780" y="533" fill="#FEF3C7" font-family="Arial, sans-serif" font-size="22" font-weight="700">4 ta rasmli</text>
+  <text x="780" y="562" fill="#F8FAFC" font-family="Arial, sans-serif" font-size="18" font-weight="600">variant bilan</text>
+
+  <g transform="translate(280 214)">
+    <rect width="416" height="52" rx="18" fill="#E2E8F0"/>
+    <text x="22" y="33" fill="#0F172A" font-family="Arial, sans-serif" font-size="22" font-weight="700">Qaysi shakl bo'sh katakka mos?</text>
+  </g>
+
+  <g transform="translate(280 290)">
+    <rect width="128" height="128" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+    <rect x="144" width="128" height="128" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+    <rect x="288" width="128" height="128" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+    <rect y="144" width="128" height="128" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+    <rect x="144" y="144" width="128" height="128" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+    <rect x="288" y="144" width="128" height="128" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+
+    <polygon points="64,28 92,98 36,98" fill="#2563EB" stroke="#0F172A" stroke-width="5"/>
+    <polygon points="208,28 236,98 180,98" fill="#F59E0B" stroke="#0F172A" stroke-width="5"/>
+    <polygon points="352,28 380,98 324,98" fill="#10B981" stroke="#0F172A" stroke-width="5"/>
+
+    <rect x="30" y="174" width="68" height="68" rx="16" fill="#2563EB" stroke="#0F172A" stroke-width="5"/>
+    <rect x="174" y="174" width="68" height="68" rx="16" fill="#F59E0B" stroke="#0F172A" stroke-width="5"/>
+    <text x="352" y="231" text-anchor="middle" fill="#2563EB" font-family="Arial, sans-serif" font-size="58" font-weight="900">?</text>
+  </g>
+
+  <g transform="translate(786 172)">
+    <rect width="78" height="78" rx="18" fill="#FFFFFF" fill-opacity="0.96"/>
+    <rect x="92" width="78" height="78" rx="18" fill="#FFFFFF" fill-opacity="0.96"/>
+    <rect y="92" width="78" height="78" rx="18" fill="#FFFFFF" fill-opacity="0.96"/>
+    <rect x="92" y="92" width="78" height="78" rx="18" fill="#FFFFFF" fill-opacity="0.96"/>
+    <circle cx="39" cy="39" r="24" fill="#2563EB"/>
+    <rect x="109" y="18" width="44" height="44" rx="12" fill="#10B981"/>
+    <polygon points="39,110 58,154 20,154" fill="#F59E0B"/>
+    <polygon points="131,110 154,131 131,154 108,131" fill="#0F172A"/>
+  </g>
+</svg>

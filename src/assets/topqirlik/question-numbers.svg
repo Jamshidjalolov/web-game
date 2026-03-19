@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220">
+  <rect width="640" height="220" rx="26" fill="#f8fafc"/>
+  <g font-family="Arial" font-weight="900" font-size="86" text-anchor="middle">
+    <text x="130" y="128" fill="#ef4444" stroke="#b91c1c" stroke-width="3">9</text>
+    <text x="320" y="128" fill="#84cc16" stroke="#4d7c0f" stroke-width="3">12</text>
+    <text x="515" y="128" fill="#0ea5e9" stroke="#0369a1" stroke-width="3">15</text>
+  </g>
+  <g transform="translate(70 150)">
+    <path d="M0 18 C20 -5, 50 -6, 66 18 C46 17, 22 32, 0 18Z" fill="#93c5fd"/>
+  </g>
+  <g transform="translate(280 146)">
+    <path d="M0 28 L18 6 L48 2 L68 18 L72 36 H6 Z" fill="#a8a29e"/>
+  </g>
+  <g transform="translate(490 148)">
+    <path d="M0 24 L22 4 L52 10 L66 28 L60 40 H8 Z" fill="#6b7280"/>
+  </g>
+</svg>

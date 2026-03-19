@@ -1,0 +1,60 @@
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skinRight" x1="118" y1="64" x2="196" y2="170" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDE0C7" />
+      <stop offset="1" stop-color="#F6B98D" />
+    </linearGradient>
+    <linearGradient id="jerseyRight" x1="112" y1="138" x2="214" y2="244" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FB7185" />
+      <stop offset="1" stop-color="#DC2626" />
+    </linearGradient>
+    <linearGradient id="pantsRight" x1="108" y1="224" x2="212" y2="282" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC" />
+      <stop offset="1" stop-color="#CBD5E1" />
+    </linearGradient>
+    <linearGradient id="shoeRight" x1="74" y1="264" x2="196" y2="292" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A" />
+      <stop offset="1" stop-color="#1E293B" />
+    </linearGradient>
+    <linearGradient id="hairRight" x1="122" y1="52" x2="196" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#111827" />
+      <stop offset="1" stop-color="#334155" />
+    </linearGradient>
+    <linearGradient id="bandRight" x1="104" y1="80" x2="208" y2="80" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9" />
+      <stop offset="1" stop-color="#38BDF8" />
+    </linearGradient>
+    <filter id="shadowRight" x="30" y="28" width="260" height="270" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="16" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.2" />
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#0F172A" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <ellipse cx="166" cy="292" rx="86" ry="14" fill="#0F172A" fill-opacity="0.17" />
+
+  <g transform="translate(320 0) scale(-1 1)" filter="url(#shadowRight)">
+    <path d="M108 224L144 220L156 282H114L108 224Z" fill="url(#pantsRight)" />
+    <path d="M160 224L194 224L224 282H180L160 224Z" fill="#E2E8F0" />
+    <path d="M96 270H154L148 286H90L96 270Z" fill="url(#shoeRight)" />
+    <path d="M176 272H238L244 288H184L176 272Z" fill="#1F2937" />
+
+    <path d="M118 136C134 118 164 110 192 120C214 127 228 147 226 170L222 220H108L102 170C100 156 106 146 118 136Z" fill="url(#jerseyRight)" />
+    <path d="M136 150C145 146 156 144 166 144C176 144 186 146 194 150" stroke="#FFFFFF" stroke-opacity="0.72" stroke-width="4" stroke-linecap="round" />
+
+    <path d="M122 162L84 176C74 180 70 192 75 201C80 210 92 212 102 206L136 185L122 162Z" fill="#DC2626" />
+    <path d="M184 166L224 180C234 184 238 196 233 205C228 214 216 216 206 210L170 192L184 166Z" fill="#DC2626" />
+
+    <path d="M190 176L244 188C253 190 260 196 262 204C264 212 259 219 250 220L210 214L190 176Z" fill="#B91C1C" />
+    <circle cx="252" cy="208" r="11" fill="url(#skinRight)" />
+
+    <circle cx="160" cy="90" r="41" fill="url(#skinRight)" />
+    <path d="M120 86C122 62 141 46 163 46C182 46 200 58 205 76C194 70 180 69 167 72C150 75 134 83 120 86Z" fill="url(#hairRight)" />
+    <path d="M107 76L130 66V80L108 90L107 76Z" fill="url(#bandRight)" />
+    <path d="M106 80H215L211 90H110L106 80Z" fill="url(#bandRight)" />
+    <path d="M148 98H157" stroke="#0F172A" stroke-width="4" stroke-linecap="round" />
+    <path d="M176 98H185" stroke="#0F172A" stroke-width="4" stroke-linecap="round" />
+    <path d="M148 118C156 125 170 125 178 118" stroke="#0F172A" stroke-width="4" stroke-linecap="round" />
+    <path d="M132 102C136 100 141 99 146 99" stroke="#1E293B" stroke-width="3" stroke-linecap="round" />
+    <path d="M182 99C187 99 192 100 196 103" stroke="#1E293B" stroke-width="3" stroke-linecap="round" />
+  </g>
+</svg>
