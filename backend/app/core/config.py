@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     environment: str = "development"
     api_v1_prefix: str = "/api/v1"
 
-    database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/game_web"
+    database_url: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/game_web"
     cors_origins: Annotated[list[str], NoDecode] = Field(
         default_factory=lambda: ["http://localhost:5173", "http://127.0.0.1:5173"],
     )
@@ -54,9 +54,9 @@ class Settings(BaseSettings):
 
         normalized = value.strip()
         if normalized.startswith("postgres://"):
-            return normalized.replace("postgres://", "postgresql+psycopg://", 1)
-        if normalized.startswith("postgresql://") and "+psycopg" not in normalized:
-            return normalized.replace("postgresql://", "postgresql+psycopg://", 1)
+            return normalized.replace("postgres://", "postgresql+psycopg2://", 1)
+        if normalized.startswith("postgresql://") and "+" not in normalized:
+            return normalized.replace("postgresql://", "postgresql+psycopg2://", 1)
         return normalized
 
     @field_validator("admin_emails")
