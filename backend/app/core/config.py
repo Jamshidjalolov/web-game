@@ -4,6 +4,16 @@ from typing import Annotated
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
+DEFAULT_CORS_ORIGIN_REGEX = r"https://.*\.vercel\.app"
+DEFAULT_CORS_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://web-game-jade-three.vercel.app",
+    "https://web-game-git-master-jamshidjalolovs-projects.vercel.app",
+    "https://web-game-ak1klkh1s-jamshidjalolovs-projects.vercel.app",
+    "https://web-game-lttobq0hn-jamshidjalolovs-projects.vercel.app",
+]
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -18,10 +28,8 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
 
     database_url: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/game_web"
-    cors_origins: Annotated[list[str], NoDecode] = Field(
-        default_factory=lambda: ["http://localhost:5173", "http://127.0.0.1:5173"],
-    )
-    cors_origin_regex: str | None = r"https://.*\.vercel\.app"
+    cors_origins: Annotated[list[str], NoDecode] = Field(default_factory=lambda: list(DEFAULT_CORS_ORIGINS))
+    cors_origin_regex: str | None = DEFAULT_CORS_ORIGIN_REGEX
 
     jwt_secret_key: str = "change-this-secret"
     jwt_algorithm: str = "HS256"
@@ -44,6 +52,16 @@ class Settings(BaseSettings):
             return []
         if isinstance(value, str):
             return [item.strip() for item in value.split(",") if item.strip()]
+        return value
+
+    @field_validator("cors_origin_regex", mode="before")
+    @classmethod
+    def normalize_cors_origin_regex(cls, value: object) -> object:
+        if value is None:
+            return DEFAULT_CORS_ORIGIN_REGEX
+        if isinstance(value, str):
+            cleaned = value.strip()
+            return cleaned or DEFAULT_CORS_ORIGIN_REGEX
         return value
 
     @field_validator("database_url", mode="before")
