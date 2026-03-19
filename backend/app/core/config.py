@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     cors_origins: Annotated[list[str], NoDecode] = Field(
         default_factory=lambda: ["http://localhost:5173", "http://127.0.0.1:5173"],
     )
-    cors_origin_regex: str | None = None
+    cors_origin_regex: str | None = r"https://.*\.vercel\.app"
 
     jwt_secret_key: str = "change-this-secret"
     jwt_algorithm: str = "HS256"
