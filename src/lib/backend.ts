@@ -113,6 +113,11 @@ const notifyAuthSessionChanged = () => {
   window.dispatchEvent(new Event(AUTH_SESSION_CHANGE_EVENT))
 }
 
+const getBackendOfflineMessage = () =>
+  API_BASE_URL.includes('localhost') || API_BASE_URL.includes('127.0.0.1')
+    ? "Backendga ulanib bo'lmadi. `backend` serverini ishga tushiring."
+    : "Backendga ulanib bo'lmadi. Deploy qilingan API manzilini tekshiring."
+
 const toErrorMessage = (fallback: string, payload: unknown) => {
   if (!payload || typeof payload !== 'object') return fallback
   if (!('detail' in payload)) return fallback
@@ -143,9 +148,7 @@ const requestJson = async <T>(path: string, init?: RequestInit): Promise<T> => {
       },
     })
   } catch {
-    throw new Error(
-      "Backendga ulanib bo'lmadi. `backend` serverini 8000-portda ishga tushiring.",
-    )
+    throw new Error(getBackendOfflineMessage())
   }
 
   if (!response.ok) {
@@ -335,7 +338,7 @@ export const deleteGameQuestion = async (questionId: string): Promise<void> => {
       headers: authHeader,
     })
   } catch {
-    throw new Error("Backendga ulanib bo'lmadi. `backend` serverini 8000-portda ishga tushiring.")
+    throw new Error(getBackendOfflineMessage())
   }
 
   if (!response.ok) {

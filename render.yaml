@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: game-web-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    preDeployCommand: alembic upgrade head
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: game-web-db
+          property: connectionString
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGIN_REGEX
+        value: https://.*\.vercel\.app
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: ADMIN_EMAILS
+        sync: false
+      - key: AI_HF_API_TOKEN
+        sync: false
+
+databases:
+  - name: game-web-db
+    plan: free
