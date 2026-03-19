@@ -1,6 +1,23 @@
 import { games, setGamesFromBackend, type BackendGameItem, type GameItem } from '../data/games.ts'
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000').replace(/\/+$/, '')
+const DEFAULT_LOCAL_API_BASE_URL = 'http://localhost:8000'
+const DEFAULT_PRODUCTION_API_BASE_URL = 'https://game-web-api.onrender.com'
+
+const resolveApiBaseUrl = () => {
+  const configuredUrl = import.meta.env.VITE_API_BASE_URL?.trim()
+  if (configuredUrl) return configuredUrl.replace(/\/+$/, '')
+
+  if (typeof window === 'undefined') {
+    return DEFAULT_LOCAL_API_BASE_URL
+  }
+
+  const hostname = window.location.hostname.toLowerCase()
+  const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1'
+
+  return (isLocalHost ? DEFAULT_LOCAL_API_BASE_URL : DEFAULT_PRODUCTION_API_BASE_URL).replace(/\/+$/, '')
+}
+
+const API_BASE_URL = resolveApiBaseUrl()
 const AUTH_STORAGE_KEY = 'game_web_auth_session'
 const VISUAL_IQ_RANKING_STORAGE_KEY = 'visual-iq-ranking-cache'
 export const AUTH_SESSION_CHANGE_EVENT = 'auth-session-changed'
