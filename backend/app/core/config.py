@@ -38,6 +38,7 @@ class Settings(BaseSettings):
 
     firebase_credentials_path: str | None = None
     firebase_project_id: str | None = "web-app-1001b"
+    firebase_web_api_key: str | None = "AIzaSyCi6ie_HNT357VrkWiGk7cxyVPxwAJxBUI"
 
     admin_emails: Annotated[list[str], NoDecode] = Field(default_factory=list)
 

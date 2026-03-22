@@ -1,6 +1,7 @@
 from typing import Any
 
 import firebase_admin
+import httpx
 from firebase_admin import auth, credentials
 
 from app.core.config import settings
@@ -28,5 +29,28 @@ def _initialize_firebase_app() -> None:
 
 
 def verify_firebase_id_token(id_token: str) -> dict[str, Any]:
-    _initialize_firebase_app()
-    return auth.verify_id_token(id_token)
+    try:
+        _initialize_firebase_app()
+        return auth.verify_id_token(id_token)
+    except Exception:
+        if not settings.firebase_web_api_key:
+            raise
+
+        response = httpx.post(
+            f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={settings.firebase_web_api_key}",
+            json={"idToken": id_token},
+            timeout=15.0,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        users = payload.get("users") or []
+        if not users:
+            raise ValueError("Firebase foydalanuvchi topilmadi.")
+
+        user = users[0]
+        return {
+            "uid": user.get("localId"),
+            "email": user.get("email"),
+            "name": user.get("displayName"),
+            "picture": user.get("photoUrl"),
+        }

@@ -17,6 +17,8 @@ services:
           property: connectionString
       - key: FIREBASE_PROJECT_ID
         value: web-app-1001b
+      - key: FIREBASE_WEB_API_KEY
+        value: AIzaSyCi6ie_HNT357VrkWiGk7cxyVPxwAJxBUI
       - key: JWT_SECRET_KEY
         generateValue: true
 
