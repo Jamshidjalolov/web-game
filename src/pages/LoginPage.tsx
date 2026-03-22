@@ -3,8 +3,10 @@ import { getRedirectResult, signInWithRedirect, type UserCredential } from 'fire
 import { Link, useNavigate } from 'react-router-dom'
 import joinSideImage from '../assets/join-side.svg'
 import {
+  AUTH_SESSION_CHANGE_EVENT,
   loginWithEmailPassword,
   loginWithFirebaseToken,
+  loadStoredAuthSession,
   registerWithEmailPassword,
 } from '../lib/backend.ts'
 import { firebaseAuth, googleProvider, isFirebaseConfigured } from '../lib/firebase.ts'
@@ -23,8 +25,29 @@ function LoginPage() {
   const completeFirebaseAuth = async (authResult: UserCredential) => {
     const idToken = await authResult.user.getIdToken()
     await loginWithFirebaseToken(idToken)
-    navigate('/')
+    navigate('/', { replace: true })
   }
+
+  useEffect(() => {
+    const syncSession = () => {
+      if (loadStoredAuthSession()?.accessToken) {
+        navigate('/', { replace: true })
+      }
+    }
+
+    syncSession()
+
+    const syncSessionFromEvent: EventListener = () => {
+      syncSession()
+    }
+
+    window.addEventListener('storage', syncSession)
+    window.addEventListener(AUTH_SESSION_CHANGE_EVENT, syncSessionFromEvent)
+    return () => {
+      window.removeEventListener('storage', syncSession)
+      window.removeEventListener(AUTH_SESSION_CHANGE_EVENT, syncSessionFromEvent)
+    }
+  }, [navigate])
 
   useEffect(() => {
     if (!isFirebaseConfigured || !firebaseAuth) return
@@ -73,7 +96,7 @@ function LoginPage() {
           password,
         })
       }
-      navigate('/')
+      navigate('/', { replace: true })
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Kirishda xatolik yuz berdi.'
       setErrorText(message)
