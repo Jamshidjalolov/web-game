@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { getRedirectResult, signInWithPopup, signInWithRedirect, type UserCredential } from 'firebase/auth'
+import { getRedirectResult, signInWithRedirect, type UserCredential } from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import joinSideImage from '../assets/join-side.svg'
 import {
@@ -23,7 +23,7 @@ function LoginPage() {
   const [errorText, setErrorText] = useState('')
 
   const completeFirebaseAuth = async (authResult: UserCredential) => {
-    const idToken = await authResult.user.getIdToken()
+    const idToken = await authResult.user.getIdToken(true)
     await loginWithFirebaseToken(idToken)
     navigate('/', { replace: true })
   }
@@ -116,24 +116,11 @@ function LoginPage() {
     setIsGoogleLoading(true)
 
     try {
-      const authResult = await signInWithPopup(firebaseAuth, googleProvider)
-      await completeFirebaseAuth(authResult)
+      await signInWithRedirect(firebaseAuth, googleProvider)
+      return
     } catch (error) {
-      const code = error && typeof error === 'object' && 'code' in error ? String(error.code) : ''
-
-      if (code === 'auth/popup-blocked' || code === 'auth/cancelled-popup-request') {
-        try {
-          await signInWithRedirect(firebaseAuth, googleProvider)
-          return
-        } catch (redirectError) {
-          const redirectMessage =
-            redirectError instanceof Error ? redirectError.message : "Google orqali kirishda xatolik yuz berdi."
-          setErrorText(redirectMessage)
-        }
-      } else {
-        const message = error instanceof Error ? error.message : "Google orqali kirishda xatolik yuz berdi."
-        setErrorText(message)
-      }
+      const message = error instanceof Error ? error.message : "Google orqali kirishda xatolik yuz berdi."
+      setErrorText(message)
       setIsGoogleLoading(false)
     }
   }

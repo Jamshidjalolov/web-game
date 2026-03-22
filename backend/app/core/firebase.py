@@ -3,6 +3,7 @@ from typing import Any
 import firebase_admin
 import httpx
 from firebase_admin import auth, credentials
+from jose import JWTError, jwt
 
 from app.core.config import settings
 
@@ -31,26 +32,50 @@ def _initialize_firebase_app() -> None:
 def verify_firebase_id_token(id_token: str) -> dict[str, Any]:
     try:
         _initialize_firebase_app()
-        return auth.verify_id_token(id_token)
+        return auth.verify_id_token(id_token, clock_skew_seconds=60)
     except Exception:
-        if not settings.firebase_web_api_key:
-            raise
+        project_id = settings.firebase_project_id
+        if project_id:
+            try:
+                headers = jwt.get_unverified_header(id_token)
+                key_id = headers.get("kid")
+                certs_response = httpx.get(
+                    "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com",
+                    timeout=15.0,
+                )
+                certs_response.raise_for_status()
+                certs = certs_response.json()
+                public_key = certs.get(key_id)
+                if public_key:
+                    return jwt.decode(
+                        id_token,
+                        public_key,
+                        algorithms=["RS256"],
+                        audience=project_id,
+                        issuer=f"https://securetoken.google.com/{project_id}",
+                    )
+            except (JWTError, ValueError, httpx.HTTPError):
+                pass
 
-        response = httpx.post(
-            f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={settings.firebase_web_api_key}",
-            json={"idToken": id_token},
-            timeout=15.0,
-        )
-        response.raise_for_status()
-        payload = response.json()
-        users = payload.get("users") or []
-        if not users:
-            raise ValueError("Firebase foydalanuvchi topilmadi.")
+        if settings.firebase_web_api_key:
+            try:
+                response = httpx.post(
+                    f"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={settings.firebase_web_api_key}",
+                    json={"idToken": id_token},
+                    timeout=15.0,
+                )
+                response.raise_for_status()
+                payload = response.json()
+                users = payload.get("users") or []
+                if users:
+                    user = users[0]
+                    return {
+                        "uid": user.get("localId"),
+                        "email": user.get("email"),
+                        "name": user.get("displayName"),
+                        "picture": user.get("photoUrl"),
+                    }
+            except httpx.HTTPError:
+                pass
 
-        user = users[0]
-        return {
-            "uid": user.get("localId"),
-            "email": user.get("email"),
-            "name": user.get("displayName"),
-            "picture": user.get("photoUrl"),
-        }
+        raise
