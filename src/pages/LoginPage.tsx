@@ -23,7 +23,7 @@ function LoginPage() {
   const completeFirebaseAuth = async (authResult: UserCredential) => {
     const idToken = await authResult.user.getIdToken()
     await loginWithFirebaseToken(idToken)
-    navigate('/games')
+    navigate('/')
   }
 
   useEffect(() => {
@@ -73,7 +73,7 @@ function LoginPage() {
           password,
         })
       }
-      navigate('/games')
+      navigate('/')
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Kirishda xatolik yuz berdi.'
       setErrorText(message)
