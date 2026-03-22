@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     refresh_token_expire_days: int = 30
 
     firebase_credentials_path: str | None = None
-    firebase_project_id: str | None = None
+    firebase_project_id: str | None = "web-app-1001b"
 
     admin_emails: Annotated[list[str], NoDecode] = Field(default_factory=list)
 
