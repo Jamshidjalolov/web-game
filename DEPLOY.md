@@ -11,15 +11,7 @@ Repo ichida `render.yaml` tayyor. Render dashboardda:
 Render quyidagilarni yaratadi:
 
 - `game-web-api` web service
-
-Blueprint endi Render Postgres yaratmaydi. `DATABASE_URL` ga o'zingizning PostgreSQL
-connection string'ingizni kiritasiz.
-
-Masalan:
-
-```env
-DATABASE_URL=postgresql+psycopg2://USER:PASSWORD@HOST:5432/DB_NAME
-```
+- `game-web-db` Postgres database
 
 Backend URL odatda:
 
