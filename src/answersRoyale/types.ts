@@ -25,8 +25,8 @@ export type AnswersRoyaleQuestion = {
 export type AnswersRoyaleSetupConfig = {
   roomName: string
   hostLabel: string
-  teamCount: 2 | 3
-  teamNames: [string, string]
+  teamCount: 1 | 2
+  teamNames: string[]
   totalPlayers: number
   category: AnswersRoyaleCategory
   difficulty: AnswersRoyaleDifficulty

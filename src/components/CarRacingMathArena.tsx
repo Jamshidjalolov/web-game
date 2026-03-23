@@ -732,8 +732,8 @@ function CarRacingMathArena({
           <p className="mt-1 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">Bir xil misol • kim tez topsa mashina yuradi • finishgacha {QUESTIONS_PER_RACE} qadam</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link to={setupPath} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs">{'< '}Orqaga</Link>
-          <button type="button" onClick={resetGame} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs">Qayta</button>
+          <Link to={setupPath} className="ui-secondary-btn ui-secondary-btn--sm">{'< '}Orqaga</Link>
+          <button type="button" onClick={resetGame} className="ui-secondary-btn ui-secondary-btn--sm">Qayta</button>
         </div>
       </div>
 

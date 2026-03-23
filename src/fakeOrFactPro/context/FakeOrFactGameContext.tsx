@@ -50,32 +50,34 @@ type FakeOrFactContextValue = {
 
 const FakeOrFactGameContext = createContext<FakeOrFactContextValue | null>(null)
 
-const createTeams = (teamNames: [string, string]): FakeOrFactTeamState[] => ([
-  {
-    id: 'team-a',
-    name: teamNames[0],
-    score: 0,
-    streak: 0,
-    bestStreak: 0,
-    comboMultiplier: 1,
-    answeredAt: null,
-    selectedAnswer: null,
-    isCorrect: null,
-    lastPoints: 0,
-  },
-  {
-    id: 'team-b',
-    name: teamNames[1],
-    score: 0,
-    streak: 0,
-    bestStreak: 0,
-    comboMultiplier: 1,
-    answeredAt: null,
-    selectedAnswer: null,
-    isCorrect: null,
-    lastPoints: 0,
-  },
-])
+const createTeams = (teamNames: string[], teamCount: 1 | 2): FakeOrFactTeamState[] => (
+  [
+    {
+      id: 'team-a',
+      name: teamNames[0] || 'Faktchilar',
+      score: 0,
+      streak: 0,
+      bestStreak: 0,
+      comboMultiplier: 1,
+      answeredAt: null,
+      selectedAnswer: null,
+      isCorrect: null,
+      lastPoints: 0,
+    },
+    ...(teamCount === 2 ? [{
+      id: 'team-b' as const,
+      name: teamNames[1] || 'Tekshiruvchilar',
+      score: 0,
+      streak: 0,
+      bestStreak: 0,
+      comboMultiplier: 1,
+      answeredAt: null,
+      selectedAnswer: null,
+      isCorrect: null,
+      lastPoints: 0,
+    }] : []),
+  ]
+)
 
 type FakeOrFactGameProviderProps = {
   config: FakeOrFactSetupConfig
@@ -83,8 +85,9 @@ type FakeOrFactGameProviderProps = {
 }
 
 function FakeOrFactGameProvider({ config, children }: FakeOrFactGameProviderProps) {
+  const isSoloMode = config.teamCount === 1
   const [deck, setDeck] = useState<FakeOrFactQuestion[]>(() => buildFakeOrFactDeck(config))
-  const [teams, setTeams] = useState<FakeOrFactTeamState[]>(() => createTeams(config.teamNames))
+  const [teams, setTeams] = useState<FakeOrFactTeamState[]>(() => createTeams(config.teamNames, config.teamCount))
   const [phase, setPhase] = useState<GamePhase>('intro')
   const [showIntro, setShowIntro] = useState(true)
   const [currentRoundIndex, setCurrentRoundIndex] = useState(0)
@@ -103,7 +106,7 @@ function FakeOrFactGameProvider({ config, children }: FakeOrFactGameProviderProp
 
   const currentQuestion = deck[currentRoundIndex] ?? null
   const totalRounds = deck.length
-  const activeTurnTeamId = currentRoundIndex % 2 === 0 ? 'team-a' : 'team-b'
+  const activeTurnTeamId = isSoloMode ? 'team-a' : currentRoundIndex % 2 === 0 ? 'team-a' : 'team-b'
   const winnerTeam = useMemo(
     () => teams.slice().sort((left, right) => right.score - left.score || right.bestStreak - left.bestStreak)[0] ?? null,
     [teams],
@@ -163,7 +166,13 @@ function FakeOrFactGameProvider({ config, children }: FakeOrFactGameProviderProp
     setTimeLeft(getRoundDuration(nextDifficulty))
     setTeams(resetTeamsForNextRound(nextTeams))
     setRoundResult(null)
-    setKeyboardTeamId(config.mode === 'class' ? (nextRoundIndex % 2 === 0 ? 'team-a' : 'team-b') : 'team-a')
+    setKeyboardTeamId(
+      isSoloMode
+        ? 'team-a'
+        : config.mode === 'class'
+          ? (nextRoundIndex % 2 === 0 ? 'team-a' : 'team-b')
+          : 'team-a',
+    )
     setPhase('round')
   }
 
@@ -211,6 +220,8 @@ function FakeOrFactGameProvider({ config, children }: FakeOrFactGameProviderProp
     const nextDifficulty = difficultyRaised ? getNextDifficulty(currentDifficulty) : currentDifficulty
     const winningTeamId = correctTeams.length === 1 ? correctTeams[0].id : fastestTeamId
     const anyCorrect = correctTeams.length > 0
+    const teamA = updatedTeams.find((team) => team.id === 'team-a')
+    const teamB = updatedTeams.find((team) => team.id === 'team-b')
 
     setTeams(updatedTeams)
     teamsRef.current = updatedTeams
@@ -223,28 +234,30 @@ function FakeOrFactGameProvider({ config, children }: FakeOrFactGameProviderProp
       difficultyAfterRound: nextDifficulty,
       teamResults: {
         'team-a': {
-          selectedAnswer: updatedTeams[0].selectedAnswer,
-          isCorrect: updatedTeams[0].isCorrect === true,
-          awardedPoints: updatedTeams[0].lastPoints,
-          streakAfterRound: updatedTeams[0].streak,
-          comboMultiplierAfterRound: updatedTeams[0].comboMultiplier,
-          reactionLabel: updatedTeams[0].isCorrect
-            ? updatedTeams[0].streak >= 3
+          selectedAnswer: teamA?.selectedAnswer ?? null,
+          isCorrect: teamA?.isCorrect === true,
+          awardedPoints: teamA?.lastPoints ?? 0,
+          streakAfterRound: teamA?.streak ?? 0,
+          comboMultiplierAfterRound: teamA?.comboMultiplier ?? 1,
+          reactionLabel: teamA?.isCorrect
+            ? (teamA?.streak ?? 0) >= 3
               ? 'SERIYA 3x 🔥'
               : 'SUPER JAVOB!'
             : "Bu safar o'tmadi",
         },
         'team-b': {
-          selectedAnswer: updatedTeams[1].selectedAnswer,
-          isCorrect: updatedTeams[1].isCorrect === true,
-          awardedPoints: updatedTeams[1].lastPoints,
-          streakAfterRound: updatedTeams[1].streak,
-          comboMultiplierAfterRound: updatedTeams[1].comboMultiplier,
-          reactionLabel: updatedTeams[1].isCorrect
-            ? updatedTeams[1].streak >= 3
+          selectedAnswer: teamB?.selectedAnswer ?? null,
+          isCorrect: teamB?.isCorrect === true,
+          awardedPoints: teamB?.lastPoints ?? 0,
+          streakAfterRound: teamB?.streak ?? 0,
+          comboMultiplierAfterRound: teamB?.comboMultiplier ?? 1,
+          reactionLabel: teamB?.isCorrect
+            ? (teamB?.streak ?? 0) >= 3
               ? 'SERIYA 3x 🔥'
               : 'SUPER JAVOB!'
-            : "Bu safar o'tmadi",
+            : isSoloMode
+              ? 'Yakka rejim'
+              : "Bu safar o'tmadi",
         },
       },
     })
@@ -265,7 +278,7 @@ function FakeOrFactGameProvider({ config, children }: FakeOrFactGameProviderProp
 
   useEffect(() => {
     const nextDeck = buildFakeOrFactDeck(config)
-    const nextTeams = createTeams(config.teamNames)
+    const nextTeams = createTeams(config.teamNames, config.teamCount)
     setDeck(nextDeck)
     setTeams(nextTeams)
     teamsRef.current = nextTeams
@@ -378,7 +391,7 @@ function FakeOrFactGameProvider({ config, children }: FakeOrFactGameProviderProp
 
   const restartGame = () => {
     const nextDeck = buildFakeOrFactDeck(config)
-    const nextTeams = createTeams(config.teamNames)
+    const nextTeams = createTeams(config.teamNames, config.teamCount)
     setDeck(nextDeck)
     setTeams(nextTeams)
     teamsRef.current = nextTeams
@@ -405,7 +418,7 @@ function FakeOrFactGameProvider({ config, children }: FakeOrFactGameProviderProp
         setKeyboardTeamId('team-a')
         return
       }
-      if (key === '2') {
+      if (key === '2' && !isSoloMode) {
         setKeyboardTeamId('team-b')
         return
       }
@@ -423,7 +436,7 @@ function FakeOrFactGameProvider({ config, children }: FakeOrFactGameProviderProp
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [keyboardTeamId, showIntro])
+  }, [isSoloMode, keyboardTeamId, showIntro])
 
   const value = useMemo<FakeOrFactContextValue>(() => ({
     config,

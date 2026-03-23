@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
+import { findGameById } from '../data/games.ts'
 import {
   buildDiverseVisualBrainTeaserSet,
   getVisualBrainTeaserOptionCards,
@@ -206,6 +208,7 @@ const buildQuestionSet = (
 function VisualBrainTeasersArenaPage() {
   const location = useLocation()
   const navigate = useNavigate()
+  const game = findGameById('visual-brain-teasers')
   const transitionRef = useRef<number | null>(null)
   const completedQuestionIdsRef = useRef<Set<string>>(new Set())
   const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search])
@@ -946,6 +949,11 @@ function VisualBrainTeasersArenaPage() {
           </>
         ) : null}
       </main>
+      {game ? (
+        <div className="relative z-10 mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FooterCTA from '../components/FooterCTA.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import Navbar from '../components/Navbar.tsx'
 import type { TezkorGuruhConfig } from '../tezkorGuruh/types.ts'
 import { createSessionConfigKey, loadLastSetup, saveLastSetup, saveSessionConfig } from '../tezkorGuruh/utils/storage.ts'
@@ -176,6 +177,9 @@ function TezkorGuruhSetupPage() {
             </div>
           </section>
         </main>
+        <div className="mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
         <FooterCTA />
       </div>
     </div>

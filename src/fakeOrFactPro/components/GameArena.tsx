@@ -15,6 +15,7 @@ function GameArena({ onBackToSetup }: GameArenaProps) {
   const arenaRef = useRef<HTMLDivElement | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const { config, currentRoundIndex, showIntro, soundEnabled, teams, toggleSound, totalRounds } = useFakeOrFactGame()
+  const isSoloMode = teams.length === 1
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -85,7 +86,9 @@ function GameArena({ onBackToSetup }: GameArenaProps) {
         <div className="grid gap-3 md:grid-cols-[1fr_auto]">
           <div className="rounded-[1.4rem] border border-white/12 bg-white/8 px-4 py-2.5 backdrop-blur-xl">
             <p className="text-xs font-bold leading-6 text-slate-200/84 sm:text-sm">
-              Savol tepada turadi, ikki jamoa esa pastda yonma-yon javob beradi. Har ikkala javob kelishi bilan keyingi savol ochiladi.
+              {isSoloMode
+                ? "Savol tepada turadi, siz pastdagi paneldan javob berasiz. Javob ochilishi bilan keyingi savolga o'tiladi."
+                : "Savol tepada turadi, ikki jamoa esa pastda yonma-yon javob beradi. Har ikkala javob kelishi bilan keyingi savol ochiladi."}
             </p>
           </div>
           <div className="rounded-[1.4rem] border border-white/12 bg-white/8 px-4 py-2.5 text-center backdrop-blur-xl">
@@ -97,7 +100,7 @@ function GameArena({ onBackToSetup }: GameArenaProps) {
         <StatementCard />
         <TimerBar />
 
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className={`grid gap-3 ${isSoloMode ? '' : 'sm:grid-cols-2'}`}>
           {teams.map((team) => (
             <div key={`score-${team.id}`} className="rounded-[1.4rem] border border-white/12 bg-white/8 px-4 py-3 backdrop-blur-xl">
               <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-300">{team.name}</p>

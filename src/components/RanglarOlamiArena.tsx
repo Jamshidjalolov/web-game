@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ConfettiOverlay from './ConfettiOverlay'
+import { TeamCount } from '../lib/teamMode'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 type Side = 'left' | 'right'
@@ -26,6 +27,7 @@ type RanglarOlamiArenaProps = {
   gameTone: string
   leftTeamName?: string
   rightTeamName?: string
+  teamCount?: TeamCount
   initialDifficulty?: Difficulty
   setupPath?: string
   teacherChallenges?: TeacherRanglarChallenge[]
@@ -399,6 +401,7 @@ function RanglarOlamiArena({
   gameTone,
   leftTeamName = '1-Jamoa',
   rightTeamName = '2-Jamoa',
+  teamCount = 2,
   initialDifficulty = "O'rta",
   setupPath = '/games/ranglar-olami',
   teacherChallenges = [],
@@ -407,6 +410,7 @@ function RanglarOlamiArena({
   const totalRounds = config.rounds
   const leftLabel = leftTeamName.trim() || '1-Jamoa'
   const rightLabel = rightTeamName.trim() || '2-Jamoa'
+  const isSoloMode = teamCount === 1
 
   const [deck, setDeck] = useState<ColorRoundTask[]>(() => createDeck(initialDifficulty, teacherChallenges))
   const [roundIndex, setRoundIndex] = useState(0)
@@ -530,12 +534,13 @@ function RanglarOlamiArena({
   }, [playSoftNote])
 
   const resolveWinner = useCallback((): Winner => {
+    if (isSoloMode) return 'left'
     if (leftTeam.score > rightTeam.score) return 'left'
     if (rightTeam.score > leftTeam.score) return 'right'
     if (leftTeam.roundsWon > rightTeam.roundsWon) return 'left'
     if (rightTeam.roundsWon > leftTeam.roundsWon) return 'right'
     return 'draw'
-  }, [leftTeam.score, rightTeam.score, leftTeam.roundsWon, rightTeam.roundsWon])
+  }, [isSoloMode, leftTeam.score, rightTeam.score, leftTeam.roundsWon, rightTeam.roundsWon])
 
   const openRound = useCallback(
     (index: number) => {
@@ -609,7 +614,11 @@ function RanglarOlamiArena({
     setRightTeam(createTeamState())
     setWinner(null)
     setShowWinnerModal(false)
-    setStatusText("Boshlash tugmasini bosing. Kim birinchi to'g'ri topsa, raundni oladi.")
+    setStatusText(
+      isSoloMode
+        ? "Boshlash tugmasini bosing. Har raundda to'g'ri kartani topib ball yig'ing."
+        : "Boshlash tugmasini bosing. Kim birinchi to'g'ri topsa, raundni oladi.",
+    )
   }
 
   const lockTeamWrong = (side: Side) => {
@@ -622,11 +631,12 @@ function RanglarOlamiArena({
 
   const handlePick = (side: Side, optionIndex: number) => {
     if (phase !== 'input' || !currentTask) return
-    if (leftTeam.status === 'correct' || rightTeam.status === 'correct') return
+    if (leftTeam.status === 'correct' || (!isSoloMode && rightTeam.status === 'correct')) return
 
     const team = side === 'left' ? leftTeam : rightTeam
     const teamName = side === 'left' ? leftLabel : rightLabel
     const otherName = side === 'left' ? rightLabel : leftLabel
+    if (isSoloMode && side === 'right') return
     if (team.status !== 'waiting') return
 
     const isCorrect = optionIndex === currentTask.correctIndex
@@ -639,7 +649,11 @@ function RanglarOlamiArena({
 
     if (!isCorrect) {
       lockTeamWrong(side)
-      setStatusText(`${teamName} xato javob berdi. ${otherName} javob berishi mumkin.`)
+      setStatusText(
+        isSoloMode
+          ? `${teamName} xato javob berdi. Raund yakunlandi.`
+          : `${teamName} xato javob berdi. ${otherName} javob berishi mumkin.`,
+      )
       return
     }
 
@@ -662,9 +676,11 @@ function RanglarOlamiArena({
           bestStreak: Math.max(prev.bestStreak, nextStreak),
         }
       })
-      setRightTeam((prev) =>
-        prev.status === 'waiting' ? { ...prev, streak: 0 } : prev,
-      )
+      if (!isSoloMode) {
+        setRightTeam((prev) =>
+          prev.status === 'waiting' ? { ...prev, streak: 0 } : prev,
+        )
+      }
     } else {
       setRightTeam((prev) => {
         const nextStreak = prev.streak + 1
@@ -677,9 +693,11 @@ function RanglarOlamiArena({
           bestStreak: Math.max(prev.bestStreak, nextStreak),
         }
       })
-      setLeftTeam((prev) =>
-        prev.status === 'waiting' ? { ...prev, streak: 0 } : prev,
-      )
+      if (!isSoloMode) {
+        setLeftTeam((prev) =>
+          prev.status === 'waiting' ? { ...prev, streak: 0 } : prev,
+        )
+      }
     }
 
     setStatusText(
@@ -700,13 +718,17 @@ function RanglarOlamiArena({
     if (timeLeft > 0) return
 
     setLeftTeam((prev) => (prev.status === 'waiting' ? { ...prev, status: 'timeout', streak: 0 } : prev))
-    setRightTeam((prev) => (prev.status === 'waiting' ? { ...prev, status: 'timeout', streak: 0 } : prev))
-  }, [phase, timeLeft])
+    if (!isSoloMode) {
+      setRightTeam((prev) => (prev.status === 'waiting' ? { ...prev, status: 'timeout', streak: 0 } : prev))
+    }
+  }, [phase, timeLeft, isSoloMode])
 
   useEffect(() => {
     if (phase !== 'input') return
     const someoneCorrect = leftTeam.status === 'correct' || rightTeam.status === 'correct'
-    const bothResolved = leftTeam.status !== 'waiting' && rightTeam.status !== 'waiting'
+    const bothResolved = isSoloMode
+      ? leftTeam.status !== 'waiting'
+      : leftTeam.status !== 'waiting' && rightTeam.status !== 'waiting'
     if (!someoneCorrect && !bothResolved) return
 
     setPhase('result')
@@ -715,12 +737,16 @@ function RanglarOlamiArena({
       setStatusText(`${leftLabel} raundni oldi. Keyingi rang tayyorlanmoqda...`)
       return
     }
-    if (rightTeam.status === 'correct') {
+    if (!isSoloMode && rightTeam.status === 'correct') {
       setStatusText(`${rightLabel} raundni oldi. Keyingi rang tayyorlanmoqda...`)
       return
     }
-    setStatusText("Ikkala jamoa ham topolmadi. Keyingi rang ochiladi.")
-  }, [phase, leftTeam.status, rightTeam.status, leftLabel, rightLabel])
+    setStatusText(
+      isSoloMode
+        ? `${leftLabel} bu safar topolmadi. Keyingi rang ochiladi.`
+        : "Ikkala jamoa ham topolmadi. Keyingi rang ochiladi.",
+    )
+  }, [phase, leftTeam.status, rightTeam.status, leftLabel, rightLabel, isSoloMode])
 
   useEffect(() => {
     if (phase !== 'result') return
@@ -739,18 +765,18 @@ function RanglarOlamiArena({
           setStatusText(`${leftLabel} g'olib bo'ldi.`)
           return
         }
-        if (resolved === 'right') {
+        if (!isSoloMode && resolved === 'right') {
           setStatusText(`${rightLabel} g'olib bo'ldi.`)
           return
         }
-        setStatusText('Durang natija.')
+        setStatusText(isSoloMode ? `${leftLabel} natijasi yakunlandi.` : 'Durang natija.')
         return
       }
       openRound(nextIndex)
     }, config.nextRoundMs)
 
     return () => window.clearTimeout(timer)
-  }, [phase, roundIndex, totalRounds, resolveWinner, leftLabel, rightLabel, openRound, config.nextRoundMs, stopMusic])
+  }, [phase, roundIndex, totalRounds, resolveWinner, leftLabel, rightLabel, openRound, config.nextRoundMs, stopMusic, isSoloMode])
 
   useEffect(() => () => stopMusic(), [stopMusic])
   useEffect(() => () => clearCountdown(), [clearCountdown])
@@ -898,9 +924,11 @@ function RanglarOlamiArena({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <p className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-amber-700 sm:text-xs">
-            Stroop Race Mode
+            {isSoloMode ? 'Solo Stroop mode' : 'Stroop Race Mode'}
           </p>
-          <h2 className="mt-1 font-kid text-3xl text-slate-900 sm:text-4xl">{gameTitle} Arena</h2>
+          <h2 className="mt-1 font-kid text-3xl text-slate-900 sm:text-4xl">
+            {isSoloMode ? `${gameTitle} Solo` : `${gameTitle} Arena`}
+          </h2>
         </div>
         <div className="flex flex-wrap gap-2">
           <Link
@@ -919,7 +947,7 @@ function RanglarOlamiArena({
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className={`mt-4 grid gap-3 sm:grid-cols-2 ${isSoloMode ? 'lg:grid-cols-4' : 'lg:grid-cols-5'}`}>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Raund</p>
           <p className="mt-1 font-kid text-3xl text-slate-900">{phase === 'ready' ? `0/${totalRounds}` : `${currentRound}/${totalRounds}`}</p>
@@ -934,10 +962,12 @@ function RanglarOlamiArena({
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{leftLabel}</p>
           <p className="mt-1 text-xl font-extrabold text-slate-900">{leftTeam.score} ball</p>
         </div>
-        <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-          <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
-          <p className="mt-1 text-xl font-extrabold text-slate-900">{rightTeam.score} ball</p>
-        </div>
+        {!isSoloMode ? (
+          <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
+            <p className="mt-1 text-xl font-extrabold text-slate-900">{rightTeam.score} ball</p>
+          </div>
+        ) : null}
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Daraja</p>
           <p className="mt-1 text-base font-extrabold text-slate-700">{initialDifficulty}</p>
@@ -954,7 +984,9 @@ function RanglarOlamiArena({
               {currentTask ? modePrompt(currentTask.mode, targetColor, currentTask.teacherPrompt) : "Boshlashni bosib o'yinni boshlang"}
             </p>
             <p className="mt-1 text-sm font-bold text-slate-500">
-              Bir jamoa xato qilsa, ikkinchisiga navbat qoladi. Ikkalasi ham topolmasa keyingi raund ochiladi.
+              {isSoloMode
+                ? "Har savolda to'g'ri kartani toping. Xato yoki timeout bo'lsa keyingi raund ochiladi."
+                : "Bir jamoa xato qilsa, ikkinchisiga navbat qoladi. Ikkalasi ham topolmasa keyingi raund ochiladi."}
             </p>
           </div>
           {targetColor ? (
@@ -991,9 +1023,9 @@ function RanglarOlamiArena({
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+      <div className={`mt-4 grid gap-4 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
         {renderTeamPanel('left', leftLabel, leftTeam, 'border-cyan-200 bg-cyan-50/35', 'from-cyan-500 to-blue-500')}
-        {renderTeamPanel('right', rightLabel, rightTeam, 'border-fuchsia-200 bg-fuchsia-50/35', 'from-fuchsia-500 to-rose-500')}
+        {!isSoloMode ? renderTeamPanel('right', rightLabel, rightTeam, 'border-fuchsia-200 bg-fuchsia-50/35', 'from-fuchsia-500 to-rose-500') : null}
       </div>
 
       <div className={`mt-4 rounded-2xl border px-4 py-3 text-sm font-extrabold ${
@@ -1044,25 +1076,29 @@ function RanglarOlamiArena({
                 Ranglar olami yakunlandi
               </p>
               <h3 className="mt-3 font-kid text-4xl text-slate-900 sm:text-5xl">
-                {winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
+                {!isSoloMode && winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
               </h3>
               <p className="mt-1 text-base font-bold text-slate-600">
-                {winnerLabel === 'Durang'
+                {!isSoloMode && winnerLabel === 'Durang'
                   ? "Ikkala jamoa ham bir xil natija ko'rsatdi."
-                  : `${winnerLabel} ranglarni tezroq ajratib g'olib bo'ldi.`}
+                  : isSoloMode
+                    ? `${leftLabel} ranglarni ajratib yakuniy natijani ko'rsatdi.`
+                    : `${winnerLabel} ranglarni tezroq ajratib g'olib bo'ldi.`}
               </p>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className={`mt-4 grid gap-3 ${isSoloMode ? '' : 'sm:grid-cols-2'}`}>
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
                   <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{leftLabel}</p>
                   <p className="mt-1 text-2xl font-extrabold text-slate-800">{leftTeam.score}</p>
                   <p className="text-sm font-bold text-slate-500">{leftTeam.roundsWon} raund | combo {leftTeam.bestStreak}</p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                  <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
-                  <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightTeam.score}</p>
-                  <p className="text-sm font-bold text-slate-500">{rightTeam.roundsWon} raund | combo {rightTeam.bestStreak}</p>
-                </div>
+                {!isSoloMode ? (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
+                    <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightTeam.score}</p>
+                    <p className="text-sm font-bold text-slate-500">{rightTeam.roundsWon} raund | combo {rightTeam.bestStreak}</p>
+                  </div>
+                ) : null}
               </div>
 
               <div className="mt-4 flex flex-wrap justify-end gap-2">

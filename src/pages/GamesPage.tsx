@@ -81,26 +81,26 @@ function GamesPage() {
                 <p className="inline-flex rounded-full border border-cyan-100 bg-cyan-50 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-cyan-700">
                   Interaktiv o'yinlar markazi
                 </p>
-                <h1 className="mt-4 max-w-3xl font-kid text-5xl leading-tight text-slate-900 sm:text-6xl">
+                <h1 className="mt-4 max-w-3xl font-kid text-[clamp(2.45rem,8vw,4.5rem)] leading-[1.03] text-slate-900">
                   Darsni o'yinga aylantiradigan premium o'yinlar sahifasi
                 </h1>
-                <p className="mt-4 max-w-3xl text-xl font-bold leading-relaxed text-slate-500">
+                <p className="mt-4 max-w-3xl text-base font-bold leading-relaxed text-slate-500 sm:text-lg lg:text-xl">
                   Qiziqarli rasmli kartalar, kuchli hover animatsiyalar va turli yo'nalishdagi
                   topshiriqlar bilan o'rganish jarayoni yanada jonli bo'ladi.
                 </p>
 
-                <div className="mt-6 flex flex-wrap gap-3">
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                   {!isAuthenticated ? (
                     <Link
                       to="/login"
-                      className="rounded-2xl bg-gradient-to-r from-fuchsia-500 via-rose-500 to-orange-400 px-7 py-3.5 text-base font-extrabold text-white shadow-soft transition hover:-translate-y-1 hover:saturate-125"
+                      className="flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-fuchsia-500 via-rose-500 to-orange-400 px-7 py-3.5 text-base font-extrabold text-white shadow-soft transition hover:-translate-y-1 hover:saturate-125 sm:w-auto"
                     >
                       Bepul boshlash
                     </Link>
                   ) : null}
                   <a
                     href="#all-games"
-                    className="rounded-2xl border-2 border-cyan-300 bg-white px-7 py-3.5 text-base font-extrabold text-cyan-700 transition hover:-translate-y-1 hover:bg-cyan-50"
+                    className="flex w-full items-center justify-center rounded-2xl border-2 border-cyan-300 bg-white px-7 py-3.5 text-base font-extrabold text-cyan-700 transition hover:-translate-y-1 hover:bg-cyan-50 sm:w-auto"
                   >
                     O'yinlarni ko'rish
                   </a>
@@ -147,7 +147,7 @@ function GamesPage() {
               </p>
             ) : null}
 
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
               <div className="flex flex-wrap gap-2.5">
                 {gameCategories.map((category) => (
                   <button
@@ -164,7 +164,7 @@ function GamesPage() {
                   </button>
                 ))}
               </div>
-              <p className="rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-extrabold text-amber-700">
+              <p className="w-full rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-center text-sm font-extrabold text-amber-700 sm:w-auto">
                 {isLoadingCatalog ? "Yuklanmoqda..." : `${filteredGames.length} ta o'yin ko'rsatilmoqda`}
               </p>
             </div>
@@ -201,8 +201,8 @@ function GamesPage() {
                     </span>
                   </div>
 
-                  <h3 className="font-kid text-4xl leading-tight text-slate-900">{game.title}</h3>
-                  <p className="mt-2 text-lg font-bold leading-relaxed text-slate-600">{game.desc}</p>
+                  <h3 className="font-kid text-[clamp(2rem,7vw,2.5rem)] leading-[1.05] text-slate-900">{game.title}</h3>
+                  <p className="mt-2 text-base font-bold leading-relaxed text-slate-600 sm:text-lg">{game.desc}</p>
 
                   <div className="mt-4 grid grid-cols-2 gap-3">
                     <div className="premium-mini-stat">

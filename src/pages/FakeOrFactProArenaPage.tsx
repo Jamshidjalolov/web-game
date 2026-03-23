@@ -2,11 +2,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import GameArena from '../fakeOrFactPro/components/GameArena.tsx'
 import ParticlesBackdrop from '../fakeOrFactPro/components/ParticlesBackdrop.tsx'
 import FakeOrFactGameProvider from '../fakeOrFactPro/context/FakeOrFactGameContext.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
+import { findGameById } from '../data/games.ts'
 import { loadFakeOrFactSession, loadFakeOrFactSetup } from '../fakeOrFactPro/utils/storage.ts'
 
 function FakeOrFactProArenaPage() {
   const location = useLocation()
   const navigate = useNavigate()
+  const game = findGameById('fake-or-fact-pro')
   const params = new URLSearchParams(location.search)
   const sessionKey = params.get('session')
   const config = loadFakeOrFactSession(sessionKey) ?? loadFakeOrFactSetup()
@@ -32,7 +35,7 @@ function FakeOrFactProArenaPage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_14%_10%,#0d214b_0%,transparent_30%),radial-gradient(circle_at_84%_16%,#34164f_0%,transparent_32%),radial-gradient(circle_at_18%_86%,#093851_0%,transparent_34%),linear-gradient(170deg,#040916_0%,#0b1124_54%,#150b2b_100%)] text-white lg:h-screen">
+    <div className="relative min-h-screen overflow-x-hidden overflow-y-auto bg-[radial-gradient(circle_at_14%_10%,#0d214b_0%,transparent_30%),radial-gradient(circle_at_84%_16%,#34164f_0%,transparent_32%),radial-gradient(circle_at_18%_86%,#093851_0%,transparent_34%),linear-gradient(170deg,#040916_0%,#0b1124_54%,#150b2b_100%)] text-white lg:h-screen">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_14%,rgba(34,211,238,0.24),transparent_24%),radial-gradient(circle_at_90%_18%,rgba(244,114,182,0.16),transparent_26%),radial-gradient(circle_at_24%_88%,rgba(34,197,94,0.12),transparent_22%)]" />
       <ParticlesBackdrop />
 
@@ -53,6 +56,11 @@ function FakeOrFactProArenaPage() {
           </FakeOrFactGameProvider>
         </div>
       </main>
+      {game ? (
+        <div className="relative z-10 mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
+      ) : null}
     </div>
   )
 }

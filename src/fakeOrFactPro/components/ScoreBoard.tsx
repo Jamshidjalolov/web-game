@@ -8,9 +8,10 @@ const teamThemes = {
 
 function ScoreBoard() {
   const { teams, activeTurnTeamId, keyboardTeamId, config } = useFakeOrFactGame()
+  const isSoloMode = teams.length === 1
 
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
+    <div className={`grid gap-4 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
       {teams.map((team) => (
         <motion.article
           key={team.id}
@@ -20,7 +21,7 @@ function ScoreBoard() {
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-200/72">
-                {team.id === 'team-a' ? '1-jamoa' : '2-jamoa'}
+                {isSoloMode ? 'Jamoa' : team.id === 'team-a' ? '1-jamoa' : '2-jamoa'}
               </p>
               <h3 className="mt-2 text-3xl font-black text-white">{team.name}</h3>
             </div>

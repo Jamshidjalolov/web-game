@@ -384,7 +384,7 @@ function VisualBrainTeasersWinner({
           <button
             type="button"
             onClick={onBackToSetup}
-            className="rounded-[1.5rem] border border-white/15 bg-white/8 px-6 py-4 text-sm font-black uppercase tracking-[0.14em] text-white transition hover:-translate-y-0.5 hover:bg-white/12"
+            className="ui-secondary-btn ui-secondary-btn--md rounded-[1.5rem]"
           >
             Sozlamaga qaytish
           </button>

@@ -57,7 +57,7 @@ function TezkorGuruhWinner({ teams, onReplay, onBackToSetup }: TezkorGuruhWinner
           <button
             type="button"
             onClick={onBackToSetup}
-            className="rounded-2xl border border-white/25 bg-white/10 px-6 py-3 text-sm font-black uppercase tracking-[0.12em] text-white transition hover:-translate-y-0.5"
+            className="ui-secondary-btn ui-secondary-btn--md"
           >
             Sozlamaga qaytish
           </button>

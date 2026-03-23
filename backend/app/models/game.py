@@ -8,6 +8,7 @@ from sqlalchemy.sql import func
 from app.models.base import Base
 
 if TYPE_CHECKING:
+    from app.models.game_comment import GameComment
     from app.models.question import Question
 
 
@@ -37,3 +38,7 @@ class Game(Base):
     )
 
     questions: Mapped[list["Question"]] = relationship(back_populates="game")
+    comments: Mapped[list["GameComment"]] = relationship(
+        back_populates="game",
+        cascade="all, delete-orphan",
+    )

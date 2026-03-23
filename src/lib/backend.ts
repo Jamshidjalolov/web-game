@@ -34,6 +34,24 @@ export type ApiUser = {
   updated_at: string
 }
 
+export type GameCommentStatus = 'pending' | 'approved' | 'rejected'
+
+export type GameComment = {
+  id: string
+  game_id: string
+  game_title: string
+  user_id: string
+  author_name: string
+  author_email: string | null
+  content: string
+  status: GameCommentStatus
+  admin_reply: string | null
+  moderator_name: string | null
+  created_at: string
+  updated_at: string
+  moderated_at: string | null
+}
+
 type AuthApiResponse = {
   access_token: string
   refresh_token: string
@@ -117,6 +135,16 @@ export type CreateVisualIqRankingPayload = {
   speedPercent: number
   totalTimeSeconds: number
   difficultyLabel: string
+}
+
+export type CreateGameCommentPayload = {
+  gameId: string
+  content: string
+}
+
+export type ModerateGameCommentPayload = {
+  status?: GameCommentStatus
+  adminReply?: string
 }
 
 type FetchQuestionsParams = {
@@ -374,6 +402,53 @@ export const fetchUsersForAdmin = async (): Promise<ApiUser[]> => {
   if (!authHeader) return []
   return requestJson<ApiUser[]>('/api/v1/users', {
     headers: authHeader,
+  })
+}
+
+export const fetchApprovedGameComments = async (gameId: string): Promise<GameComment[]> =>
+  requestJson<GameComment[]>(`/api/v1/game-comments?game_id=${encodeURIComponent(gameId)}`)
+
+export const createGameComment = async (payload: CreateGameCommentPayload): Promise<GameComment> => {
+  const authHeader = getAuthorizationHeader()
+  if (!authHeader) {
+    throw new Error("Izoh yozish uchun avval login qiling.")
+  }
+
+  return requestJson<GameComment>('/api/v1/game-comments', {
+    method: 'POST',
+    headers: authHeader,
+    body: JSON.stringify({
+      game_id: payload.gameId,
+      content: payload.content,
+    }),
+  })
+}
+
+export const fetchAdminGameComments = async (status?: GameCommentStatus): Promise<GameComment[]> => {
+  const authHeader = getAuthorizationHeader()
+  if (!authHeader) return []
+  const query = status ? `?status=${encodeURIComponent(status)}` : ''
+  return requestJson<GameComment[]>(`/api/v1/game-comments/admin${query}`, {
+    headers: authHeader,
+  })
+}
+
+export const moderateGameComment = async (
+  commentId: string,
+  payload: ModerateGameCommentPayload,
+): Promise<GameComment> => {
+  const authHeader = getAuthorizationHeader()
+  if (!authHeader) {
+    throw new Error("Izohni boshqarish uchun admin login kerak.")
+  }
+
+  return requestJson<GameComment>(`/api/v1/game-comments/${encodeURIComponent(commentId)}`, {
+    method: 'PATCH',
+    headers: authHeader,
+    body: JSON.stringify({
+      status: payload.status,
+      admin_reply: payload.adminReply,
+    }),
   })
 }
 

@@ -11,6 +11,7 @@ from app.models.base import Base
 from app.models.enums import UserRole
 
 if TYPE_CHECKING:
+    from app.models.game_comment import GameComment
     from app.models.question import Question
 
 
@@ -48,4 +49,13 @@ class User(Base):
     questions: Mapped[list["Question"]] = relationship(
         back_populates="teacher",
         cascade="all, delete-orphan",
+    )
+    game_comments: Mapped[list["GameComment"]] = relationship(
+        back_populates="author",
+        foreign_keys="GameComment.user_id",
+        cascade="all, delete-orphan",
+    )
+    moderated_comments: Mapped[list["GameComment"]] = relationship(
+        back_populates="approved_by",
+        foreign_keys="GameComment.approved_by_id",
     )

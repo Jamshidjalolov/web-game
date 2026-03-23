@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import puzzleReferenceImage from '../assets/games/puzzle-simple.svg'
 import ConfettiOverlay from './ConfettiOverlay'
+import type { TeamCount } from '../lib/teamMode.ts'
 
 export type Operator = '+' | '-' | 'x' | '/'
 export type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
@@ -11,6 +12,7 @@ type PuzzleArenaProps = {
   gameTone: string
   leftTeamName?: string
   rightTeamName?: string
+  teamCount?: TeamCount
   initialDifficulty?: Difficulty
   initialEnabledOps?: Operator[]
   lockSettings?: boolean
@@ -125,11 +127,13 @@ function PuzzleArena({
   gameTone,
   leftTeamName = '1-Jamoa',
   rightTeamName = '2-Jamoa',
+  teamCount = 2,
   initialDifficulty = 'Oson',
   initialEnabledOps = DEFAULT_OPS,
   lockSettings = false,
   setupPath = '/games/puzzle-mozaika',
 }: PuzzleArenaProps) {
+  const isSoloMode = teamCount === 1
   const parsedInitialOps = useMemo(
     () => normalizeOps(initialEnabledOps),
     [initialEnabledOps],
@@ -165,12 +169,14 @@ function PuzzleArena({
   const activeTiles = activeTeam === 1 ? leftTiles : rightTiles
   const leftLabel = leftTeamName.trim() || '1-Jamoa'
   const rightLabel = rightTeamName.trim() || '2-Jamoa'
-  const teamLabel = activeTeam === 1 ? leftLabel : rightLabel
+  const teamLabel = isSoloMode ? leftLabel : activeTeam === 1 ? leftLabel : rightLabel
   const winnerLabel = solvedTeam
     ? solvedTeam === 1
       ? leftLabel
       : rightLabel
-    : scoreOne === scoreTwo
+    : isSoloMode
+      ? leftLabel
+      : scoreOne === scoreTwo
       ? 'Durang'
       : scoreOne > scoreTwo
         ? leftLabel
@@ -195,7 +201,7 @@ function PuzzleArena({
   )
   const leftProgressPercent = Math.round((correctCountLeft / (GRID * GRID - 1)) * 100)
   const rightProgressPercent = Math.round((correctCountRight / (GRID * GRID - 1)) * 100)
-  const activeProgressPercent = activeTeam === 1 ? leftProgressPercent : rightProgressPercent
+  const activeProgressPercent = isSoloMode ? leftProgressPercent : activeTeam === 1 ? leftProgressPercent : rightProgressPercent
   const winnerScore = winnerLabel === 'Durang' ? Math.max(scoreOne, scoreTwo) : scoreOne > scoreTwo ? scoreOne : scoreTwo
 
   const totalScore = useMemo(() => {
@@ -237,6 +243,18 @@ function PuzzleArena({
     if (!running || finished) return
     const leftDone = isSolved(leftTiles)
     const rightDone = isSolved(rightTiles)
+    if (isSoloMode) {
+      if (!leftDone) return
+      setSolvedTeam(1)
+      setFinished(true)
+      setRunning(false)
+      setBestTime((prev) => (prev === null ? seconds : Math.min(prev, seconds)))
+      setFeedback(`Puzzle tugadi. G'olib: ${leftLabel}.`)
+      setShowWinnerModal(true)
+      setConfettiBurst((prev) => prev + 1)
+      audioRef.current?.pause()
+      return
+    }
     if (!leftDone && !rightDone) return
 
     const decidedWinner: 1 | 2 =
@@ -251,7 +269,7 @@ function PuzzleArena({
     setShowWinnerModal(true)
     setConfettiBurst((prev) => prev + 1)
     audioRef.current?.pause()
-  }, [leftTiles, rightTiles, running, finished, seconds, activeTeam, leftLabel, rightLabel])
+  }, [isSoloMode, leftTiles, rightTiles, running, finished, seconds, activeTeam, leftLabel, rightLabel])
 
   useEffect(() => {
     if (!running || !musicOn || finished) return
@@ -358,7 +376,7 @@ function PuzzleArena({
       setFeedback("Avval O'yinni boshlash tugmasini bosing.")
       return
     }
-    if (team !== activeTeam) {
+    if (!isSoloMode && team !== activeTeam) {
       setFeedback(`Hozir navbat: ${teamLabel}.`)
       return
     }
@@ -393,7 +411,9 @@ function PuzzleArena({
       setFeedback(message)
       setAnswerInput('')
       setCurrentQuestion(createQuestion(enabledOps, difficulty))
-      setActiveTeam((prev) => (prev === 1 ? 2 : 1))
+      if (!isSoloMode) {
+        setActiveTeam((prev) => (prev === 1 ? 2 : 1))
+      }
     }
 
     if (!isMathMode) {
@@ -411,7 +431,9 @@ function PuzzleArena({
     if (typed !== currentQuestion.answer) {
       setFeedback(`${teamLabel}: xato javob. Navbat almashdi.`)
       setAnswerInput('')
-      setActiveTeam((prev) => (prev === 1 ? 2 : 1))
+      if (!isSoloMode) {
+        setActiveTeam((prev) => (prev === 1 ? 2 : 1))
+      }
       setCurrentQuestion(createQuestion(enabledOps, difficulty))
       return
     }
@@ -427,7 +449,7 @@ function PuzzleArena({
     teamScore: number,
     teamProgress: number,
   ) => {
-    const isActiveTurn = activeTeam === team
+    const isActiveTurn = isSoloMode ? team === 1 : activeTeam === team
     const cardTone = isActiveTurn
       ? `border-cyan-300 bg-cyan-50/45 shadow-soft`
       : 'border-slate-200 bg-slate-50'
@@ -455,7 +477,7 @@ function PuzzleArena({
             const row = Math.floor(piece / GRID)
             const col = piece % GRID
             const inRightSpot = tile !== 0 && tile === SOLVED_TILES[index]
-            const disabled = tile === 0 || finished || team !== activeTeam
+            const disabled = tile === 0 || finished || (!isSoloMode && team !== activeTeam)
 
             return (
               <button
@@ -469,7 +491,7 @@ function PuzzleArena({
                     : inRightSpot
                       ? 'border-emerald-300'
                       : 'border-slate-200 hover:-translate-y-0.5 hover:border-cyan-300'
-                } ${team !== activeTeam && tile !== 0 ? 'opacity-75' : ''}`}
+                } ${!isSoloMode && team !== activeTeam && tile !== 0 ? 'opacity-75' : ''}`}
                 style={
                   tile === 0
                     ? undefined
@@ -507,15 +529,17 @@ function PuzzleArena({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <p className="inline-flex rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-cyan-700 sm:text-xs">
-            Real mini-game
+            {isSoloMode ? 'Solo puzzle' : 'Real mini-game'}
           </p>
-          <h2 className="mt-1 font-kid text-3xl text-slate-900 sm:text-4xl">{gameTitle} Arena</h2>
+          <h2 className="mt-1 font-kid text-3xl text-slate-900 sm:text-4xl">
+            {isSoloMode ? `${gameTitle} Solo` : `${gameTitle} Arena`}
+          </h2>
         </div>
 
         <div className="flex flex-wrap gap-2">
           <Link
             to={setupPath}
-            className="arena-3d-press rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs"
+            className="arena-3d-press ui-secondary-btn ui-secondary-btn--sm"
           >
             {'< '}Orqaga
           </Link>
@@ -543,7 +567,7 @@ function PuzzleArena({
           <button
             type="button"
             onClick={restartRound}
-            className="arena-3d-press rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs"
+            className="arena-3d-press ui-secondary-btn ui-secondary-btn--sm"
           >
             Qayta boshlash
           </button>
@@ -590,7 +614,7 @@ function PuzzleArena({
 
       <div className="mt-4 grid gap-3 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="arena-3d-panel h-full rounded-[1.7rem] border border-white/80 bg-white/92 p-3 shadow-soft sm:p-4">
-          <div className="grid gap-3 sm:grid-cols-4">
+          <div className={`grid gap-3 ${isSoloMode ? 'sm:grid-cols-3' : 'sm:grid-cols-4'}`}>
             <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
               <p className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-slate-400">Vaqt</p>
               <p className="text-xl font-extrabold text-slate-800">{formatTime(seconds)}</p>
@@ -603,15 +627,17 @@ function PuzzleArena({
               <p className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-slate-400">{leftLabel}</p>
               <p className="text-xl font-extrabold text-slate-800">{scoreOne}</p>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
-              <p className="text-xl font-extrabold text-slate-800">{scoreTwo}</p>
-            </div>
+            {!isSoloMode ? (
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-center">
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
+                <p className="text-xl font-extrabold text-slate-800">{scoreTwo}</p>
+              </div>
+            ) : null}
           </div>
 
           <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50 p-3">
             <div className="flex items-center justify-between gap-2 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">
-              <span>Navbat: {teamLabel}</span>
+              <span>{isSoloMode ? `Faol panel: ${leftLabel}` : `Navbat: ${teamLabel}`}</span>
               <span>Progress: {activeProgressPercent}%</span>
             </div>
             <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-200">
@@ -651,9 +677,9 @@ function PuzzleArena({
             )}
           </div>
 
-          <div className="mt-3 grid gap-3 lg:grid-cols-2">
+          <div className={`mt-3 grid gap-3 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
             {renderTeamBoard(1, leftLabel, leftTiles, leftMoves, scoreOne, leftProgressPercent)}
-            {renderTeamBoard(2, rightLabel, rightTiles, rightMoves, scoreTwo, rightProgressPercent)}
+            {!isSoloMode ? renderTeamBoard(2, rightLabel, rightTiles, rightMoves, scoreTwo, rightProgressPercent) : null}
           </div>
         </div>
 
@@ -691,7 +717,11 @@ function PuzzleArena({
               ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
               : 'border-cyan-200 bg-cyan-50 text-cyan-700'
           }`}>
-            {finished ? `G'olib: ${winnerLabel}. Ball: ${totalScore}.` : feedback}
+            {finished
+              ? isSoloMode
+                ? `${leftLabel} raundni ${totalScore} ball bilan yakunladi.`
+                : `G'olib: ${winnerLabel}. Ball: ${totalScore}.`
+              : feedback}
           </div>
 
           <ul className="mt-3 space-y-2 text-sm font-bold text-slate-600">
@@ -730,23 +760,27 @@ function PuzzleArena({
               </div>
 
               <h3 className="mt-3 font-kid text-4xl text-slate-900 sm:text-5xl">
-                {winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
+                {!isSoloMode && winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
               </h3>
               <p className="mt-1 text-base font-bold text-slate-600">
-                {winnerLabel === 'Durang'
+                {!isSoloMode && winnerLabel === 'Durang'
                   ? `Ikkala jamoa ham yaxshi o'ynadi.`
-                  : `${winnerLabel} jami ${winnerScore} ball oldi.`}
+                  : isSoloMode
+                    ? `${leftLabel} jami ${scoreOne} ball oldi.`
+                    : `${winnerLabel} jami ${winnerScore} ball oldi.`}
               </p>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className={`mt-4 grid gap-3 ${isSoloMode ? 'sm:grid-cols-2' : 'sm:grid-cols-3'}`}>
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
                   <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{leftLabel}</p>
                   <p className="mt-1 text-2xl font-extrabold text-slate-800">{scoreOne}</p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                  <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
-                  <p className="mt-1 text-2xl font-extrabold text-slate-800">{scoreTwo}</p>
-                </div>
+                {!isSoloMode ? (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
+                    <p className="mt-1 text-2xl font-extrabold text-slate-800">{scoreTwo}</p>
+                  </div>
+                ) : null}
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
                   <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">Vaqt</p>
                   <p className="mt-1 text-2xl font-extrabold text-slate-800">{formatTime(seconds)}</p>
@@ -765,14 +799,14 @@ function PuzzleArena({
                 <button
                   type="button"
                   onClick={closeWinnerModal}
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-700 transition hover:-translate-y-0.5"
+                  className="ui-secondary-btn ui-secondary-btn--sm rounded-xl text-sm normal-case tracking-[0.02em]"
                 >
                   Yopish
                 </button>
                 <button
                   type="button"
                   onClick={restartRound}
-                  className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
+                  className={`ui-accent-btn rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
                 >
                   Yangi raund
                 </button>

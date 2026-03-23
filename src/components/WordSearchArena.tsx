@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ConfettiOverlay from './ConfettiOverlay'
+import type { TeamCount } from '../lib/teamMode.ts'
 
 type WordSearchArenaProps = {
   gameTitle: string
   gameTone: string
   leftTeamName?: string
   rightTeamName?: string
+  teamCount?: TeamCount
   initialDifficulty?: 'Oson' | "O'rta" | 'Qiyin'
   lockSettings?: boolean
   setupPath?: string
@@ -31,6 +33,13 @@ type PlacedWord = {
   start: Position
   end: Position
   found: boolean
+}
+
+type FoundWordLine = {
+  x: number
+  y: number
+  length: number
+  angle: number
 }
 
 type TeamBoard = {
@@ -426,6 +435,49 @@ const createFoundCellSet = (words: PlacedWord[]) => {
   return set
 }
 
+const getPositionKey = (position: Position) => `${position.row}-${position.col}`
+
+const buildFoundWordLines = (
+  words: PlacedWord[],
+  container: HTMLDivElement | null,
+  cellMap: Record<string, HTMLButtonElement | null>,
+): FoundWordLine[] => {
+  if (!container) {
+    return []
+  }
+
+  const containerRect = container.getBoundingClientRect()
+
+  return words.flatMap((item) => {
+    if (!item.found) {
+      return []
+    }
+
+    const startCell = cellMap[getPositionKey(item.start)]
+    const endCell = cellMap[getPositionKey(item.end)]
+
+    if (!startCell || !endCell) {
+      return []
+    }
+
+    const startRect = startCell.getBoundingClientRect()
+    const endRect = endCell.getBoundingClientRect()
+    const startX = startRect.left - containerRect.left + startRect.width / 2
+    const startY = startRect.top - containerRect.top + startRect.height / 2
+    const endX = endRect.left - containerRect.left + endRect.width / 2
+    const endY = endRect.top - containerRect.top + endRect.height / 2
+    const deltaX = endX - startX
+    const deltaY = endY - startY
+
+    return [{
+      x: startX,
+      y: startY,
+      length: Math.hypot(deltaX, deltaY),
+      angle: (Math.atan2(deltaY, deltaX) * 180) / Math.PI,
+    }]
+  })
+}
+
 const evaluateSelection = (
   team: TeamBoard,
   nextCell: Position,
@@ -514,12 +566,14 @@ function WordSearchArena({
   gameTone,
   leftTeamName = '1-Jamoa',
   rightTeamName = '2-Jamoa',
+  teamCount = 2,
   initialDifficulty = INITIAL_DIFFICULTY,
   lockSettings = false,
   setupPath = '/games/soz-qidiruv',
 }: WordSearchArenaProps) {
   const safeTeamOne = leftTeamName.trim() || '1-Jamoa'
   const safeTeamTwo = rightTeamName.trim() || '2-Jamoa'
+  const isSoloMode = teamCount === 1
   const normalizedInitialDifficulty: Difficulty = DIFFICULTIES.includes(initialDifficulty)
     ? initialDifficulty
     : INITIAL_DIFFICULTY
@@ -541,37 +595,53 @@ function WordSearchArena({
     "Boshlash tugmasini bosing, keyin har bir jamoa so'zni boshidan oxirigacha belgilaydi.",
   )
   const [timeLeft, setTimeLeft] = useState(DIFFICULTY_CONFIG[normalizedInitialDifficulty].seconds)
+  const [foundWordLines, setFoundWordLines] = useState<Record<Side, FoundWordLine[]>>({
+    left: [],
+    right: [],
+  })
   const musicTrackRef = useRef<HTMLAudioElement | null>(null)
   const trackSourceRef = useRef(PRIMARY_TRACK_SRC)
+  const boardGridRefs = useRef<Record<Side, HTMLDivElement | null>>({
+    left: null,
+    right: null,
+  })
+  const boardCellRefs = useRef<Record<Side, Record<string, HTMLButtonElement | null>>>({
+    left: {},
+    right: {},
+  })
 
   const config = DIFFICULTY_CONFIG[difficulty]
-  const totalWords = config.words * 2
-  const totalFound = leftBoard.foundCount + rightBoard.foundCount
+  const totalWords = config.words * (isSoloMode ? 1 : 2)
+  const totalFound = leftBoard.foundCount + (isSoloMode ? 0 : rightBoard.foundCount)
   const progressPercent = Math.round((totalFound / totalWords) * 100)
 
   const leftFoundCells = useMemo(() => createFoundCellSet(leftBoard.words), [leftBoard.words])
   const rightFoundCells = useMemo(() => createFoundCellSet(rightBoard.words), [rightBoard.words])
 
-  const winnerLabel =
-    winner === 'left' ? leftBoard.name : winner === 'right' ? rightBoard.name : 'Durang'
-  const winnerScore =
-    winner === 'left'
+  const winnerLabel = isSoloMode
+    ? leftBoard.name
+    : winner === 'left' ? leftBoard.name : winner === 'right' ? rightBoard.name : 'Durang'
+  const winnerScore = isSoloMode
+    ? leftBoard.score
+    : winner === 'left'
       ? leftBoard.score
       : winner === 'right'
         ? rightBoard.score
         : Math.max(leftBoard.score, rightBoard.score)
-  const winnerFound =
-    winner === 'left'
+  const winnerFound = isSoloMode
+    ? leftBoard.foundCount
+    : winner === 'left'
       ? leftBoard.foundCount
       : winner === 'right'
         ? rightBoard.foundCount
         : Math.max(leftBoard.foundCount, rightBoard.foundCount)
 
   const leaderLabel = useMemo(() => {
+    if (isSoloMode) return `${leftBoard.name} natijasi`
     if (leftBoard.score > rightBoard.score) return `${leftBoard.name} oldinda`
     if (rightBoard.score > leftBoard.score) return `${rightBoard.name} oldinda`
     return 'Teng holat'
-  }, [leftBoard.score, rightBoard.score, leftBoard.name, rightBoard.name])
+  }, [isSoloMode, leftBoard.score, rightBoard.score, leftBoard.name, rightBoard.name])
 
   const stopMusic = useCallback(() => {
     const track = musicTrackRef.current
@@ -619,7 +689,7 @@ function WordSearchArena({
       setFinished(false)
       setWinner(null)
       setShowWinnerModal(false)
-      setStatusText("Yangi maydon tayyor. Boshlash tugmasini bossangiz bellashuv boshlanadi.")
+      setStatusText(isSoloMode ? "Yangi maydon tayyor. Boshlash tugmasini bossangiz o'yin boshlanadi." : "Yangi maydon tayyor. Boshlash tugmasini bossangiz bellashuv boshlanadi.")
       stopMusic()
       if (musicTrackRef.current) {
         musicTrackRef.current.currentTime = 0
@@ -638,14 +708,14 @@ function WordSearchArena({
       setShowWinnerModal(true)
       setConfettiBurst((prev) => prev + 1)
       stopMusic()
-      if (resolved === 'draw') {
+      if (!isSoloMode && resolved === 'draw') {
         setStatusText(`${reason} Yakun: durang.`)
         return
       }
-      const label = resolved === 'left' ? leftBoard.name : rightBoard.name
+      const label = isSoloMode ? leftBoard.name : resolved === 'left' ? leftBoard.name : rightBoard.name
       setStatusText(`${reason} G'olib: ${label}.`)
     },
-    [finished, leftBoard, rightBoard, stopMusic],
+    [finished, isSoloMode, leftBoard, rightBoard, stopMusic],
   )
 
   const handleDifficultyChange = (nextLevel: Difficulty) => {
@@ -657,7 +727,7 @@ function WordSearchArena({
   const handleStart = () => {
     if (running || finished) return
     setRunning(true)
-    setStatusText("Bellashuv boshlandi! So'zni boshidan oxirigacha ikki nuqta bilan belgilang.")
+    setStatusText(isSoloMode ? "O'yin boshlandi! So'zni boshidan oxirigacha ikki nuqta bilan belgilang." : "Bellashuv boshlandi! So'zni boshidan oxirigacha ikki nuqta bilan belgilang.")
     void startMusic(true)
   }
 
@@ -697,6 +767,21 @@ function WordSearchArena({
       setStatusText(`${rightBoard.name} noto'g'ri belgiladi.`)
     }
   }
+
+  const recalculateFoundWordLines = useCallback(() => {
+    setFoundWordLines({
+      left: buildFoundWordLines(
+        leftBoard.words,
+        boardGridRefs.current.left,
+        boardCellRefs.current.left,
+      ),
+      right: buildFoundWordLines(
+        rightBoard.words,
+        boardGridRefs.current.right,
+        boardCellRefs.current.right,
+      ),
+    })
+  }, [leftBoard.words, rightBoard.words])
 
   useEffect(() => {
     if (!running || finished) return
@@ -749,7 +834,7 @@ function WordSearchArena({
     setFinished(false)
     setWinner(null)
     setShowWinnerModal(false)
-    setStatusText("Yangi maydon tayyor. Boshlash tugmasini bossangiz bellashuv boshlanadi.")
+    setStatusText(isSoloMode ? "Yangi maydon tayyor. Boshlash tugmasini bossangiz o'yin boshlanadi." : "Yangi maydon tayyor. Boshlash tugmasini bossangiz bellashuv boshlanadi.")
     stopMusic()
     if (musicTrackRef.current) {
       musicTrackRef.current.currentTime = 0
@@ -765,6 +850,20 @@ function WordSearchArena({
   }, [running, finished, musicOn, startMusic, stopMusic])
 
   useEffect(() => {
+    const frame = window.requestAnimationFrame(recalculateFoundWordLines)
+    const handleResize = () => {
+      recalculateFoundWordLines()
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [recalculateFoundWordLines])
+
+  useEffect(() => {
     if (!running || finished || timeLeft > 0) return
     finishRound('Vaqt tugadi.')
   }, [timeLeft, running, finished, finishRound])
@@ -775,6 +874,7 @@ function WordSearchArena({
       finishRound(`${leftBoard.name} barcha so'zlarni topdi.`)
       return
     }
+    if (isSoloMode) return
     if (rightBoard.foundCount >= config.words) {
       finishRound(`${rightBoard.name} barcha so'zlarni topdi.`)
     }
@@ -787,6 +887,7 @@ function WordSearchArena({
     running,
     finished,
     finishRound,
+    isSoloMode,
   ])
 
   const renderTeamBoard = (
@@ -795,6 +896,8 @@ function WordSearchArena({
     foundCells: Set<string>,
     toneClass: string,
     pointClass: string,
+    lineColor: string,
+    lineShadow: string,
   ) => (
     <article className="arena-3d-panel flex flex-col rounded-[1.7rem] border border-white/80 bg-white/92 p-3 shadow-soft sm:p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -828,38 +931,64 @@ function WordSearchArena({
 
       <div className="mt-3 overflow-auto rounded-2xl border border-slate-200 bg-slate-50 p-2">
         <div className="mx-auto w-fit">
-          <div
-            className="grid gap-1"
-            style={{ gridTemplateColumns: `repeat(${config.size}, minmax(0, 1fr))` }}
-          >
-            {board.grid.map((row, rowIndex) =>
-              row.map((letter, colIndex) => {
-                const key = `${rowIndex}-${colIndex}`
-                const isFound = foundCells.has(key)
-                const isSelected = Boolean(
-                  board.selected
-                  && board.selected.row === rowIndex
-                  && board.selected.col === colIndex,
-                )
-                return (
-                  <button
-                    key={`${side}-${key}`}
-                    type="button"
-                    onClick={() => handleCellClick(side, rowIndex, colIndex)}
-                    disabled={!running || finished}
-                    className={`arena-3d-press grid h-7 w-7 place-items-center rounded-lg border text-[11px] font-black uppercase transition sm:h-8 sm:w-8 sm:text-xs xl:h-9 xl:w-9 xl:text-sm ${
-                      isFound
-                        ? pointClass
-                        : isSelected
-                          ? 'border-amber-300 bg-amber-100 text-amber-800'
-                          : 'border-slate-200 bg-white text-slate-700 hover:border-cyan-300'
-                    } ${!running || finished ? 'cursor-not-allowed opacity-80' : ''}`}
-                  >
-                    {letter}
-                  </button>
-                )
-              }),
-            )}
+          <div className="relative">
+            <div
+              ref={(node) => {
+                boardGridRefs.current[side] = node
+              }}
+              className="grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${config.size}, minmax(0, 1fr))` }}
+            >
+              {board.grid.map((row, rowIndex) =>
+                row.map((letter, colIndex) => {
+                  const key = `${rowIndex}-${colIndex}`
+                  const isFound = foundCells.has(key)
+                  const isSelected = Boolean(
+                    board.selected
+                    && board.selected.row === rowIndex
+                    && board.selected.col === colIndex,
+                  )
+                  return (
+                    <button
+                      key={`${side}-${key}`}
+                      ref={(node) => {
+                        boardCellRefs.current[side][key] = node
+                      }}
+                      type="button"
+                      onClick={() => handleCellClick(side, rowIndex, colIndex)}
+                      disabled={!running || finished}
+                      className={`arena-3d-press relative z-10 grid h-7 w-7 place-items-center rounded-lg border text-[11px] font-black uppercase transition sm:h-8 sm:w-8 sm:text-xs xl:h-9 xl:w-9 xl:text-sm ${
+                        isFound
+                          ? pointClass
+                          : isSelected
+                            ? 'border-amber-300 bg-amber-100 text-amber-800'
+                            : 'border-slate-200 bg-white text-slate-700 hover:border-cyan-300'
+                      } ${!running || finished ? 'cursor-not-allowed opacity-80' : ''}`}
+                    >
+                      {letter}
+                    </button>
+                  )
+                }),
+              )}
+            </div>
+            <div className="pointer-events-none absolute inset-0 z-20">
+              {foundWordLines[side].map((line, index) => (
+                <div
+                  key={`${side}-line-${index}`}
+                  className="absolute rounded-full opacity-95"
+                  style={{
+                    left: `${line.x}px`,
+                    top: `${line.y}px`,
+                    width: `${line.length}px`,
+                    height: '4px',
+                    background: lineColor,
+                    boxShadow: `0 0 0 2px ${lineShadow}, 0 0 16px -6px ${lineShadow}`,
+                    transform: `translateY(-50%) rotate(${line.angle}deg)`,
+                    transformOrigin: '0 50%',
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -891,20 +1020,22 @@ function WordSearchArena({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="inline-flex rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-cyan-700 sm:px-4 sm:py-2 sm:text-xs">
-            Jamoaviy word-search
+            {isSoloMode ? 'Yakka word-search' : 'Jamoaviy word-search'}
           </p>
           <h2 className="mt-1 font-kid text-4xl text-slate-900 sm:mt-2 sm:text-5xl">
             {gameTitle} Arena
           </h2>
           <p className="mt-1 text-xs font-bold text-slate-500 sm:mt-2 sm:text-sm">
-            Har jamoaga alohida maydon beriladi. Murakkablik bir xil, so'zlar har xil.
+            {isSoloMode
+              ? "Bitta maydonda so'zlarni toping. So'z boshini va oxirini tanlab belgilang."
+              : "Har jamoaga alohida maydon beriladi. Murakkablik bir xil, so'zlar har xil."}
           </p>
         </div>
 
         <div className="flex flex-wrap gap-2">
           <Link
             to={setupPath}
-            className="arena-3d-press rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs"
+            className="arena-3d-press ui-secondary-btn ui-secondary-btn--sm rounded-xl px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] sm:text-xs"
           >
             {'< '}Orqaga
           </Link>
@@ -923,7 +1054,7 @@ function WordSearchArena({
             type="button"
             onClick={handleStart}
             disabled={running || finished}
-            className={`arena-3d-press rounded-xl bg-gradient-to-r px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-soft transition hover:-translate-y-0.5 sm:text-xs ${
+            className={`arena-3d-press ui-accent-btn rounded-xl bg-gradient-to-r px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-soft transition hover:-translate-y-0.5 sm:text-xs ${
               running || finished ? 'cursor-not-allowed opacity-70' : gameTone
             }`}
           >
@@ -932,14 +1063,14 @@ function WordSearchArena({
           <button
             type="button"
             onClick={() => applyNewRound(difficulty)}
-            className="arena-3d-press rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs"
+            className="arena-3d-press ui-accent-btn rounded-xl px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-soft transition hover:-translate-y-0.5 sm:text-xs"
           >
             Yangi raund
           </button>
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className={`mt-4 grid gap-3 ${isSoloMode ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2 lg:grid-cols-5'}`}>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Daraja</p>
           <p className="mt-1 font-kid text-3xl text-slate-900">{difficulty}</p>
@@ -983,7 +1114,7 @@ function WordSearchArena({
       <div className="arena-3d-panel mt-4 rounded-2xl border border-slate-200 bg-white p-4">
         <div className="flex items-center justify-between gap-3 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">
           <span>Progress: {progressPercent}%</span>
-          <span>Har jamoa: {config.words} ta so'z</span>
+          <span>{isSoloMode ? `Jami so'z: ${config.words} ta` : `Har jamoa: ${config.words} ta so'z`}</span>
         </div>
         <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-200">
           <div
@@ -993,21 +1124,25 @@ function WordSearchArena({
         </div>
       </div>
 
-      <div className="mt-3 grid gap-3 lg:grid-cols-2">
+      <div className={`mt-3 grid gap-3 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
           {renderTeamBoard(
             'left',
             leftBoard,
             leftFoundCells,
             'border-indigo-200 bg-indigo-50 text-indigo-700',
             'border-indigo-300 bg-indigo-100 text-indigo-800',
+            'linear-gradient(90deg, rgba(67, 56, 202, 0.96), rgba(37, 99, 235, 0.92))',
+            'rgba(99, 102, 241, 0.28)',
           )}
-          {renderTeamBoard(
+          {!isSoloMode ? renderTeamBoard(
             'right',
             rightBoard,
             rightFoundCells,
             'border-rose-200 bg-rose-50 text-rose-700',
             'border-rose-300 bg-rose-100 text-rose-800',
-          )}
+            'linear-gradient(90deg, rgba(225, 29, 72, 0.95), rgba(244, 63, 94, 0.92))',
+            'rgba(244, 63, 94, 0.3)',
+          ) : null}
       </div>
 
       <div className={`mt-3 rounded-2xl border px-4 py-3 text-sm font-extrabold ${
@@ -1016,7 +1151,7 @@ function WordSearchArena({
           : 'border-cyan-200 bg-cyan-50 text-cyan-700'
       }`}>
         {finished
-          ? winnerLabel === 'Durang'
+          ? !isSoloMode && winnerLabel === 'Durang'
             ? "Raund tugadi: durang natija."
             : `Raund tugadi. G'olib: ${winnerLabel}.`
           : statusText}
@@ -1040,23 +1175,25 @@ function WordSearchArena({
             </div>
 
             <h4 className="mt-3 font-kid text-4xl text-slate-900 sm:text-5xl">
-              {winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
+              {!isSoloMode && winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
             </h4>
             <p className="mt-2 text-base font-bold text-slate-600">
-              {winnerLabel === 'Durang'
+              {!isSoloMode && winnerLabel === 'Durang'
                 ? `Eng yuqori ball: ${winnerScore}`
                 : `${winnerLabel} natijasi: ${winnerScore} ball, ${winnerFound} ta so'z`}
             </p>
 
-            <div className="mt-4 grid gap-3 sm:grid-cols-4">
+            <div className={`mt-4 grid gap-3 ${isSoloMode ? 'sm:grid-cols-3' : 'sm:grid-cols-4'}`}>
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
                 <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{leftBoard.name}</p>
                 <p className="mt-1 text-2xl font-extrabold text-slate-800">{leftBoard.score}</p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightBoard.name}</p>
-                <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightBoard.score}</p>
-              </div>
+              {!isSoloMode ? (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
+                  <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightBoard.name}</p>
+                  <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightBoard.score}</p>
+                </div>
+              ) : null}
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
                 <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">Topildi</p>
                 <p className="mt-1 text-2xl font-extrabold text-slate-800">{totalFound}/{totalWords}</p>
@@ -1071,14 +1208,14 @@ function WordSearchArena({
               <button
                 type="button"
                 onClick={() => setShowWinnerModal(false)}
-                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-700 transition hover:-translate-y-0.5"
+                className="ui-secondary-btn ui-secondary-btn--sm rounded-xl px-4 py-2 text-sm font-extrabold transition hover:-translate-y-0.5"
               >
                 Yopish
               </button>
               <button
                 type="button"
                 onClick={() => applyNewRound(difficulty)}
-                className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
+                className={`ui-accent-btn rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
               >
                 Yangi raund
               </button>

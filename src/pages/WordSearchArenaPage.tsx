@@ -1,7 +1,9 @@
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import WordSearchArena from '../components/WordSearchArena.tsx'
 import { findGameById } from '../data/games.ts'
+import { getTeamName, parseTeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 
@@ -25,9 +27,10 @@ function WordSearchArenaPage() {
     () => parseDifficulty(searchParams.get('difficulty')),
     [searchParams],
   )
-  const teamOneName = searchParams.get('team1')?.trim() || '1-Jamoa'
-  const teamTwoName = searchParams.get('team2')?.trim() || '2-Jamoa'
-  const arenaKey = `${difficulty}-${teamOneName}-${teamTwoName}`
+  const teamCount = useMemo(() => parseTeamCount(searchParams.get('teamCount')), [searchParams])
+  const teamOneName = getTeamName(searchParams.get('team1'), 0)
+  const teamTwoName = getTeamName(searchParams.get('team2'), 1)
+  const arenaKey = `${difficulty}-${teamCount}-${teamOneName}-${teamTwoName}`
 
   if (!game) {
     return null
@@ -43,11 +46,15 @@ function WordSearchArenaPage() {
           gameTone={game.tone}
           leftTeamName={teamOneName}
           rightTeamName={teamTwoName}
+          teamCount={teamCount}
           initialDifficulty={difficulty}
           lockSettings
           setupPath="/games/soz-qidiruv"
         />
       </main>
+      <div className="relative z-10 mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+        <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+      </div>
     </div>
   )
 }

@@ -1,7 +1,9 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FooterCTA from '../components/FooterCTA.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import Navbar from '../components/Navbar.tsx'
+import { findGameById } from '../data/games.ts'
 import FakeOrFactLobby from '../fakeOrFactPro/components/FakeOrFactLobby.tsx'
 import ParticlesBackdrop from '../fakeOrFactPro/components/ParticlesBackdrop.tsx'
 import type { FakeOrFactSetupConfig } from '../fakeOrFactPro/types.ts'
@@ -20,6 +22,7 @@ const defaultSetupConfig: FakeOrFactSetupConfig = {
   category: 'mix',
   startingDifficulty: 'easy',
   roundCount: 10,
+  teamCount: 2,
   teamNames: ['Faktchilar', 'Tekshiruvchilar'],
   soundEnabled: true,
   fullscreenPreferred: false,
@@ -28,6 +31,7 @@ const defaultSetupConfig: FakeOrFactSetupConfig = {
 
 function FakeOrFactProSetupPage() {
   const navigate = useNavigate()
+  const game = findGameById('fake-or-fact-pro')
   const ranking = useMemo(() => loadFakeOrFactRanking(), [])
   const initialConfig = useMemo<FakeOrFactSetupConfig>(() => {
     const saved = loadFakeOrFactSetup()
@@ -36,6 +40,7 @@ function FakeOrFactProSetupPage() {
     return {
       ...defaultSetupConfig,
       ...saved,
+      teamCount: saved?.teamCount === 1 ? 1 : 2,
       teamNames: [
         saved?.teamNames?.[0]?.trim() || defaultSetupConfig.teamNames[0],
         saved?.teamNames?.[1]?.trim() || defaultSetupConfig.teamNames[1],
@@ -67,6 +72,11 @@ function FakeOrFactProSetupPage() {
             onStart={handleStart}
           />
         </main>
+        {game ? (
+          <div className="mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+            <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+          </div>
+        ) : null}
         <FooterCTA />
       </div>
     </div>

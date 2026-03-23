@@ -1,11 +1,14 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import AnswersRoyaleBackdrop from '../answersRoyale/components/AnswersRoyaleBackdrop.tsx'
 import AnswersRoyaleArena from '../answersRoyale/components/AnswersRoyaleArena.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
+import { findGameById } from '../data/games.ts'
 import { loadAnswersRoyaleSession, loadAnswersRoyaleSetup } from '../answersRoyale/utils/storage.ts'
 
 function OneQuestionHundredAnswersArenaPage() {
   const location = useLocation()
   const navigate = useNavigate()
+  const game = findGameById('one-question-100-answers')
   const params = new URLSearchParams(location.search)
   const sessionKey = params.get('session')
   const config = loadAnswersRoyaleSession(sessionKey) ?? loadAnswersRoyaleSetup()
@@ -31,7 +34,7 @@ function OneQuestionHundredAnswersArenaPage() {
   }
 
   return (
-    <div className="answersroyale-shell relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_14%_10%,#0a2550_0%,transparent_32%),radial-gradient(circle_at_86%_16%,#34154f_0%,transparent_32%),radial-gradient(circle_at_18%_84%,#0a3b58_0%,transparent_34%),linear-gradient(170deg,#040a17_0%,#0a1021_54%,#130b2a_100%)] text-white">
+    <div className="answersroyale-shell relative min-h-screen overflow-x-hidden overflow-y-auto bg-[radial-gradient(circle_at_14%_10%,#0a2550_0%,transparent_32%),radial-gradient(circle_at_86%_16%,#34154f_0%,transparent_32%),radial-gradient(circle_at_18%_84%,#0a3b58_0%,transparent_34%),linear-gradient(170deg,#040a17_0%,#0a1021_54%,#130b2a_100%)] text-white">
       <div className="answersroyale-shell-glow pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_14%,rgba(34,211,238,0.24),transparent_24%),radial-gradient(circle_at_88%_18%,rgba(251,191,36,0.18),transparent_26%),radial-gradient(circle_at_28%_86%,rgba(96,165,250,0.18),transparent_22%)]" />
       <AnswersRoyaleBackdrop />
 
@@ -51,6 +54,11 @@ function OneQuestionHundredAnswersArenaPage() {
           onBackToSetup={() => navigate('/games/one-question-100-answers')}
         />
       </main>
+      {game ? (
+        <div className="relative z-10 mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
+      ) : null}
     </div>
   )
 }

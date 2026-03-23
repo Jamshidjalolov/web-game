@@ -126,20 +126,20 @@ function LoginPage() {
   }
 
   return (
-    <div className="login-page-root relative h-[100dvh] overflow-hidden bg-[radial-gradient(circle_at_20%_0%,#cffafe_0%,#eff6ff_42%,#fef3c7_100%)] p-3 sm:p-4">
+    <div className="login-page-root relative min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-[radial-gradient(circle_at_20%_0%,#cffafe_0%,#eff6ff_42%,#fef3c7_100%)] p-3 sm:p-4">
       <div className="pointer-events-none absolute -left-28 top-8 h-60 w-60 rounded-full bg-cyan-300/45 blur-3xl" />
       <div className="pointer-events-none absolute -right-24 top-10 h-64 w-64 rounded-full bg-fuchsia-300/35 blur-3xl" />
       <div className="pointer-events-none absolute bottom-6 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-amber-200/45 blur-3xl" />
 
       <Link
         to="/"
-        className="absolute left-4 top-4 z-20 inline-flex items-center gap-2 rounded-full border border-white/75 bg-white/75 px-4 py-2 text-sm font-extrabold text-slate-700 backdrop-blur-sm transition hover:bg-white"
+        className="absolute left-3 right-3 top-3 z-20 inline-flex items-center justify-center gap-2 rounded-full border border-white/75 bg-white/80 px-4 py-2 text-sm font-extrabold text-slate-700 backdrop-blur-sm transition hover:bg-white sm:left-4 sm:right-auto sm:top-4"
       >
         {'<'} Bosh sahifa
       </Link>
 
-      <div className="login-page-shell relative mx-auto h-full max-w-6xl overflow-hidden rounded-[2.1rem] border border-white/80 bg-white/70 shadow-[0_42px_68px_-42px_rgba(15,23,42,0.65)] backdrop-blur-xl">
-        <div className="grid h-full lg:grid-cols-[1.08fr_0.92fr]">
+      <div className="login-page-shell relative mx-auto mt-12 min-h-[calc(100dvh-4.5rem)] max-w-6xl overflow-hidden rounded-[1.8rem] border border-white/80 bg-white/70 shadow-[0_42px_68px_-42px_rgba(15,23,42,0.65)] backdrop-blur-xl sm:mt-0 sm:min-h-[calc(100dvh-2rem)] sm:rounded-[2.1rem]">
+        <div className="grid min-h-full lg:grid-cols-[1.08fr_0.92fr]">
           <aside className="relative hidden lg:block">
             <img
               src={joinSideImage}
@@ -168,7 +168,7 @@ function LoginPage() {
             </div>
           </aside>
 
-          <section className="login-form-shell flex h-full items-center bg-white/94 px-4 py-4 sm:px-6">
+          <section className="login-form-shell flex h-full items-center bg-white/94 px-4 py-6 sm:px-6 sm:py-8 lg:py-4">
             <div className="mx-auto w-full max-w-md">
               <p className="inline-flex rounded-full border border-sky-100 bg-sky-50 px-3.5 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-sky-700">
                 Bizga qo'shiling

@@ -28,7 +28,8 @@ export type FakeOrFactSetupConfig = {
   category: FakeOrFactCategory | 'mix'
   startingDifficulty: FakeOrFactDifficulty
   roundCount: number
-  teamNames: [string, string]
+  teamCount: 1 | 2
+  teamNames: string[]
   soundEnabled: boolean
   fullscreenPreferred: boolean
   customQuestions: FakeOrFactQuestion[]

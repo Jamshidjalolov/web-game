@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ConfettiOverlay from './ConfettiOverlay'
+import { TeamCount } from '../lib/teamMode'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 type Side = 'left' | 'right'
@@ -16,6 +17,7 @@ type Props = {
   gameTone: string
   leftTeamName?: string
   rightTeamName?: string
+  teamCount?: TeamCount
   initialDifficulty?: Difficulty
   teacherWords?: TeacherJumlaWord[]
   setupPath?: string
@@ -155,6 +157,7 @@ function JumlaUstasiArena({
   gameTone,
   leftTeamName = '1-Jamoa',
   rightTeamName = '2-Jamoa',
+  teamCount = 2,
   initialDifficulty = "O'rta",
   teacherWords = [],
   setupPath = '/games/jumla-ustasi',
@@ -182,6 +185,7 @@ function JumlaUstasiArena({
 
   const leftLabel = leftTeamName.trim() || '1-Jamoa'
   const rightLabel = rightTeamName.trim() || '2-Jamoa'
+  const isSoloMode = teamCount === 1
   const task = tasks[roundIndex]
   const totalRounds = tasks.length
   const progress = totalRounds ? Math.round(((roundIndex + (roundSettled || finished ? 1 : 0)) / totalRounds) * 100) : 0
@@ -277,7 +281,13 @@ function JumlaUstasiArena({
     setRight(makeTeam(firstTiles))
     setWinner(null)
     setShowModal(false)
-    setStatusText(autoStart ? "Bellashuv boshlandi. Harflarni almashtirib so'zni toping." : "Boshlashni bosing. Ikkala jamoa bir xil aralash so'zni topadi.")
+    setStatusText(
+      autoStart
+        ? "Bellashuv boshlandi. Harflarni almashtirib so'zni toping."
+        : isSoloMode
+          ? "Boshlashni bosing. Aralash so'zni topib maksimal ball yig'ing."
+          : "Boshlashni bosing. Ikkala jamoa bir xil aralash so'zni topadi.",
+    )
     if (autoStart) void startMusic()
   }
 
@@ -288,8 +298,9 @@ function JumlaUstasiArena({
     setFinished(true)
     setRoundSettled(true)
     setStatusText(message)
-    const w: Side | 'draw' =
-      left.score > right.score ? 'left'
+    const w: Side | 'draw' = isSoloMode
+      ? 'left'
+      : left.score > right.score ? 'left'
         : right.score > left.score ? 'right'
           : left.correct > right.correct ? 'left'
             : right.correct > left.correct ? 'right'
@@ -308,10 +319,12 @@ function JumlaUstasiArena({
   useEffect(() => {
     if (!started || finished || roundSettled || timeLeft > 0) return
     setLeft((t) => ({ ...t, locked: true, status: 'timeout', selectedTile: null, dragTargetTile: null, note: 'Vaqt tugadi.' }))
-    setRight((t) => ({ ...t, locked: true, status: 'timeout', selectedTile: null, dragTargetTile: null, note: 'Vaqt tugadi.' }))
+    if (!isSoloMode) {
+      setRight((t) => ({ ...t, locked: true, status: 'timeout', selectedTile: null, dragTargetTile: null, note: 'Vaqt tugadi.' }))
+    }
     setRoundSettled(true)
     setStatusText(`Vaqt tugadi. To'g'ri javob: ${task?.answer ?? '-'}`)
-  }, [timeLeft, started, finished, roundSettled, task])
+  }, [timeLeft, started, finished, roundSettled, task, isSoloMode])
 
   useEffect(() => {
     if (!roundSettled || finished) return
@@ -329,11 +342,17 @@ function JumlaUstasiArena({
       setTimeLeft(cfg.seconds)
       setRoundSettled(false)
       setLeft((t) => ({ ...t, ...makeTeam(tiles), score: t.score, correct: t.correct, streak: t.streak, bestStreak: t.bestStreak }))
-      setRight((t) => ({ ...t, ...makeTeam(tiles), score: t.score, correct: t.correct, streak: t.streak, bestStreak: t.bestStreak }))
-      setStatusText("Yangi raund ochildi. Harflar joyini almashtirib toping.")
+      if (!isSoloMode) {
+        setRight((t) => ({ ...t, ...makeTeam(tiles), score: t.score, correct: t.correct, streak: t.streak, bestStreak: t.bestStreak }))
+      }
+      setStatusText(
+        isSoloMode
+          ? "Yangi raund ochildi. So'zni topishga tayyor."
+          : "Yangi raund ochildi. Harflar joyini almashtirib toping.",
+      )
     }, cfg.autoNextMs)
     return () => clearNextRoundTimer()
-  }, [roundSettled, finished, roundIndex, totalRounds, tasks, cfg.seconds, cfg.autoNextMs, left.score, right.score, left.correct, right.correct])
+  }, [roundSettled, finished, roundIndex, totalRounds, tasks, cfg.seconds, cfg.autoNextMs, left.score, right.score, left.correct, right.correct, isSoloMode])
 
   const swapIndices = (team: TeamState, from: number, to: number, note = "Joyi almashdi. Tekshir bosing."): TeamState => {
     if (from === to) return { ...team, selectedTile: null, dragTargetTile: null, note: TEAM_WAIT_NOTE }
@@ -362,6 +381,7 @@ function JumlaUstasiArena({
 
   const submitTeam = (side: Side) => {
     if (!started || finished || roundSettled || !task) return
+    if (isSoloMode && side === 'right') return
     const target = normalize(task.answer)
     const team = side === 'left' ? left : right
     if (team.locked) return
@@ -375,8 +395,10 @@ function JumlaUstasiArena({
           const gain = cfg.basePoints + speedBonus + (streak > 1 ? cfg.streakBonus : 0)
           return { ...t, locked: true, status: 'correct', correct: t.correct + 1, streak, bestStreak: Math.max(t.bestStreak, streak), score: t.score + gain, note: `To'g'ri! +${gain} ball`, selectedTile: null, dragTargetTile: null }
         })
-        setRight((t) => ({ ...t, locked: true, selectedTile: null, dragTargetTile: null, note: `${leftLabel} birinchi topdi.` }))
-        setStatusText(`${leftLabel} birinchi bo'lib to'g'ri topdi.`)
+        if (!isSoloMode) {
+          setRight((t) => ({ ...t, locked: true, selectedTile: null, dragTargetTile: null, note: `${leftLabel} birinchi topdi.` }))
+        }
+        setStatusText(isSoloMode ? `${leftLabel} to'g'ri topdi.` : `${leftLabel} birinchi bo'lib to'g'ri topdi.`)
       } else {
         setRight((t) => {
           const streak = t.streak + 1
@@ -392,7 +414,14 @@ function JumlaUstasiArena({
 
     if (side === 'left') {
       setLeft((t) => ({ ...t, status: 'wrong', streak: 0, selectedTile: null, dragTargetTile: null, note: "Noto'g'ri. Yana urinib ko'ring." }))
-      setStatusText(`${leftLabel} noto'g'ri joylashtirdi. ${rightLabel} hali topishi mumkin.`)
+      setStatusText(
+        isSoloMode
+          ? `${leftLabel} noto'g'ri joylashtirdi. Raund yakunlandi.`
+          : `${leftLabel} noto'g'ri joylashtirdi. ${rightLabel} hali topishi mumkin.`,
+      )
+      if (isSoloMode) {
+        setRoundSettled(true)
+      }
     } else {
       setRight((t) => ({ ...t, status: 'wrong', streak: 0, selectedTile: null, dragTargetTile: null, note: "Noto'g'ri. Yana urinib ko'ring." }))
       setStatusText(`${rightLabel} noto'g'ri joylashtirdi. ${leftLabel} hali topishi mumkin.`)
@@ -538,7 +567,13 @@ function JumlaUstasiArena({
     </article>
   )
 
-  const winnerLabel = winner === 'left' ? leftLabel : winner === 'right' ? rightLabel : 'Durang'
+  const winnerLabel = isSoloMode
+    ? leftLabel
+    : winner === 'left'
+      ? leftLabel
+      : winner === 'right'
+        ? rightLabel
+        : 'Durang'
 
   return (
     <section className="glass-card arena-3d-shell relative p-4 sm:p-6" data-aos="fade-up" data-aos-delay="80">
@@ -547,9 +582,15 @@ function JumlaUstasiArena({
 
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="inline-flex rounded-full border border-cyan-200 bg-cyan-50 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.14em] text-cyan-700">Jumla Ustasi Race</p>
+          <p className="inline-flex rounded-full border border-cyan-200 bg-cyan-50 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.14em] text-cyan-700">
+            {isSoloMode ? 'Jumla Ustasi Solo' : 'Jumla Ustasi Race'}
+          </p>
           <h2 className="mt-2 font-kid text-4xl text-slate-900 sm:text-5xl">{gameTitle}</h2>
-          <p className="mt-1 text-base font-bold text-slate-600">Harflar joyini almashtirib so'zni topish. Kim birinchi topsa o'sha raundni oladi.</p>
+          <p className="mt-1 text-base font-bold text-slate-600">
+            {isSoloMode
+              ? "Harflar joyini almashtirib so'zni toping. Tezlik va aniqlik bo'yicha maksimal ball yig'ing."
+              : "Harflar joyini almashtirib so'zni topish. Kim birinchi topsa o'sha raundni oladi."}
+          </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Link to={setupPath} className="arena-3d-press rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5">{'< '}Orqaga</Link>
@@ -558,20 +599,22 @@ function JumlaUstasiArena({
         </div>
       </div>
 
-      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-6">
+      <div className={`mt-4 grid gap-2 sm:grid-cols-2 ${isSoloMode ? 'lg:grid-cols-5' : 'lg:grid-cols-6'}`}>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"><p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Daraja</p><p className="mt-1 text-xl font-extrabold text-slate-800">{initialDifficulty}</p></div>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"><p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Raund</p><p className="mt-1 text-xl font-extrabold text-slate-800">{totalRounds ? `${Math.min(roundIndex + 1, totalRounds)}/${totalRounds}` : '0/0'}</p></div>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"><p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Timer</p><p className={`mt-1 text-xl font-extrabold ${timeLeft <= 5 && started && !roundSettled ? 'text-rose-600' : 'text-slate-800'}`}>{started && !finished ? `${timeLeft}s` : `${cfg.seconds}s`}</p></div>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"><p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Harf</p><p className="mt-1 text-xl font-extrabold text-slate-800">{task ? task.length : '-'}</p></div>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"><p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{leftLabel}</p><p className="mt-1 text-xl font-extrabold text-slate-800">{left.score}</p></div>
-        <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"><p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p><p className="mt-1 text-xl font-extrabold text-slate-800">{right.score}</p></div>
+        {!isSoloMode ? <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"><p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p><p className="mt-1 text-xl font-extrabold text-slate-800">{right.score}</p></div> : null}
       </div>
 
       <div className="arena-3d-panel mt-4 rounded-[1.7rem] border border-slate-200 bg-white p-4 shadow-soft sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-slate-400">Aralash so'z (umumiy)</p>
-            <p className="mt-1 text-base font-bold text-slate-600">Har ikkala jamoa shu bir xil so'zni yechadi.</p>
+            <p className="mt-1 text-base font-bold text-slate-600">
+              {isSoloMode ? "Siz shu aralash so'zni yechasiz." : "Har ikkala jamoa shu bir xil so'zni yechadi."}
+            </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-xs font-extrabold text-cyan-700">{teacherWords.length} ta custom so'z</span>
@@ -601,9 +644,9 @@ function JumlaUstasiArena({
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 xl:grid-cols-2">
+      <div className={`mt-4 grid gap-4 ${isSoloMode ? '' : 'xl:grid-cols-2'}`}>
         {renderPanel('left', leftLabel, left, 'from-cyan-500 to-blue-500', 'border-cyan-200 bg-cyan-50/35')}
-        {renderPanel('right', rightLabel, right, 'from-fuchsia-500 to-rose-500', 'border-fuchsia-200 bg-fuchsia-50/35')}
+        {!isSoloMode ? renderPanel('right', rightLabel, right, 'from-fuchsia-500 to-rose-500', 'border-fuchsia-200 bg-fuchsia-50/35') : null}
       </div>
 
       <div className={`mt-4 rounded-2xl border px-4 py-3 text-sm font-extrabold ${finished ? 'border-emerald-300 bg-emerald-50 text-emerald-700' : 'border-cyan-200 bg-cyan-50 text-cyan-700'}`}>{statusText}</div>
@@ -614,10 +657,10 @@ function JumlaUstasiArena({
           <div className="relative z-[2] w-full max-w-2xl overflow-hidden rounded-[2rem] border border-white/75 bg-white/95 p-5 shadow-[0_30px_80px_rgba(15,23,42,0.35)] sm:p-6">
             <div className="relative">
               <p className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-emerald-700">Jumla ustasi yakunlandi</p>
-              <h3 className="mt-3 font-kid text-4xl leading-tight text-slate-900 sm:text-5xl">{winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}</h3>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <h3 className="mt-3 font-kid text-4xl leading-tight text-slate-900 sm:text-5xl">{!isSoloMode && winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}</h3>
+              <div className={`mt-4 grid gap-3 ${isSoloMode ? '' : 'sm:grid-cols-2'}`}>
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center"><p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{leftLabel}</p><p className="mt-1 text-2xl font-black text-slate-800">{left.score}</p><p className="text-sm font-bold text-slate-500">{left.correct} ta to'g'ri | combo {left.bestStreak}</p></div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center"><p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p><p className="mt-1 text-2xl font-black text-slate-800">{right.score}</p><p className="text-sm font-bold text-slate-500">{right.correct} ta to'g'ri | combo {right.bestStreak}</p></div>
+                {!isSoloMode ? <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center"><p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p><p className="mt-1 text-2xl font-black text-slate-800">{right.score}</p><p className="text-sm font-bold text-slate-500">{right.correct} ta to'g'ri | combo {right.bestStreak}</p></div> : null}
               </div>
               <div className="mt-5 flex flex-wrap justify-end gap-2">
                 <button type="button" onClick={() => setShowModal(false)} className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-extrabold text-slate-700 transition hover:-translate-y-0.5">Yopish</button>

@@ -27,6 +27,7 @@ const defaultConfig: FakeOrFactSetupConfig = {
   category: 'mix',
   startingDifficulty: 'easy',
   roundCount: 10,
+  teamCount: 2,
   teamNames: ['Faktchilar', 'Tekshiruvchilar'],
   soundEnabled: true,
   fullscreenPreferred: false,
@@ -56,6 +57,7 @@ function FakeOrFactLobby({ initialConfig, ranking, onStart }: FakeOrFactLobbyPro
   const [category, setCategory] = useState<FakeOrFactCategory | 'mix'>(initialConfig?.category ?? defaultConfig.category)
   const [startingDifficulty, setStartingDifficulty] = useState<FakeOrFactDifficulty>(initialConfig?.startingDifficulty ?? defaultConfig.startingDifficulty)
   const [roundCount, setRoundCount] = useState(initialConfig?.roundCount ?? defaultConfig.roundCount)
+  const [teamCount, setTeamCount] = useState<1 | 2>(initialConfig?.teamCount ?? defaultConfig.teamCount)
   const [teamNames, setTeamNames] = useState<[string, string]>(initialConfig?.teamNames ?? defaultConfig.teamNames)
   const [soundEnabled, setSoundEnabled] = useState(initialConfig?.soundEnabled ?? defaultConfig.soundEnabled)
   const [fullscreenPreferred, setFullscreenPreferred] = useState(initialConfig?.fullscreenPreferred ?? defaultConfig.fullscreenPreferred)
@@ -74,6 +76,7 @@ function FakeOrFactLobby({ initialConfig, ranking, onStart }: FakeOrFactLobbyPro
     category,
     startingDifficulty,
     roundCount,
+    teamCount,
     teamNames: [
       teamNames[0].trim() || defaultConfig.teamNames[0],
       teamNames[1].trim() || defaultConfig.teamNames[1],
@@ -81,7 +84,7 @@ function FakeOrFactLobby({ initialConfig, ranking, onStart }: FakeOrFactLobbyPro
     soundEnabled,
     fullscreenPreferred,
     customQuestions,
-  }), [category, customQuestions, fullscreenPreferred, mode, roomName, roundCount, soundEnabled, startingDifficulty, teamNames])
+  }), [category, customQuestions, fullscreenPreferred, mode, roomName, roundCount, soundEnabled, startingDifficulty, teamNames, teamCount])
 
   useEffect(() => {
     saveFakeOrFactCustomBank(customQuestions)
@@ -218,18 +221,36 @@ function FakeOrFactLobby({ initialConfig, ranking, onStart }: FakeOrFactLobbyPro
                 <option key={value} value={value}>{value} ta raund</option>
               ))}
             </select>
+            <div className="md:col-span-2 flex flex-wrap gap-2">
+              {[1, 2].map((count) => (
+                <button
+                  key={count}
+                  type="button"
+                  onClick={() => setTeamCount(count as 1 | 2)}
+                  className={`rounded-[1.1rem] border px-4 py-2 text-sm font-extrabold transition ${
+                    teamCount === count
+                      ? 'border-cyan-300/24 bg-cyan-300/12 text-cyan-50'
+                      : 'border-white/12 bg-white/8 text-slate-100'
+                  }`}
+                >
+                  {count} jamoa
+                </button>
+              ))}
+            </div>
             <input
               value={teamNames[0]}
               onChange={(event) => setTeamNames((prev) => [event.target.value, prev[1]])}
               className="answersroyale-input"
               placeholder="1-jamoa nomi"
             />
-            <input
-              value={teamNames[1]}
-              onChange={(event) => setTeamNames((prev) => [prev[0], event.target.value])}
-              className="answersroyale-input"
-              placeholder="2-jamoa nomi"
-            />
+            {teamCount === 2 ? (
+              <input
+                value={teamNames[1]}
+                onChange={(event) => setTeamNames((prev) => [prev[0], event.target.value])}
+                className="answersroyale-input"
+                placeholder="2-jamoa nomi"
+              />
+            ) : null}
           </div>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -247,8 +268,8 @@ function FakeOrFactLobby({ initialConfig, ranking, onStart }: FakeOrFactLobbyPro
                 <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-300">{modeLabelMap[item]}</p>
                 <p className="mt-2 text-sm font-bold leading-6 text-slate-100">
                   {item === 'class'
-                    ? "Jamoalar navbat bilan javob beradi."
-                    : "Ikkala jamoa ham bir vaqtda javob beradi."}
+                    ? (teamCount === 1 ? "Yakka rejimda har savolga o'zingiz javob berasiz." : "Jamoalar navbat bilan javob beradi.")
+                    : (teamCount === 1 ? "Yakka rejimda hamma savol sizga ochiladi." : "Ikkala jamoa ham bir vaqtda javob beradi.")}
                 </p>
               </button>
             ))}

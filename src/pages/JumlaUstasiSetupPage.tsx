@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AiQuizImportPanel from '../components/AiQuizImportPanel.tsx'
 import FooterCTA from '../components/FooterCTA.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import Navbar from '../components/Navbar.tsx'
 import QuestionManagerLinkCard from '../components/QuestionManagerLinkCard.tsx'
 import TeacherFeatureNotice from '../components/TeacherFeatureNotice.tsx'
@@ -10,6 +11,7 @@ import { findGameById } from '../data/games.ts'
 import useTeacherGameAccess from '../hooks/useTeacherGameAccess.ts'
 import { mapAiDifficultyToUzbek, type AiGeneratedPayload } from '../lib/aiQuizGenerator.ts'
 import { createGameQuestion, deleteGameQuestion, fetchGameQuestions, type BackendQuestion } from '../lib/backend.ts'
+import { DEFAULT_TEAM_NAMES, TeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 type Letter = 'A' | 'B' | 'C' | 'D'
@@ -57,8 +59,8 @@ function JumlaUstasiSetupPage() {
   const canUseTeacherContent = useTeacherGameAccess()
 
   const [difficulty, setDifficulty] = useState<Difficulty>("O'rta")
-  const [teamOne, setTeamOne] = useState('1-Jamoa')
-  const [teamTwo, setTeamTwo] = useState('2-Jamoa')
+  const [teamCount, setTeamCount] = useState<TeamCount>(2)
+  const [teamNames, setTeamNames] = useState<string[]>([...DEFAULT_TEAM_NAMES])
   const [teacherWords, setTeacherWords] = useState<LocalTeacherJumlaWord[]>([])
 
   const [draftDifficulty, setDraftDifficulty] = useState<Difficulty>("O'rta")
@@ -251,10 +253,11 @@ function JumlaUstasiSetupPage() {
   }
 
   const openArena = () => {
-    const team1 = teamOne.trim()
-    const team2 = teamTwo.trim()
-    if (!team1 || !team2) {
-      setFormHint('Ikkala jamoa nomini ham kiriting.')
+    const activeTeamNames = teamNames
+      .slice(0, teamCount)
+      .map((name, index) => name.trim() || DEFAULT_TEAM_NAMES[index])
+    if (activeTeamNames.some((name) => !name)) {
+      setFormHint(teamCount === 1 ? 'Jamoa nomini kiriting.' : 'Ikkala jamoa nomini ham kiriting.')
       return
     }
 
@@ -268,10 +271,13 @@ function JumlaUstasiSetupPage() {
 
     const params = new URLSearchParams({
       difficulty,
-      team1,
-      team2,
+      teamCount: String(teamCount),
+      team1: activeTeamNames[0],
       custom: customKey,
     })
+    if (teamCount === 2) {
+      params.set('team2', activeTeamNames[1])
+    }
     navigate(`/games/jumla-ustasi/arena?${params.toString()}`)
   }
 
@@ -292,7 +298,9 @@ function JumlaUstasiSetupPage() {
                 </p>
                 <h1 className="mt-3 font-kid text-5xl leading-tight text-slate-900 sm:text-6xl">{game.title}</h1>
                 <p className="mt-3 text-lg font-bold text-slate-600">
-                  Aralash harflardan to'g'ri so'zni topish bellashuvi.
+                  {teamCount === 1
+                    ? "Aralash harflardan to'g'ri so'zni topish bo'yicha solo bellashuv."
+                    : "Aralash harflardan to'g'ri so'zni topish bellashuvi."}
                   Savollar backendga saqlanadi va qayta kirganda ham ko'rinadi.
                 </p>
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -300,6 +308,9 @@ function JumlaUstasiSetupPage() {
                   <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-600">{difficulty} daraja</span>
                   <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-600">
                     {canUseTeacherContent ? `${teacherWords.length} ta custom savol` : 'Teacher rejimi yopiq'}
+                  </span>
+                  <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-600">
+                    {teamCount} jamoa
                   </span>
                 </div>
               </div>
@@ -313,7 +324,9 @@ function JumlaUstasiSetupPage() {
             <article className="rounded-[2rem] border border-white/85 bg-white/92 p-5 shadow-soft sm:p-6">
               <h2 className="font-kid text-4xl text-slate-900 sm:text-5xl">O'yin haqida</h2>
               <p className="mt-3 text-lg font-bold leading-relaxed text-slate-600">
-                Ikkala jamoaga bir xil aralash so'z chiqadi. Kim tez va to'g'ri topsa raund ballini oladi.
+                {teamCount === 1
+                  ? "Har raundda aralash so'z chiqadi. Uni tez va to'g'ri yechib ball yig'asiz."
+                  : "Ikkala jamoaga bir xil aralash so'z chiqadi. Kim tez va to'g'ri topsa raund ballini oladi."}
               </p>
 
               <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-5">
@@ -324,10 +337,37 @@ function JumlaUstasiSetupPage() {
               </div>
 
               <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-lg font-extrabold text-slate-800">Jamoa nomlari</p>
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <input value={teamOne} onChange={(e) => setTeamOne(e.target.value)} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-cyan-400" placeholder="1-Jamoa" />
-                  <input value={teamTwo} onChange={(e) => setTeamTwo(e.target.value)} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-cyan-400" placeholder="2-Jamoa" />
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-lg font-extrabold text-slate-800">Jamoa rejimi</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[1, 2].map((count) => (
+                      <button
+                        key={count}
+                        type="button"
+                        onClick={() => setTeamCount(count as TeamCount)}
+                        className={`rounded-full px-4 py-2 text-sm font-extrabold transition ${
+                          teamCount === count
+                            ? `bg-gradient-to-r text-white shadow-soft ${game.tone}`
+                            : 'bg-white text-slate-600 hover:bg-slate-100'
+                        }`}
+                      >
+                        {count} jamoa
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className={`mt-3 grid gap-3 ${teamCount === 2 ? 'sm:grid-cols-2' : ''}`}>
+                  {teamNames.slice(0, teamCount).map((name, index) => (
+                    <input
+                      key={`team-${index + 1}`}
+                      value={name}
+                      onChange={(e) => setTeamNames((prev) => prev.map((item, itemIndex) => (
+                        itemIndex === index ? e.target.value : item
+                      )))}
+                      className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-cyan-400"
+                      placeholder={DEFAULT_TEAM_NAMES[index]}
+                    />
+                  ))}
                 </div>
               </div>
 
@@ -356,6 +396,9 @@ function JumlaUstasiSetupPage() {
           </section>
         </main>
 
+        <div className="mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
         <FooterCTA />
       </div>
     </div>

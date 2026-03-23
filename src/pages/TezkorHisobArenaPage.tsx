@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import TezkorHisobArena, { type TeacherTezkorQuestion } from '../components/TezkorHisobArena.tsx'
 import { findGameById } from '../data/games.ts'
 import useTeacherGameAccess from '../hooks/useTeacherGameAccess.ts'
 import { fetchGameQuestions, type BackendQuestion } from '../lib/backend.ts'
+import { getTeamName, parseTeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 type Topic = '+' | '-' | '*' | '/'
@@ -124,8 +126,9 @@ function TezkorHisobArenaPage() {
 
   const difficulty = useMemo(() => parseDifficulty(searchParams.get('difficulty')), [searchParams])
   const enabledTopics = useMemo(() => parseTopics(searchParams.get('topics')), [searchParams])
-  const teamOneName = searchParams.get('team1')?.trim() || '1-Jamoa'
-  const teamTwoName = searchParams.get('team2')?.trim() || '2-Jamoa'
+  const teamCount = useMemo(() => parseTeamCount(searchParams.get('teamCount')), [searchParams])
+  const teamOneName = getTeamName(searchParams.get('team1'), 0)
+  const teamTwoName = getTeamName(searchParams.get('team2'), 1)
   const localTeacherQuestions = useMemo(() => loadTeacherQuestions(searchParams.get('custom')), [searchParams])
   const canUseTeacherContent = useTeacherGameAccess()
   const [teacherQuestions, setTeacherQuestions] = useState<TeacherTezkorQuestion[]>(localTeacherQuestions)
@@ -152,7 +155,7 @@ function TezkorHisobArenaPage() {
     }
   }, [canUseTeacherContent, localTeacherQuestions])
 
-  const arenaKey = `${difficulty}-${enabledTopics.join('')}-${teamOneName}-${teamTwoName}-${searchParams.get('custom') ?? 'none'}-${teacherQuestions.length}`
+  const arenaKey = `${difficulty}-${teamCount}-${enabledTopics.join('')}-${teamOneName}-${teamTwoName}-${searchParams.get('custom') ?? 'none'}-${teacherQuestions.length}`
 
   if (!game) return null
   if (!questionsReady) return null
@@ -167,12 +170,16 @@ function TezkorHisobArenaPage() {
           gameTone={game.tone}
           leftTeamName={teamOneName}
           rightTeamName={teamTwoName}
+          teamCount={teamCount}
           initialDifficulty={difficulty}
           teacherQuestions={teacherQuestions}
           enabledTopics={enabledTopics}
           setupPath="/games/tezkor-hisob"
         />
       </main>
+      <div className="relative z-10 mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+        <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+      </div>
     </div>
   )
 }

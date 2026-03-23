@@ -16,9 +16,10 @@ const teamAccent = {
 
 function AnswerButtons() {
   const { phase, roundResult, submitAnswer, teams } = useFakeOrFactGame()
+  const isSoloMode = teams.length === 1
 
   return (
-    <div className="grid gap-3 lg:grid-cols-2">
+    <div className={`grid gap-3 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
       {teams.map((team) => {
         const hasAnswered = team.selectedAnswer !== null
         const isLocked = phase !== 'round' || hasAnswered
@@ -31,7 +32,7 @@ function AnswerButtons() {
           >
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-300">Jamoa</p>
+                <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-300">{isSoloMode ? "O'yinchi" : 'Jamoa'}</p>
                 <h3 className="mt-1.5 text-2xl font-black text-white">{team.name}</h3>
                 <p className="mt-1 text-xs font-bold text-slate-200/80 sm:text-sm">
                   {phase === 'round'

@@ -20,14 +20,13 @@ type AnswersRoyaleLobbyProps = {
 }
 
 const defaultTeamNames = ['Moviy jamoa', 'Oltin jamoa'] as const
-const fixedTeamCount = 2 as const
 const fixedRoundTime = 30
 const fixedQuestionCount = 5
 
 const defaultConfig: AnswersRoyaleSetupConfig = {
   roomName: 'Bilim Arenasi',
   hostLabel: 'Ustoz',
-  teamCount: fixedTeamCount,
+  teamCount: 2,
   teamNames: [...defaultTeamNames],
   totalPlayers: 54,
   category: 'any',
@@ -58,6 +57,7 @@ function AnswersRoyaleLobby({
   onStart,
 }: AnswersRoyaleLobbyProps) {
   const [roomName, setRoomName] = useState(initialConfig?.roomName ?? defaultConfig.roomName)
+  const [teamCount, setTeamCount] = useState<1 | 2>(initialConfig?.teamCount ?? defaultConfig.teamCount)
   const [totalPlayers, setTotalPlayers] = useState(initialConfig?.totalPlayers ?? defaultConfig.totalPlayers)
   const [soundEnabled, setSoundEnabled] = useState(initialConfig?.soundEnabled ?? defaultConfig.soundEnabled)
   const [teamNames, setTeamNames] = useState<[string, string]>(normalizeTeamNames(initialConfig?.teamNames))
@@ -70,7 +70,7 @@ function AnswersRoyaleLobby({
   const config = useMemo<AnswersRoyaleSetupConfig>(() => ({
     roomName: roomName.trim() || defaultConfig.roomName,
     hostLabel: defaultConfig.hostLabel,
-    teamCount: fixedTeamCount,
+    teamCount,
     teamNames: normalizeTeamNames(teamNames),
     totalPlayers,
     category: 'any',
@@ -79,7 +79,7 @@ function AnswersRoyaleLobby({
     eliminationThreshold: 99,
     soundEnabled,
     customQuestions,
-  }), [customQuestions, roomName, soundEnabled, teamNames, totalPlayers])
+  }), [customQuestions, roomName, soundEnabled, teamNames, totalPlayers, teamCount])
 
   const parsedDraftAnswers = useMemo(
     () => parseAnswersText(draftAnswersText),
@@ -165,14 +165,14 @@ function AnswersRoyaleLobby({
               1 Savol - 100 Javob
             </h1>
             <p className="mt-4 max-w-3xl text-lg font-bold leading-8 text-slate-200/84">
-              Endi o'yin teacher review formatida ishlaydi: 2 ta jamoa, 5 ta savol, har bir savolga 30 soniya.
+              Endi o'yin teacher review formatida ishlaydi: {teamCount} ta jamoa, 5 ta savol, har bir savolga 30 soniya.
               Vaqt tugagach ustoz modal ichida javoblarni check qiladi, oxirida esa umumiy premium natija chiqadi.
             </p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               <div className="answersroyale-stat-card">
                 <p className="answersroyale-stat-label">Jamoa</p>
-                <p className="answersroyale-stat-value">{fixedTeamCount} ta</p>
+                <p className="answersroyale-stat-value">{teamCount} ta</p>
               </div>
               <div className="answersroyale-stat-card">
                 <p className="answersroyale-stat-label">Savollar</p>
@@ -196,7 +196,7 @@ function AnswersRoyaleLobby({
               <div className="mt-5 grid gap-3">
                 <div className="answersroyale-rule-card">
                   <p className="answersroyale-rule-value">1</p>
-                  <p className="answersroyale-rule-copy">5 ta savol davomida har ikki jamoa barcha javoblarini 30 soniya ichida topshiradi.</p>
+                  <p className="answersroyale-rule-copy">5 ta savol davomida faol jamoalar barcha javoblarini 30 soniya ichida topshiradi.</p>
                 </div>
                 <div className="answersroyale-rule-card">
                   <p className="answersroyale-rule-value">2</p>
@@ -225,8 +225,25 @@ function AnswersRoyaleLobby({
               <h2 className="mt-2 font-kid text-4xl text-white sm:text-5xl">Boshlash oynasi</h2>
             </div>
             <span className="rounded-full border border-white/14 bg-white/10 px-4 py-2 text-sm font-extrabold text-slate-100">
-              2 jamoalik duel
+              {teamCount} jamoalik rejim
             </span>
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {[1, 2].map((count) => (
+              <button
+                key={count}
+                type="button"
+                onClick={() => setTeamCount(count as 1 | 2)}
+                className={`rounded-full px-4 py-2 text-sm font-extrabold transition ${
+                  teamCount === count
+                    ? 'border border-cyan-300/30 bg-cyan-300/12 text-cyan-50'
+                    : 'border border-white/12 bg-white/8 text-slate-100'
+                }`}
+              >
+                {count} jamoa
+              </button>
+            ))}
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
@@ -251,12 +268,14 @@ function AnswersRoyaleLobby({
               className="answersroyale-input"
               placeholder="Chap jamoa nomi"
             />
-            <input
-              value={teamNames[1]}
-              onChange={(event) => handleTeamNameChange(1, event.target.value)}
-              className="answersroyale-input"
-              placeholder="O'ng jamoa nomi"
-            />
+            {teamCount === 2 ? (
+              <input
+                value={teamNames[1]}
+                onChange={(event) => handleTeamNameChange(1, event.target.value)}
+                className="answersroyale-input"
+                placeholder="O'ng jamoa nomi"
+              />
+            ) : null}
           </div>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

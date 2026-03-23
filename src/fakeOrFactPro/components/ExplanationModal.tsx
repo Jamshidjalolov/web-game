@@ -4,6 +4,7 @@ import { useFakeOrFactGame } from '../context/FakeOrFactGameContext.tsx'
 
 function ExplanationModal() {
   const { currentRoundIndex, goToNextRound, phase, roundResult, teams, totalRounds, burstKey } = useFakeOrFactGame()
+  const isSoloMode = teams.length === 1
 
   return (
     <AnimatePresence>
@@ -31,25 +32,28 @@ function ExplanationModal() {
               {roundResult.question.explanation_uz}
             </p>
 
-            <div className="mt-5 grid gap-3 md:grid-cols-2">
-              {Object.entries(roundResult.teamResults).map(([teamId, result]) => (
-                <div key={teamId} className="rounded-[1.6rem] border border-white/12 bg-white/8 p-4">
-                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-300">
-                    {teams.find((team) => team.id === teamId)?.name ?? (teamId === 'team-a' ? '1-jamoa' : '2-jamoa')}
-                  </p>
-                  <p className="mt-2 text-2xl font-black text-white">{result.reactionLabel}</p>
-                  <p className="mt-2 text-sm font-bold text-slate-300">
-                    {result.selectedAnswer === null
-                      ? 'Javob kelmadi'
-                      : result.selectedAnswer
-                        ? 'FAKT tanlandi'
-                        : 'FEYK tanlandi'}
-                  </p>
-                  <p className="mt-2 text-sm font-black text-cyan-100">
-                    +{result.awardedPoints} ball
-                  </p>
-                </div>
-              ))}
+            <div className={`mt-5 grid gap-3 ${isSoloMode ? '' : 'md:grid-cols-2'}`}>
+              {teams.map((team) => {
+                const result = roundResult.teamResults[team.id]
+                return (
+                  <div key={team.id} className="rounded-[1.6rem] border border-white/12 bg-white/8 p-4">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-300">
+                      {team.name}
+                    </p>
+                    <p className="mt-2 text-2xl font-black text-white">{result.reactionLabel}</p>
+                    <p className="mt-2 text-sm font-bold text-slate-300">
+                      {result.selectedAnswer === null
+                        ? 'Javob kelmadi'
+                        : result.selectedAnswer
+                          ? 'FAKT tanlandi'
+                          : 'FEYK tanlandi'}
+                    </p>
+                    <p className="mt-2 text-sm font-black text-cyan-100">
+                      +{result.awardedPoints} ball
+                    </p>
+                  </div>
+                )
+              })}
             </div>
 
             <div className="mt-5 flex flex-wrap gap-3">

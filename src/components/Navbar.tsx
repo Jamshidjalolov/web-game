@@ -33,8 +33,10 @@ function Navbar() {
   const location = useLocation()
   const [session, setSession] = useState(() => loadStoredAuthSession())
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   const [uiTheme, setUiTheme] = useState<UiTheme>(() => loadInitialTheme())
   const menuRef = useRef<HTMLDivElement | null>(null)
+  const mobileNavRef = useRef<HTMLDivElement | null>(null)
 
   const user = session?.user ?? null
   const isAuthenticated = Boolean(session?.accessToken && user)
@@ -79,24 +81,29 @@ function Navbar() {
 
   useEffect(() => {
     setIsMenuOpen(false)
-  }, [location.pathname])
+    setIsMobileNavOpen(false)
+  }, [location.pathname, location.hash])
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      if (!menuRef.current) return
       const target = event.target
       if (!(target instanceof Node)) return
-      if (!menuRef.current.contains(target)) {
+
+      if (menuRef.current && !menuRef.current.contains(target)) {
         setIsMenuOpen(false)
+      }
+
+      if (mobileNavRef.current && !mobileNavRef.current.contains(target)) {
+        setIsMobileNavOpen(false)
       }
     }
 
-    if (!isMenuOpen) return
+    if (!isMenuOpen && !isMobileNavOpen) return
     window.addEventListener('mousedown', handleOutsideClick)
     return () => {
       window.removeEventListener('mousedown', handleOutsideClick)
     }
-  }, [isMenuOpen])
+  }, [isMenuOpen, isMobileNavOpen])
 
   useEffect(() => {
     const syncThemeFromStorage = () => {
@@ -145,17 +152,17 @@ function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-30 border-b border-white/70 bg-white/70 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-3">
-          <span className="nav-logo-glow grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-fuchsia-400 via-rose-400 to-orange-300 text-lg font-extrabold text-white shadow-soft">
+    <header className="sticky top-0 z-30 overflow-visible border-b border-white/70 bg-white/70 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
+        <Link to="/" className="flex min-w-0 items-center gap-3">
+          <span className="nav-logo-glow grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-fuchsia-400 via-rose-400 to-orange-300 text-base font-extrabold text-white shadow-soft sm:h-12 sm:w-12 sm:text-lg">
             GO
           </span>
-          <div>
-            <p className="font-kid text-2xl leading-none text-slate-900">
+          <div className="min-w-0">
+            <p className="truncate font-kid text-xl leading-none text-slate-900 sm:text-2xl">
               QiziqO'yin
             </p>
-            <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-fuchsia-600">
+            <p className="truncate text-[10px] font-extrabold uppercase tracking-[0.18em] text-fuchsia-600 sm:text-xs sm:tracking-[0.22em]">
               interaktiv platforma
             </p>
           </div>
@@ -183,7 +190,16 @@ function Navbar() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            onClick={() => setIsMobileNavOpen((prev) => !prev)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white/90 text-slate-700 shadow-soft transition hover:-translate-y-0.5 hover:shadow-md md:hidden"
+            aria-label={isMobileNavOpen ? "Menyuni yopish" : "Menyuni ochish"}
+          >
+            <span className="text-lg font-black">{isMobileNavOpen ? '×' : '☰'}</span>
+          </button>
+
           {isAuthenticated && user ? (
             <div className="relative" ref={menuRef}>
               <button
@@ -212,6 +228,15 @@ function Navbar() {
                   >
                     Test tizimi
                   </Link>
+
+                  {isAdmin ? (
+                    <Link
+                      to="/admin"
+                      className="mt-2 block rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-sm font-extrabold text-indigo-700 transition hover:bg-indigo-100"
+                    >
+                      Admin panel
+                    </Link>
+                  ) : null}
 
                   <button
                     type="button"
@@ -256,6 +281,59 @@ function Navbar() {
           </button>
         </div>
       </div>
+
+      {isMobileNavOpen ? (
+        <div
+          ref={mobileNavRef}
+          className="mx-4 mb-3 rounded-[1.6rem] border border-white/80 bg-white/90 p-3 shadow-soft backdrop-blur-xl md:hidden sm:mx-6"
+        >
+          <nav className="flex flex-col gap-2">
+            {navItems.map((item) => (
+              item.isRoute ? (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className={`rounded-2xl px-4 py-3 text-sm font-extrabold transition ${
+                    isNavItemActive(item)
+                      ? 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-soft'
+                      : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`rounded-2xl px-4 py-3 text-sm font-extrabold transition ${
+                    isNavItemActive(item)
+                      ? 'bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-soft'
+                      : 'bg-slate-50 text-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  {item.label}
+                </a>
+              )
+            ))}
+          </nav>
+
+          {!isAuthenticated ? (
+            <Link
+              to="/login"
+              className="mt-3 flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-fuchsia-500 via-rose-500 to-orange-400 px-5 py-3 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5"
+            >
+              Bepul boshlash
+            </Link>
+          ) : isAdmin ? (
+            <Link
+              to="/admin"
+              className="mt-3 flex w-full items-center justify-center rounded-2xl bg-indigo-50 px-5 py-3 text-sm font-extrabold text-indigo-700"
+            >
+              Admin panel
+            </Link>
+          ) : null}
+        </div>
+      ) : null}
     </header>
   )
 }

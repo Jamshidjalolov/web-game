@@ -54,10 +54,10 @@ function FooterCTA() {
         <div className="pointer-events-none absolute -right-10 bottom-4 h-44 w-44 rounded-full bg-amber-200/30 blur-2xl" />
 
         <div className="relative mx-auto max-w-5xl text-center text-white">
-          <h3 className="font-kid text-5xl leading-tight sm:text-6xl">
+          <h3 className="font-kid text-[clamp(2.25rem,8vw,4.5rem)] leading-[1.02]">
             Ta'limingizni yangi bosqichga olib chiqmoqchimisiz?
           </h3>
-          <p className="mx-auto mt-4 max-w-3xl text-xl font-bold text-white/90">
+          <p className="mx-auto mt-4 max-w-3xl text-base font-bold text-white/90 sm:text-lg lg:text-xl">
             Minglab o'quvchilar va ustozlar qiziqarli metodlar bilan natijaga
             erishmoqda.
           </p>
@@ -66,19 +66,19 @@ function FooterCTA() {
             {!isAuthenticated ? (
               <Link
                 to="/login"
-                className="rounded-2xl bg-white px-8 py-4 text-lg font-extrabold text-slate-800 transition hover:-translate-y-0.5 hover:bg-slate-100"
+                className="flex w-full items-center justify-center rounded-2xl bg-white px-8 py-4 text-base font-extrabold text-slate-800 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:w-auto sm:text-lg"
               >
                 Bepul sinab ko'rish
               </Link>
             ) : (
               <Link
                 to="/games"
-                className="rounded-2xl bg-white px-8 py-4 text-lg font-extrabold text-slate-800 transition hover:-translate-y-0.5 hover:bg-slate-100"
+                className="flex w-full items-center justify-center rounded-2xl bg-white px-8 py-4 text-base font-extrabold text-slate-800 transition hover:-translate-y-0.5 hover:bg-slate-100 sm:w-auto sm:text-lg"
               >
                 O'yinlarga o'tish
               </Link>
             )}
-            <button className="footer-contact-button rounded-2xl border-2 border-white/80 bg-white/15 px-8 py-4 text-lg font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-white/25">
+            <button className="footer-contact-button flex w-full items-center justify-center rounded-2xl border-2 border-white/80 bg-white/15 px-8 py-4 text-base font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-white/25 sm:w-auto sm:text-lg">
               Maslahat olish
             </button>
           </div>
@@ -90,35 +90,35 @@ function FooterCTA() {
         data-aos="fade-up"
         data-aos-delay="80"
       >
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
+        <div className="mx-auto grid max-w-6xl gap-8 sm:gap-10 sm:grid-cols-2 xl:grid-cols-[1.2fr_1fr_1fr_1fr]">
           <article>
             <Link to="/" className="flex items-center gap-3">
               <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 text-lg font-extrabold text-white shadow-soft">
                 GO
               </span>
-              <h4 className="font-kid text-4xl text-slate-900">QiziqO'yin</h4>
+              <h4 className="font-kid text-[clamp(2rem,6vw,2.5rem)] text-slate-900">QiziqO'yin</h4>
             </Link>
-            <p className="mt-4 max-w-xs text-xl font-bold leading-relaxed text-slate-500">
+            <p className="mt-4 max-w-xs text-base font-bold leading-relaxed text-slate-500 sm:text-lg xl:text-xl">
               Ta'limni barcha uchun qiziqarli va qulay qilamiz.
             </p>
           </article>
 
           <article>
-            <h5 className="text-2xl font-extrabold text-slate-900">Foydali linklar</h5>
+            <h5 className="text-xl font-extrabold text-slate-900 sm:text-2xl">Foydali linklar</h5>
             <ul className="mt-4 space-y-2">
               {usefulLinks.map((item) => (
                 <li key={item.label}>
                   {item.isRoute ? (
                       <Link
                         to={item.href}
-                        className="footer-link-item text-xl font-bold text-slate-500 transition hover:text-sky-600"
+                        className="footer-link-item text-base font-bold text-slate-500 transition hover:text-sky-600 sm:text-lg xl:text-xl"
                       >
                         {item.label}
                       </Link>
                     ) : (
                       <a
                         href={item.href}
-                        className="footer-link-item text-xl font-bold text-slate-500 transition hover:text-sky-600"
+                        className="footer-link-item text-base font-bold text-slate-500 transition hover:text-sky-600 sm:text-lg xl:text-xl"
                       >
                         {item.label}
                       </a>
@@ -129,13 +129,13 @@ function FooterCTA() {
           </article>
 
           <article>
-            <h5 className="text-2xl font-extrabold text-slate-900">Top o'yinlar</h5>
+            <h5 className="text-xl font-extrabold text-slate-900 sm:text-2xl">Top o'yinlar</h5>
             <ul className="mt-4 space-y-2">
               {topGames.map((item) => (
                 <li key={item.label}>
                   <Link
                     to={item.href}
-                    className="footer-link-item text-xl font-bold text-slate-500 transition hover:text-sky-600"
+                    className="footer-link-item text-base font-bold text-slate-500 transition hover:text-sky-600 sm:text-lg xl:text-xl"
                   >
                     {item.label}
                   </Link>
@@ -145,13 +145,13 @@ function FooterCTA() {
           </article>
 
           <article>
-            <h5 className="text-2xl font-extrabold text-slate-900">Yangi o'yinlar</h5>
+            <h5 className="text-xl font-extrabold text-slate-900 sm:text-2xl">Yangi o'yinlar</h5>
             <ul className="mt-4 space-y-2">
               {newGames.map((item) => (
                 <li key={item.label}>
                   <Link
                     to={item.href}
-                    className="footer-link-item text-xl font-bold text-slate-500 transition hover:text-sky-600"
+                    className="footer-link-item text-base font-bold text-slate-500 transition hover:text-sky-600 sm:text-lg xl:text-xl"
                   >
                     {item.label}
                   </Link>
@@ -162,7 +162,7 @@ function FooterCTA() {
         </div>
 
         <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-5 border-t border-slate-300 pt-6 md:flex-row md:items-center md:justify-between">
-          <p className="text-lg font-bold text-slate-500">
+          <p className="text-base font-bold text-slate-500 sm:text-lg">
             {new Date().getFullYear()} QiziqO'yin. Barcha huquqlar himoyalangan.
           </p>
           <div className="flex flex-wrap gap-3">
@@ -170,7 +170,7 @@ function FooterCTA() {
               href={TELEGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-social-link inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-5 py-3 text-lg font-extrabold text-sky-700 transition hover:bg-sky-100"
+              className="footer-social-link inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-5 py-3 text-base font-extrabold text-sky-700 transition hover:bg-sky-100 sm:w-auto sm:text-lg"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
                 <path d="M21.944 4.495a1 1 0 0 0-1.042-.152L3.73 11.24a1 1 0 0 0 .09 1.87l3.87 1.23 1.23 3.87a1 1 0 0 0 1.87.09l6.897-17.172a1 1 0 0 0-.152-1.042ZM9.8 13.3l-2.58-.82 9.186-3.69L9.8 13.3Zm.9 2.9-.82-2.58 4.51-6.606-3.69 9.186Z" />
@@ -181,7 +181,7 @@ function FooterCTA() {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-social-link inline-flex items-center gap-2 rounded-full border border-pink-200 bg-pink-50 px-5 py-3 text-lg font-extrabold text-pink-700 transition hover:bg-pink-100"
+              className="footer-social-link inline-flex w-full items-center justify-center gap-2 rounded-full border border-pink-200 bg-pink-50 px-5 py-3 text-base font-extrabold text-pink-700 transition hover:bg-pink-100 sm:w-auto sm:text-lg"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
                 <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5A3.95 3.95 0 0 0 7.75 20.2h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 2.15a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 7.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5Zm0 1.8A2.7 2.7 0 1 0 14.7 12 2.7 2.7 0 0 0 12 9.3Z" />

@@ -6,6 +6,7 @@ import {
   type TezkorHisobChoiceTask,
   type TezkorHisobDifficulty,
 } from '../data/tezkorHisobQuestions.ts'
+import type { TeamCount } from '../lib/teamMode.ts'
 
 type Side = 'left' | 'right'
 type Winner = Side | 'draw'
@@ -24,6 +25,7 @@ type Props = {
   gameTone: string
   leftTeamName?: string
   rightTeamName?: string
+  teamCount?: TeamCount
   initialDifficulty?: TezkorHisobDifficulty
   teacherQuestions?: TeacherTezkorQuestion[]
   enabledTopics?: TezkorHisobChoiceTask['topic'][]
@@ -204,11 +206,13 @@ function TezkorHisobArena({
   gameTone,
   leftTeamName = '1-Jamoa',
   rightTeamName = '2-Jamoa',
+  teamCount = 2,
   initialDifficulty = "O'rta",
   teacherQuestions = [],
   enabledTopics = ALL_TOPICS,
   setupPath = '/games/tezkor-hisob',
 }: Props) {
+  const isSoloMode = teamCount === 1
   const cfg = CONFIG[initialDifficulty]
   const [questions, setQuestions] = useState<TezkorHisobChoiceTask[]>(() => buildDeck(initialDifficulty, teacherQuestions, enabledTopics))
   const [started, setStarted] = useState(false)
@@ -231,8 +235,8 @@ function TezkorHisobArena({
   const totalRounds = QUESTIONS_PER_TEAM
   const leftQuestion = left.index < totalRounds ? questions[left.index] : undefined
   const rightQuestion = right.index < totalRounds ? questions[right.index] : undefined
-  const completedQuestions = Math.min(left.index, totalRounds) + Math.min(right.index, totalRounds)
-  const progressPercent = totalRounds > 0 ? Math.round((completedQuestions / (totalRounds * 2)) * 100) : 0
+  const completedQuestions = Math.min(left.index, totalRounds) + (isSoloMode ? 0 : Math.min(right.index, totalRounds))
+  const progressPercent = totalRounds > 0 ? Math.round((completedQuestions / (totalRounds * (isSoloMode ? 1 : 2))) * 100) : 0
   const customCountByDifficulty = teacherQuestions.filter(
     (q) => q.difficulty === initialDifficulty && enabledTopics.includes(q.topic ?? '+'),
   ).length
@@ -246,7 +250,7 @@ function TezkorHisobArena({
       : enabledTopics.map((topic) => (topic === '/' ? '÷' : topic)).join(' • ')
 
   const winnerLabel =
-    winner === 'left' ? leftLabel : winner === 'right' ? rightLabel : winner === 'draw' ? 'Durang' : ''
+    isSoloMode ? leftLabel : winner === 'left' ? leftLabel : winner === 'right' ? rightLabel : winner === 'draw' ? 'Durang' : ''
 
   const resultLabel = (result: RoundResult) => {
     if (result === 'correct') return "To'g'ri"
@@ -333,6 +337,7 @@ function TezkorHisobArena({
   }
 
   const resolveWinner = (preferred: Winner | null = null) => {
+    if (isSoloMode) return 'left' as const
     if (preferred && preferred !== 'draw') return preferred
     if (left.score > right.score) return 'left' as const
     if (right.score > left.score) return 'right' as const
@@ -362,14 +367,22 @@ function TezkorHisobArena({
     setRight(makeTeamRuntime(cfg.seconds))
     setWinner(null)
     setShowWinnerModal(false)
-    setStatusText(`Boshlash tugmasini bosing. Ikkala jamoa parallel ishlaydi (${QUESTIONS_PER_TEAM} ta savol).`)
+    setStatusText(
+      isSoloMode
+        ? `Boshlash tugmasini bosing. Jamoa ${QUESTIONS_PER_TEAM} ta savolni yechadi.`
+        : `Boshlash tugmasini bosing. Ikkala jamoa parallel ishlaydi (${QUESTIONS_PER_TEAM} ta savol).`,
+    )
   }
 
   const startGame = () => {
     if (started || finished) return
     startBackgroundMusic()
     setStarted(true)
-    setStatusText(`Bellashuv boshlandi. Har jamoa o'z vaqtida ${QUESTIONS_PER_TEAM} ta savol yechadi.`)
+    setStatusText(
+      isSoloMode
+        ? `O'yin boshlandi. ${QUESTIONS_PER_TEAM} ta savol ketma-ket ochiladi.`
+        : `Bellashuv boshlandi. Har jamoa o'z vaqtida ${QUESTIONS_PER_TEAM} ta savol yechadi.`,
+    )
   }
 
   const advanceTeam = (side: Side) => {
@@ -441,6 +454,7 @@ function TezkorHisobArena({
   }, [started, finished, left.locked, left.awaitingNext, left.index, totalRounds])
 
   useEffect(() => {
+    if (isSoloMode) return
     if (!started || finished) return
     if (right.locked || right.awaitingNext || right.index >= totalRounds) return
     const timerId = window.setInterval(() => {
@@ -449,7 +463,7 @@ function TezkorHisobArena({
         : { ...prev, timeLeft: Math.max(prev.timeLeft - 1, 0) }))
     }, 1000)
     return () => window.clearInterval(timerId)
-  }, [started, finished, right.locked, right.awaitingNext, right.index, totalRounds])
+  }, [isSoloMode, started, finished, right.locked, right.awaitingNext, right.index, totalRounds])
 
   useEffect(() => {
     if (!started || finished) return
@@ -460,12 +474,13 @@ function TezkorHisobArena({
   }, [started, finished, left, leftQuestion, leftLabel, totalRounds])
 
   useEffect(() => {
+    if (isSoloMode) return
     if (!started || finished) return
     if (right.index >= totalRounds || right.locked || right.awaitingNext || right.timeLeft > 0) return
     const answerText = rightQuestion ? rightQuestion.options[rightQuestion.correctIndex] : '-'
     setRight((prev) => ({ ...prev, locked: true, awaitingNext: true, result: 'timeout' }))
     setStatusText(`${rightLabel} vaqtdan chiqdi. To'g'ri javob: ${answerText}`)
-  }, [started, finished, right, rightQuestion, rightLabel, totalRounds])
+  }, [isSoloMode, started, finished, right, rightQuestion, rightLabel, totalRounds])
 
   useEffect(() => {
     if (!started || finished || !left.awaitingNext) return
@@ -474,16 +489,22 @@ function TezkorHisobArena({
   }, [started, finished, left.awaitingNext, cfg.autoNextMs])
 
   useEffect(() => {
+    if (isSoloMode) return
     if (!started || finished || !right.awaitingNext) return
     const timerId = window.setTimeout(() => advanceTeam('right'), cfg.autoNextMs)
     return () => window.clearTimeout(timerId)
-  }, [started, finished, right.awaitingNext, cfg.autoNextMs])
+  }, [isSoloMode, started, finished, right.awaitingNext, cfg.autoNextMs])
 
   useEffect(() => {
     if (!started || finished) return
+    if (isSoloMode) {
+      if (left.index < totalRounds) return
+      finishGame(`${leftLabel} ${QUESTIONS_PER_TEAM} ta savolni yakunladi.`)
+      return
+    }
     if (left.index < totalRounds || right.index < totalRounds) return
     finishGame(`Ikkala jamoa ham ${QUESTIONS_PER_TEAM} ta savolni yakunladi.`)
-  }, [started, finished, left.index, right.index, totalRounds])
+  }, [isSoloMode, started, finished, left.index, right.index, totalRounds, leftLabel])
 
   useEffect(() => () => stopBackgroundMusic(), [])
 
@@ -630,11 +651,13 @@ function TezkorHisobArena({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <p className="inline-flex rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-sky-700 sm:text-xs">
-            Tezkor Hisob Parallel
+            {isSoloMode ? 'Tezkor Hisob Solo' : 'Tezkor Hisob Parallel'}
           </p>
           <h2 className="mt-1 font-kid text-3xl text-slate-900 sm:text-4xl">{gameTitle} Arena</h2>
           <p className="mt-1 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">
-            Ikkala jamoa bir-birini kutmaydi • {QUESTIONS_PER_TEAM} ta savol • alohida timer
+            {isSoloMode
+              ? `${QUESTIONS_PER_TEAM} ta savol • alohida timer`
+              : `Ikkala jamoa bir-birini kutmaydi • ${QUESTIONS_PER_TEAM} ta savol • alohida timer`}
           </p>
         </div>
 
@@ -658,17 +681,17 @@ function TezkorHisobArena({
           <button
             type="button"
             onClick={resetGame}
-            className="arena-3d-press rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs"
+            className="arena-3d-press ui-secondary-btn ui-secondary-btn--sm"
           >
             Qayta boshlash
           </button>
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+      <div className={`mt-4 grid gap-3 sm:grid-cols-2 ${isSoloMode ? 'lg:grid-cols-5' : 'lg:grid-cols-6'}`}>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Savollar</p>
-          <p className="mt-1 font-kid text-3xl text-slate-900">{completedQuestions}/{totalRounds * 2}</p>
+          <p className="mt-1 font-kid text-3xl text-slate-900">{completedQuestions}/{totalRounds * (isSoloMode ? 1 : 2)}</p>
         </div>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Daraja</p>
@@ -682,10 +705,12 @@ function TezkorHisobArena({
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{leftLabel}</p>
           <p className="mt-1 text-xl font-extrabold text-slate-900">{left.score} ball</p>
         </div>
-        <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-          <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
-          <p className="mt-1 text-xl font-extrabold text-slate-900">{right.score} ball</p>
-        </div>
+        {!isSoloMode ? (
+          <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
+            <p className="mt-1 text-xl font-extrabold text-slate-900">{right.score} ball</p>
+          </div>
+        ) : null}
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Progress</p>
           <p className="mt-1 text-xl font-extrabold text-slate-900">{progressPercent}%</p>
@@ -697,7 +722,9 @@ function TezkorHisobArena({
           <div>
             <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-slate-400">Parallel rejim</p>
             <p className="mt-1 text-sm font-bold text-slate-600">
-              Har jamoa o&apos;z misolini mustaqil yechadi. To&apos;g&apos;ri/xato/timeout bo&apos;lsa avtomatik keyingisiga o&apos;tadi.
+              {isSoloMode
+                ? "Jamoa misolni yechadi. To'g'ri/xato/timeout bo'lsa avtomatik keyingisiga o'tadi."
+                : "Har jamoa o'z misolini mustaqil yechadi. To'g'ri/xato/timeout bo'lsa avtomatik keyingisiga o'tadi."}
             </p>
             <p className="mt-1 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">
               Tanlangan amallar: {topicLabelSafe}
@@ -705,7 +732,7 @@ function TezkorHisobArena({
           </div>
           <div className="flex flex-wrap gap-2">
             <span className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-extrabold text-sky-700">
-              {QUESTIONS_PER_TEAM} ta savol / jamoa
+              {QUESTIONS_PER_TEAM} ta savol{isSoloMode ? '' : ' / jamoa'}
             </span>
             <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-extrabold text-slate-600">
               30s timer
@@ -717,9 +744,9 @@ function TezkorHisobArena({
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+      <div className={`mt-4 grid gap-4 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
         {renderTeamPanel('left', leftLabel, left, leftQuestion, 'from-cyan-500 to-blue-500')}
-        {renderTeamPanel('right', rightLabel, right, rightQuestion, 'from-fuchsia-500 to-rose-500')}
+        {!isSoloMode ? renderTeamPanel('right', rightLabel, right, rightQuestion, 'from-fuchsia-500 to-rose-500') : null}
       </div>
 
       <div className={`mt-4 rounded-2xl border px-4 py-3 text-sm font-extrabold ${
@@ -729,7 +756,7 @@ function TezkorHisobArena({
       </div>
 
       <div className="mt-4 text-right text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">
-        {(left.awaitingNext || right.awaitingNext) && !finished ? 'Natija ko‘rsatildi, navbatdagi misollar ochilmoqda...' : ' '}
+        {(left.awaitingNext || (!isSoloMode && right.awaitingNext)) && !finished ? "Natija ko'rsatildi, navbatdagi misollar ochilmoqda..." : ' '}
       </div>
 
       {showWinnerModal ? (
@@ -749,30 +776,32 @@ function TezkorHisobArena({
                   Tezkor hisob yakunlandi
                 </p>
                 <p className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-extrabold text-slate-600">
-                  Savollar: {totalRounds} x 2
+                  Savollar: {totalRounds}{isSoloMode ? '' : ' x 2'}
                 </p>
               </div>
 
               <h3 className="mt-3 font-kid text-4xl text-slate-900 sm:text-5xl">
-                {winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
+                {!isSoloMode && winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
               </h3>
               <p className="mt-1 text-base font-bold text-slate-600">
-                {winnerLabel === 'Durang'
+                {!isSoloMode && winnerLabel === 'Durang'
                   ? "Ikkala jamoa ham teng natija ko'rsatdi."
                   : `${winnerLabel} eng yuqori natija bilan yutdi.`}
               </p>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className={`mt-4 grid gap-3 ${isSoloMode ? '' : 'sm:grid-cols-2'}`}>
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
                   <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{leftLabel}</p>
                   <p className="mt-1 text-2xl font-extrabold text-slate-800">{left.score}</p>
                   <p className="text-sm font-bold text-slate-500">{left.correct} ta to'g'ri</p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                  <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
-                  <p className="mt-1 text-2xl font-extrabold text-slate-800">{right.score}</p>
-                  <p className="text-sm font-bold text-slate-500">{right.correct} ta to'g'ri</p>
-                </div>
+                {!isSoloMode ? (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
+                    <p className="mt-1 text-2xl font-extrabold text-slate-800">{right.score}</p>
+                    <p className="text-sm font-bold text-slate-500">{right.correct} ta to'g'ri</p>
+                  </div>
+                ) : null}
               </div>
 
               <div className="mt-4 flex flex-wrap justify-end gap-2">
@@ -786,7 +815,7 @@ function TezkorHisobArena({
                 <button
                   type="button"
                   onClick={resetGame}
-                  className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
+                  className={`ui-accent-btn rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
                 >
                   Yangi raund
                 </button>

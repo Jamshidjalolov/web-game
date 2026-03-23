@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AiQuizImportPanel from '../components/AiQuizImportPanel.tsx'
 import FooterCTA from '../components/FooterCTA.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import Navbar from '../components/Navbar.tsx'
 import QuestionManagerLinkCard from '../components/QuestionManagerLinkCard.tsx'
 import type { TeacherJumanjiQuestion } from '../components/JumanjiArena.tsx'
@@ -350,6 +351,9 @@ function JumanjiSetupPage() {
             </article>
           </section>
         </main>
+        <div className="mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
         <FooterCTA />
       </div>
     </div>

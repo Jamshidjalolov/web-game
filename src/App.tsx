@@ -46,6 +46,7 @@ import OneQuestionHundredAnswersSetupPage from './pages/OneQuestionHundredAnswer
 import OneQuestionHundredAnswersArenaPage from './pages/OneQuestionHundredAnswersArenaPage.tsx'
 import FakeOrFactProSetupPage from './pages/FakeOrFactProSetupPage.tsx'
 import FakeOrFactProArenaPage from './pages/FakeOrFactProArenaPage.tsx'
+import AdminDashboardPage from './pages/AdminDashboardPage.tsx'
 
 const LOADER_TOTAL_MS = 1500
 const ROUTE_SWITCH_MS = 1420
@@ -384,6 +385,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/games" element={<GamesPage />} />
           <Route path="/questions" element={<QuestionManagerPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/games/millioner" element={<MillionaireSetupPage />} />
           <Route path="/games/millioner/arena" element={<MillionaireArenaPage />} />
           <Route path="/games/arqon-tortish" element={<TugOfWarSetupPage />} />

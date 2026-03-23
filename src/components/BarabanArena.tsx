@@ -188,7 +188,7 @@ function BarabanArena({
           <button
             type="button"
             onClick={resetRound}
-            className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5"
+            className="ui-secondary-btn ui-secondary-btn--sm"
           >
             Qayta boshlash
           </button>

@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import FooterCTA from '../components/FooterCTA.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import Navbar from '../components/Navbar.tsx'
 import { findGameById } from '../data/games.ts'
+import { DEFAULT_TEAM_NAMES, TeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 
@@ -23,26 +25,30 @@ function MemoryChainSetupPage() {
   const navigate = useNavigate()
   const game = findGameById('xotira-zanjiri')
   const [difficulty, setDifficulty] = useState<Difficulty>("O'rta")
-  const [teamOne, setTeamOne] = useState('1-Jamoa')
-  const [teamTwo, setTeamTwo] = useState('2-Jamoa')
+  const [teamCount, setTeamCount] = useState<TeamCount>(2)
+  const [teamNames, setTeamNames] = useState<string[]>([...DEFAULT_TEAM_NAMES])
   const [formHint, setFormHint] = useState('')
 
   const info = useMemo(() => difficultyInfo[difficulty], [difficulty])
 
   const handleOpenArena = () => {
-    const cleanTeamOne = teamOne.trim()
-    const cleanTeamTwo = teamTwo.trim()
+    const activeTeamNames = teamNames
+      .slice(0, teamCount)
+      .map((name, index) => name.trim() || DEFAULT_TEAM_NAMES[index])
 
-    if (!cleanTeamOne || !cleanTeamTwo) {
-      setFormHint('Ikkala jamoa nomini ham kiriting.')
+    if (activeTeamNames.some((name) => !name)) {
+      setFormHint(teamCount === 1 ? 'Jamoa nomini kiriting.' : 'Ikkala jamoa nomini ham kiriting.')
       return
     }
 
     const params = new URLSearchParams({
       difficulty,
-      team1: cleanTeamOne,
-      team2: cleanTeamTwo,
+      teamCount: String(teamCount),
+      team1: activeTeamNames[0],
     })
+    if (teamCount === 2) {
+      params.set('team2', activeTeamNames[1])
+    }
 
     navigate(`/games/xotira-zanjiri/arena?${params.toString()}`)
   }
@@ -69,7 +75,9 @@ function MemoryChainSetupPage() {
                   {game.title}
                 </h1>
                 <p className="mt-3 text-lg font-bold text-slate-600">
-                  Eslab qolish, tez bosish va raqibdan oldin yakunlashga asoslangan real jamoaviy o'yin.
+                  {teamCount === 1
+                    ? "Eslab qolish, tez bosish va har raundni yakka o'zingiz tugatishga asoslangan real xotira o'yini."
+                    : "Eslab qolish, tez bosish va raqibdan oldin yakunlashga asoslangan real jamoaviy o'yin."}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-3">
                   <span className={`rounded-full bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white ${game.tone}`}>
@@ -80,6 +88,9 @@ function MemoryChainSetupPage() {
                   </span>
                   <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-600">
                     {info.rounds} raund
+                  </span>
+                  <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-600">
+                    {teamCount} jamoa
                   </span>
                 </div>
               </div>
@@ -98,8 +109,9 @@ function MemoryChainSetupPage() {
             <article className="rounded-[2rem] border border-white/85 bg-white/92 p-5 shadow-soft sm:p-6">
               <h2 className="font-kid text-4xl text-slate-900 sm:text-5xl">O'yin haqida</h2>
               <p className="mt-3 text-lg font-bold leading-relaxed text-slate-600">
-                Har raundda qisqa ketma-ketlik ko'rsatiladi. Ikkala jamoa ham o'z panelida shu
-                zanjirni aynan takrorlaydi. To'g'ri va tez javob yuqori ball beradi.
+                {teamCount === 1
+                  ? "Har raundda qisqa ketma-ketlik ko'rsatiladi. Siz shu zanjirni aynan takrorlaysiz. To'g'ri va tez javob yuqori ball beradi."
+                  : "Har raundda qisqa ketma-ketlik ko'rsatiladi. Ikkala jamoa ham o'z panelida shu zanjirni aynan takrorlaydi. To'g'ri va tez javob yuqori ball beradi."}
               </p>
 
               <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-5">
@@ -112,20 +124,37 @@ function MemoryChainSetupPage() {
               </div>
 
               <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-lg font-extrabold text-slate-800">Jamoa nomlari</p>
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <input
-                    value={teamOne}
-                    onChange={(event) => setTeamOne(event.target.value)}
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-cyan-400"
-                    placeholder="1-Jamoa"
-                  />
-                  <input
-                    value={teamTwo}
-                    onChange={(event) => setTeamTwo(event.target.value)}
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-cyan-400"
-                    placeholder="2-Jamoa"
-                  />
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-lg font-extrabold text-slate-800">Jamoa rejimi</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[1, 2].map((count) => (
+                      <button
+                        key={count}
+                        type="button"
+                        onClick={() => setTeamCount(count as TeamCount)}
+                        className={`rounded-full px-4 py-2 text-sm font-extrabold transition ${
+                          teamCount === count
+                            ? `bg-gradient-to-r text-white shadow-soft ${game.tone}`
+                            : 'bg-white text-slate-600 hover:bg-slate-100'
+                        }`}
+                      >
+                        {count} jamoa
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className={`mt-3 grid gap-3 ${teamCount === 2 ? 'sm:grid-cols-2' : ''}`}>
+                  {teamNames.slice(0, teamCount).map((name, index) => (
+                    <input
+                      key={`team-${index + 1}`}
+                      value={name}
+                      onChange={(event) => setTeamNames((prev) => prev.map((item, itemIndex) => (
+                        itemIndex === index ? event.target.value : item
+                      )))}
+                      className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-cyan-400"
+                      placeholder={DEFAULT_TEAM_NAMES[index]}
+                    />
+                  ))}
                 </div>
               </div>
 
@@ -191,6 +220,9 @@ function MemoryChainSetupPage() {
           </section>
         </main>
 
+        <div className="mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
         <FooterCTA />
       </div>
     </div>

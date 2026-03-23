@@ -53,7 +53,6 @@ type ReviewedRound = {
   approvedAnswers: string[]
 }
 
-const fixedTeamCount = 2 as const
 const fixedQuestionCount = 5
 const fixedRoundTime = 30
 const uniquePointValue = 10
@@ -99,10 +98,10 @@ const statusLabelMap = {
   rejected: 'Xato',
 } as const
 
-const createTeamInputState = () => ({
-  'team-1': '',
-  'team-2': '',
-})
+const createTeamInputState = (teamCount = 2) =>
+  Object.fromEntries(
+    Array.from({ length: teamCount }, (_, index) => [`team-${index + 1}`, '']),
+  ) as Record<string, string>
 
 const shuffle = <T,>(items: T[]) => {
   const next = [...items]
@@ -150,12 +149,13 @@ const buildQuestionDeck = (config: AnswersRoyaleSetupConfig) => {
 }
 
 const buildTeams = (config: AnswersRoyaleSetupConfig): AnswersRoyaleTeam[] => {
-  const basePlayers = Math.floor(config.totalPlayers / fixedTeamCount)
-  const remainder = config.totalPlayers % fixedTeamCount
+  const teamCount = config.teamCount
+  const basePlayers = Math.floor(config.totalPlayers / teamCount)
+  const remainder = config.totalPlayers % teamCount
   const teamNames = normalizeTeamNames(config.teamNames)
   let cursor = 0
 
-  return Array.from({ length: fixedTeamCount }, (_, index) => {
+  return Array.from({ length: teamCount }, (_, index) => {
     const playerCount = basePlayers + (index < remainder ? 1 : 0)
     const players: AnswersRoyalePlayer[] = Array.from({ length: playerCount }, (_unused, playerIndex) => {
       const rawName = playerNamePool[cursor % playerNamePool.length]
@@ -280,8 +280,8 @@ function AnswersRoyaleArena({ config, onBackToSetup }: AnswersRoyaleArenaProps) 
   const [currentRoundIndex, setCurrentRoundIndex] = useState(0)
   const [currentQuestion, setCurrentQuestion] = useState<AnswersRoyaleQuestion | null>(null)
   const [timeLeft, setTimeLeft] = useState(fixedRoundTime)
-  const [teamInputs, setTeamInputs] = useState<Record<string, string>>(() => createTeamInputState())
-  const [teamNotices, setTeamNotices] = useState<Record<string, string>>(() => createTeamInputState())
+  const [teamInputs, setTeamInputs] = useState<Record<string, string>>(() => createTeamInputState(config.teamCount))
+  const [teamNotices, setTeamNotices] = useState<Record<string, string>>(() => createTeamInputState(config.teamCount))
   const [currentSubmissions, setCurrentSubmissions] = useState<AnswersRoyaleSubmission[]>([])
   const [pendingRounds, setPendingRounds] = useState<PendingRound[]>([])
   const [reviewStateByRound, setReviewStateByRound] = useState<TournamentReviewState>({})
@@ -302,7 +302,7 @@ function AnswersRoyaleArena({ config, onBackToSetup }: AnswersRoyaleArenaProps) 
   const transitionTimeoutRef = useRef<number | null>(null)
   const transitionIntervalRef = useRef<number | null>(null)
 
-  const duelTeams = teams.slice(0, fixedTeamCount)
+  const duelTeams = teams.slice(0, config.teamCount)
   const totalRounds = questionDeck.length || fixedQuestionCount
   const timerRatio = Math.max(0, Math.min(100, (timeLeft / fixedRoundTime) * 100))
   const currentSubmissionsByTeam = useMemo(() => (
@@ -363,8 +363,8 @@ function AnswersRoyaleArena({ config, onBackToSetup }: AnswersRoyaleArenaProps) 
     setCurrentRoundIndex(0)
     setCurrentQuestion(null)
     setTimeLeft(fixedRoundTime)
-    setTeamInputs(createTeamInputState())
-    setTeamNotices(createTeamInputState())
+    setTeamInputs(createTeamInputState(config.teamCount))
+    setTeamNotices(createTeamInputState(config.teamCount))
     setCurrentSubmissions([])
     setPendingRounds([])
     setReviewStateByRound({})
@@ -438,8 +438,8 @@ function AnswersRoyaleArena({ config, onBackToSetup }: AnswersRoyaleArenaProps) 
     setPhase('question')
     phaseRef.current = 'question'
     setTimeLeft(fixedRoundTime)
-    setTeamInputs(createTeamInputState())
-    setTeamNotices(createTeamInputState())
+    setTeamInputs(createTeamInputState(config.teamCount))
+    setTeamNotices(createTeamInputState(config.teamCount))
     setCurrentSubmissions([])
     currentSubmissionsRef.current = []
     roundStartMsRef.current = Date.now()
@@ -484,8 +484,8 @@ function AnswersRoyaleArena({ config, onBackToSetup }: AnswersRoyaleArenaProps) 
     pendingRoundsRef.current = nextPendingRounds
     setReviewStateByRound(nextReviewState)
     reviewStateRef.current = nextReviewState
-    setTeamInputs(createTeamInputState())
-    setTeamNotices(createTeamInputState())
+    setTeamInputs(createTeamInputState(config.teamCount))
+    setTeamNotices(createTeamInputState(config.teamCount))
     setCurrentSubmissions([])
     currentSubmissionsRef.current = []
 
@@ -638,6 +638,7 @@ function AnswersRoyaleArena({ config, onBackToSetup }: AnswersRoyaleArenaProps) 
   const renderTeamPanel = (team: AnswersRoyaleTeam, side: 'left' | 'right') => {
     const theme = getTeamTheme(team.id)
     const submissions = [...(currentSubmissionsByTeam[team.id] ?? [])].sort((left, right) => right.submittedAt - left.submittedAt)
+    const teamSlotLabel = config.teamCount === 1 ? 'Jamoa' : side === 'left' ? 'Chap jamoa' : "O'ng jamoa"
 
     return (
       <div
@@ -647,7 +648,7 @@ function AnswersRoyaleArena({ config, onBackToSetup }: AnswersRoyaleArenaProps) 
         <div className="flex items-start justify-between gap-3">
           <div>
             <span className={`inline-flex rounded-full border px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] ${theme.badge}`}>
-              {side === 'left' ? 'Chap jamoa' : "O'ng jamoa"}
+              {teamSlotLabel}
             </span>
             <h3 className="mt-3 text-3xl font-black text-white">{team.name}</h3>
             <p className="mt-2 text-sm font-bold text-slate-300">{submissions.length} ta javob yozildi</p>
@@ -819,7 +820,7 @@ function AnswersRoyaleArena({ config, onBackToSetup }: AnswersRoyaleArenaProps) 
               </div>
             </motion.div>
 
-            <div className="grid gap-4 lg:grid-cols-2">
+            <div className={`grid gap-4 ${config.teamCount === 1 ? '' : 'lg:grid-cols-2'}`}>
               {duelTeams[0] ? renderTeamPanel(duelTeams[0], 'left') : null}
               {duelTeams[1] ? renderTeamPanel(duelTeams[1], 'right') : null}
             </div>

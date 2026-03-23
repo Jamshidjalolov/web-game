@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AiQuizImportPanel from '../components/AiQuizImportPanel.tsx'
 import FooterCTA from '../components/FooterCTA.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import type { TeacherMillionaireQuestion } from '../components/MillionaireTeamArena.tsx'
 import Navbar from '../components/Navbar.tsx'
 import QuestionManagerLinkCard from '../components/QuestionManagerLinkCard.tsx'
@@ -13,6 +14,7 @@ import {
   type AiGeneratedPayload,
 } from '../lib/aiQuizGenerator.ts'
 import { createGameQuestion, deleteGameQuestion, fetchGameQuestions, type BackendQuestion } from '../lib/backend.ts'
+import { DEFAULT_TEAM_NAMES, TeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 type Letter = 'A' | 'B' | 'C' | 'D'
@@ -70,8 +72,8 @@ function MillionaireSetupPage() {
   const game = findGameById('millioner')
   const canUseTeacherContent = useTeacherGameAccess()
   const [difficulty, setDifficulty] = useState<Difficulty>("O'rta")
-  const [teamOne, setTeamOne] = useState('1-Jamoa')
-  const [teamTwo, setTeamTwo] = useState('2-Jamoa')
+  const [teamCount, setTeamCount] = useState<TeamCount>(2)
+  const [teamNames, setTeamNames] = useState<string[]>([...DEFAULT_TEAM_NAMES])
   const [teacherQuestions, setTeacherQuestions] = useState<LocalTeacherMillionaireQuestion[]>([])
   const [draftDifficulty, setDraftDifficulty] = useState<Difficulty>("O'rta")
   const [draftPrompt, setDraftPrompt] = useState('')
@@ -262,11 +264,12 @@ function MillionaireSetupPage() {
   }
 
   const handleOpenArena = () => {
-    const cleanTeamOne = teamOne.trim()
-    const cleanTeamTwo = teamTwo.trim()
+    const activeTeamNames = teamNames
+      .slice(0, teamCount)
+      .map((name, index) => name.trim() || DEFAULT_TEAM_NAMES[index])
 
-    if (!cleanTeamOne || !cleanTeamTwo) {
-      setFormHint('Ikkala jamoa nomini ham kiriting.')
+    if (activeTeamNames.some((name) => !name)) {
+      setFormHint(teamCount === 1 ? 'Jamoa nomini kiriting.' : 'Ikkala jamoa nomini ham kiriting.')
       return
     }
 
@@ -280,11 +283,14 @@ function MillionaireSetupPage() {
 
     const params = new URLSearchParams({
       difficulty,
-      team1: cleanTeamOne,
-      team2: cleanTeamTwo,
+      teamCount: String(teamCount),
+      team1: activeTeamNames[0],
       session: `${Date.now()}`,
       custom: customKey,
     })
+    if (teamCount === 2) {
+      params.set('team2', activeTeamNames[1])
+    }
 
     navigate(`/games/millioner/arena?${params.toString()}`)
   }
@@ -311,8 +317,9 @@ function MillionaireSetupPage() {
                   {game.title}
                 </h1>
                 <p className="mt-3 text-lg font-bold text-slate-600">
-                  Millioner endi jamoaviy rejimda: ikkala jamoa ham bir xil savolga javob beradi.
-                  Birinchi to'g'ri topgan jamoa ko'proq ball oladi.
+                  {teamCount === 1
+                    ? "Millioner endi yakka rejimda ham ishlaydi: siz savollarni ketma-ket yechib bosqichma-bosqich yuqoriga chiqasiz."
+                    : "Millioner endi jamoaviy rejimda: ikkala jamoa ham bir xil savolga javob beradi. Birinchi to'g'ri topgan jamoa ko'proq ball oladi."}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-3">
                   <span className={`rounded-full bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white ${game.tone}`}>
@@ -329,6 +336,9 @@ function MillionaireSetupPage() {
                   </span>
                   <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-600">
                     {teacherQuestions.length} ta custom savol
+                  </span>
+                  <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-600">
+                    {teamCount} jamoa
                   </span>
                 </div>
               </div>
@@ -347,41 +357,59 @@ function MillionaireSetupPage() {
             <article className="rounded-[2rem] border border-white/85 bg-white/92 p-5 shadow-soft sm:p-6">
               <h2 className="font-kid text-4xl text-slate-900 sm:text-5xl">Jamoalarni sozlash</h2>
               <p className="mt-3 text-lg font-bold leading-relaxed text-slate-600">
-                Arena sahifada o'yin avtomatik boshlanmaydi. Avval shu joyda jamoa va darajani tanlaysiz,
-                keyin alohida start tugmasi orqali bellashuvni ochasiz.
+                {teamCount === 1
+                  ? "Arena sahifada o'yin avtomatik boshlanmaydi. Avval shu joyda yakka rejim va darajani tanlaysiz, keyin alohida start tugmasi orqali testni ochasiz."
+                  : "Arena sahifada o'yin avtomatik boshlanmaydi. Avval shu joyda jamoa va darajani tanlaysiz, keyin alohida start tugmasi orqali bellashuvni ochasiz."}
               </p>
 
               <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-lg font-extrabold text-slate-800">Jamoa nomlari</p>
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <input
-                    value={teamOne}
-                    onChange={(event) => setTeamOne(event.target.value)}
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-indigo-400"
-                    placeholder="1-Jamoa"
-                  />
-                  <input
-                    value={teamTwo}
-                    onChange={(event) => setTeamTwo(event.target.value)}
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-indigo-400"
-                    placeholder="2-Jamoa"
-                  />
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-lg font-extrabold text-slate-800">Jamoa rejimi</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[1, 2].map((count) => (
+                      <button
+                        key={count}
+                        type="button"
+                        onClick={() => setTeamCount(count as TeamCount)}
+                        className={`rounded-full px-4 py-2 text-sm font-extrabold transition ${
+                          teamCount === count
+                            ? `bg-gradient-to-r text-white shadow-soft ${game.tone}`
+                            : 'bg-white text-slate-600 hover:bg-slate-100'
+                        }`}
+                      >
+                        {count} jamoa
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className={`mt-3 grid gap-3 ${teamCount === 2 ? 'sm:grid-cols-2' : ''}`}>
+                  {teamNames.slice(0, teamCount).map((name, index) => (
+                    <input
+                      key={`team-${index + 1}`}
+                      value={name}
+                      onChange={(event) => setTeamNames((prev) => prev.map((item, itemIndex) => (
+                        itemIndex === index ? event.target.value : item
+                      )))}
+                      className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-indigo-400"
+                      placeholder={DEFAULT_TEAM_NAMES[index]}
+                    />
+                  ))}
                 </div>
               </div>
 
               <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-5">
                 <p className="text-lg font-extrabold text-slate-800">Qoidalar</p>
                 <ul className="mt-3 space-y-2 text-sm font-bold text-slate-600">
-                  <li>1. Ikkala jamoa bir xil savolga javob beradi.</li>
-                  <li>2. Ikkala jamoa bir xil variantni tanlashi mumkin.</li>
-                  <li>3. Kim birinchi to'g'ri topsa, qo'shimcha bonus oladi.</li>
+                  <li>1. {teamCount === 1 ? "Siz savollarni ketma-ket yechasiz." : "Ikkala jamoa bir xil savolga javob beradi."}</li>
+                  <li>2. {teamCount === 1 ? "Bitta xato yoki timeout yakka yurishni to'xtatadi." : "Ikkala jamoa bir xil variantni tanlashi mumkin."}</li>
+                  <li>3. {teamCount === 1 ? "Har to'g'ri javob bosqich mukofotini oshiradi." : "Kim birinchi to'g'ri topsa, qo'shimcha bonus oladi."}</li>
                 </ul>
               </div>
 
               <button
                 type="button"
                 onClick={handleOpenArena}
-                className={`mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r px-6 py-4 text-xl font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${game.tone}`}
+                className={`ui-accent-btn mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r px-6 py-4 text-xl font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${game.tone}`}
               >
                 Arena ochish
               </button>
@@ -442,7 +470,7 @@ function MillionaireSetupPage() {
               <div className="mt-5">
                 <Link
                   to="/games"
-                  className="inline-flex rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-extrabold text-slate-700 transition hover:-translate-y-0.5"
+                  className="ui-secondary-btn ui-secondary-btn--md inline-flex rounded-2xl px-5 py-3 text-sm font-extrabold transition hover:-translate-y-0.5"
                 >
                   Barcha o'yinlarga qaytish
                 </Link>
@@ -451,6 +479,9 @@ function MillionaireSetupPage() {
           </section>
         </main>
 
+        <div className="mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
         <FooterCTA />
       </div>
     </div>

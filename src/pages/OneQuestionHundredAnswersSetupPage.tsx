@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FooterCTA from '../components/FooterCTA.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import Navbar from '../components/Navbar.tsx'
 import QuestionManagerLinkCard from '../components/QuestionManagerLinkCard.tsx'
 import { findGameById } from '../data/games.ts'
@@ -132,7 +133,7 @@ function OneQuestionHundredAnswersSetupPage() {
     return {
       ...defaultSetupConfig,
       ...saved,
-      teamCount: 2,
+      teamCount: saved?.teamCount === 1 ? 1 : 2,
       teamNames: normalizeTeamNames(saved?.teamNames),
       category: 'any',
       difficulty: 'hard',
@@ -204,7 +205,13 @@ function OneQuestionHundredAnswersSetupPage() {
               />
             </div>
           </section>
+
         </main>
+        {game ? (
+          <div className="mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+            <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+          </div>
+        ) : null}
         <FooterCTA />
       </div>
     </div>

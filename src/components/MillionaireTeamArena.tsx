@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import ConfettiOverlay from './ConfettiOverlay'
 import millionerBg from '../assets/games/millioner.svg'
 import millionerMusic from '../rasm/millioner.mp3'
+import { TeamCount } from '../lib/teamMode'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 type Side = 'left' | 'right'
@@ -23,6 +24,7 @@ type MillionaireTeamArenaProps = {
   gameTone: string
   leftTeamName?: string
   rightTeamName?: string
+  teamCount?: TeamCount
   difficulty?: Difficulty
   teacherQuestions?: TeacherMillionaireQuestion[]
   setupPath?: string
@@ -204,6 +206,7 @@ function MillionaireTeamArena({
   gameTone,
   leftTeamName = '1-Jamoa',
   rightTeamName = '2-Jamoa',
+  teamCount = 2,
   difficulty = "O'rta",
   teacherQuestions = [],
   setupPath = '/games/millioner',
@@ -211,6 +214,7 @@ function MillionaireTeamArena({
   const cfg = CONFIG[difficulty]
   const leftLabel = leftTeamName.trim() || '1-Jamoa'
   const rightLabel = rightTeamName.trim() || '2-Jamoa'
+  const isSoloMode = teamCount === 1
   const customCount = useMemo(
     () => teacherQuestions.filter((question) => question.difficulty === difficulty).length,
     [teacherQuestions, difficulty],
@@ -224,8 +228,19 @@ function MillionaireTeamArena({
   const [settled, setSettled] = useState(false)
   const [timeLeft, setTimeLeft] = useState(cfg.seconds)
 
-  const [teams, setTeams] = useState<TeamsState>(() => makeFreshTeams())
-  const [status, setStatus] = useState("Boshlashni bosing. 1 ta xato javob bilan o'sha jamoa o'yindan chiqadi.")
+  const [teams, setTeams] = useState<TeamsState>(() => {
+    const fresh = makeFreshTeams()
+    if (isSoloMode) {
+      fresh.right.alive = false
+      fresh.right.locked = true
+    }
+    return fresh
+  })
+  const [status, setStatus] = useState(
+    isSoloMode
+      ? "Boshlashni bosing. 1 ta xato javob bilan yakka yurish tugaydi."
+      : "Boshlashni bosing. 1 ta xato javob bilan o'sha jamoa o'yindan chiqadi.",
+  )
   const [winner, setWinner] = useState<Winner | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [burst, setBurst] = useState(0)
@@ -250,17 +265,21 @@ function MillionaireTeamArena({
   const canHelp = started && !finished && !settled && !!question && !pendingPick
 
   const winnerLabel = useMemo(() => (
-    winner === 'left' ? leftLabel : winner === 'right' ? rightLabel : winner === 'draw' ? 'Durang' : ''
-  ), [winner, leftLabel, rightLabel])
+    isSoloMode
+      ? leftLabel
+      : winner === 'left' ? leftLabel : winner === 'right' ? rightLabel : winner === 'draw' ? 'Durang' : ''
+  ), [isSoloMode, winner, leftLabel, rightLabel])
 
   const clearRound = () => {
     setTeams((prev) => ({
       left: prev.left.alive
         ? { ...prev.left, selected: null, locked: false, result: 'idle' }
         : { ...prev.left, selected: null, locked: true },
-      right: prev.right.alive
-        ? { ...prev.right, selected: null, locked: false, result: 'idle' }
-        : { ...prev.right, selected: null, locked: true },
+      right: isSoloMode
+        ? { ...prev.right, selected: null, locked: true, alive: false }
+        : prev.right.alive
+          ? { ...prev.right, selected: null, locked: false, result: 'idle' }
+          : { ...prev.right, selected: null, locked: true },
     }))
     setSettled(false)
     setTimeLeft(cfg.seconds)
@@ -272,6 +291,7 @@ function MillionaireTeamArena({
   }
 
   const resolveWinner = (state: TeamsState): Winner => {
+    if (isSoloMode) return 'left'
     const leftFinal = state.left.alive ? state.left.bank : state.left.finalPrize
     const rightFinal = state.right.alive ? state.right.bank : state.right.finalPrize
 
@@ -296,6 +316,7 @@ function MillionaireTeamArena({
 
   const askAnswerConfirm = (side: Side, optionIndex: number) => {
     if (!question || !started || finished || settledRef.current || eliminated.includes(optionIndex) || pendingPick) return
+    if (isSoloMode && side === 'right') return
 
     const current = side === 'left' ? teams.left : teams.right
     if (!current.alive || current.locked) return
@@ -305,6 +326,7 @@ function MillionaireTeamArena({
 
   const onAnswer = (side: Side, optionIndex: number) => {
     if (!question || !started || finished || settledRef.current || eliminated.includes(optionIndex)) return
+    if (isSoloMode && side === 'right') return
 
     const current = side === 'left' ? teams.left : teams.right
     if (!current.alive || current.locked) return
@@ -357,17 +379,17 @@ function MillionaireTeamArena({
     setTeams(next)
 
     const leftDone = !next.left.alive || next.left.locked
-    const rightDone = !next.right.alive || next.right.locked
+    const rightDone = isSoloMode || !next.right.alive || next.right.locked
 
     if (leftDone && rightDone) {
       const answer = question.options[question.correctIndex]
       const first = firstCorrectRef.current === 'left' ? leftLabel : rightLabel
 
-      if (next.left.result === 'correct' && next.right.result === 'correct') {
+      if (!isSoloMode && next.left.result === 'correct' && next.right.result === 'correct') {
         settleRound(`Ikkala jamoa ham to'g'ri javob berdi. Birinchi bo'lib ${first} topdi. Javob: ${answer}.`)
       } else if (next.left.result === 'correct') {
-        settleRound(`${leftLabel} savolni oldi. Javob: ${answer}.`)
-      } else if (next.right.result === 'correct') {
+        settleRound(isSoloMode ? `${leftLabel} to'g'ri topdi. Javob: ${answer}.` : `${leftLabel} savolni oldi. Javob: ${answer}.`)
+      } else if (!isSoloMode && next.right.result === 'correct') {
         settleRound(`${rightLabel} savolni oldi. Javob: ${answer}.`)
       } else {
         settleRound(`Raund yopildi. To'g'ri javob: ${answer}.`)
@@ -434,7 +456,14 @@ function MillionaireTeamArena({
     setRound(0)
     setStarted(false)
     setFinished(false)
-    setTeams(makeFreshTeams())
+    setTeams(() => {
+      const fresh = makeFreshTeams()
+      if (isSoloMode) {
+        fresh.right.alive = false
+        fresh.right.locked = true
+      }
+      return fresh
+    })
     setWinner(null)
     setShowModal(false)
     setUsedFifty(false)
@@ -497,6 +526,7 @@ function MillionaireTeamArena({
     }
 
     ;(['left', 'right'] as Side[]).forEach((side) => {
+      if (isSoloMode && side === 'right') return
       const target = side === 'left' ? next.left : next.right
       if (!target.alive || target.locked) return
       target.locked = true
@@ -508,7 +538,7 @@ function MillionaireTeamArena({
 
     setTeams(next)
     settleRound(`Vaqt tugadi. To'g'ri javob: ${question.options[question.correctIndex]}.`)
-  }, [timeLeft, question, started, finished, settled, teams, round])
+  }, [timeLeft, question, started, finished, settled, teams, round, isSoloMode])
 
   useEffect(() => {
     if (!started || finished || !settled) return
@@ -519,7 +549,9 @@ function MillionaireTeamArena({
       if (noOneAlive || onLast) {
         const finalized: TeamsState = {
           left: teams.left.alive ? { ...teams.left, finalPrize: teams.left.bank } : { ...teams.left },
-          right: teams.right.alive ? { ...teams.right, finalPrize: teams.right.bank } : { ...teams.right },
+          right: isSoloMode
+            ? { ...teams.right, finalPrize: teams.right.finalPrize }
+            : teams.right.alive ? { ...teams.right, finalPrize: teams.right.bank } : { ...teams.right },
         }
         setTeams(finalized)
         setFinished(true)
@@ -528,7 +560,9 @@ function MillionaireTeamArena({
         setShowModal(true)
         setBurst((prev) => prev + 1)
         setStatus(
-          noOneAlive
+          isSoloMode
+            ? "Yakka Millioner raundi yakunlandi."
+            : noOneAlive
             ? "Ikkala jamoa ham o'yindan chiqdi. Yakuniy natijalar chiqarildi."
             : 'Barcha savollar yakunlandi. Yakuniy natijalar chiqarildi.',
         )
@@ -537,28 +571,30 @@ function MillionaireTeamArena({
 
       setRound((prev) => prev + 1)
       clearRound()
-      setStatus("Yangi savol ochildi. Birinchi topgan +3 ball, keyingi +1 ball oladi.")
+      setStatus(isSoloMode ? "Yangi savol ochildi. To'g'ri topsangiz bosqich davom etadi." : "Yangi savol ochildi. Birinchi topgan +3 ball, keyingi +1 ball oladi.")
     }, cfg.nextDelay)
     return () => window.clearTimeout(id)
-  }, [started, finished, settled, teams, round, totalRounds, cfg.nextDelay, leftLabel, rightLabel])
+  }, [started, finished, settled, teams, round, totalRounds, cfg.nextDelay, leftLabel, rightLabel, isSoloMode])
 
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border border-indigo-200/50 bg-[radial-gradient(circle_at_12%_14%,rgba(79,70,229,0.22),transparent_35%),radial-gradient(circle_at_86%_22%,rgba(251,191,36,0.15),transparent_38%),linear-gradient(165deg,#040815_0%,#0d1532_45%,#130d27_100%)] p-4 text-slate-100 shadow-[0_30px_70px_rgba(2,6,23,0.58)] sm:p-5">
+    <section className="millionaire-shell relative overflow-hidden rounded-[2rem] border border-indigo-200/50 bg-[radial-gradient(circle_at_12%_14%,rgba(79,70,229,0.22),transparent_35%),radial-gradient(circle_at_86%_22%,rgba(251,191,36,0.15),transparent_38%),linear-gradient(165deg,#040815_0%,#0d1532_45%,#130d27_100%)] p-4 text-slate-100 shadow-[0_30px_70px_rgba(2,6,23,0.58)] sm:p-5">
       <img
         src={millionerBg}
         alt=""
         aria-hidden
         className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.22] mix-blend-screen"
       />
-      <div className="pointer-events-none absolute inset-0 bg-slate-950/40" />
+      <div className="millionaire-shell-overlay pointer-events-none absolute inset-0 bg-slate-950/40" />
       <div className="relative z-10 flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="inline-flex rounded-full border border-amber-300/50 bg-amber-300/10 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-amber-200 sm:text-xs">
-            Team Millioner
+            {isSoloMode ? 'Solo Millioner' : 'Team Millioner'}
           </p>
-          <h2 className="mt-1 font-kid text-3xl text-white sm:text-4xl">{gameTitle} Arena</h2>
+          <h2 className="mt-1 font-kid text-3xl text-white sm:text-4xl">{isSoloMode ? `${gameTitle} Solo` : `${gameTitle} Arena`}</h2>
           <p className="mt-1 text-xs font-extrabold uppercase tracking-[0.12em] text-indigo-100/80">
-            1 xato = o'sha jamoa stop, qolgan jamoa yakka davom etadi
+            {isSoloMode
+              ? "1 xato = yurish tugaydi, to'g'ri javoblar bilan bosqichni ko'tarasiz"
+              : "1 xato = o'sha jamoa stop, qolgan jamoa yakka davom etadi"}
           </p>
           {customCount > 0 ? (
             <p className="mt-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-cyan-200 sm:text-xs">
@@ -569,7 +605,7 @@ function MillionaireTeamArena({
         <div className="flex flex-wrap gap-2">
           <Link
             to={setupPath}
-            className="rounded-xl border border-slate-400/80 bg-slate-900/80 px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-100 transition hover:-translate-y-0.5 sm:text-xs"
+            className="millionaire-secondary-btn ui-secondary-btn ui-secondary-btn--sm rounded-xl px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] transition hover:-translate-y-0.5 sm:text-xs"
           >
             {'< '}Sozlama
           </Link>
@@ -577,7 +613,7 @@ function MillionaireTeamArena({
             type="button"
             onClick={startGame}
             disabled={started || finished}
-            className={`rounded-xl bg-gradient-to-r px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-soft transition sm:text-xs ${
+            className={`millionaire-primary-btn ui-accent-btn rounded-xl bg-gradient-to-r px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-soft transition sm:text-xs ${
               started || finished ? 'cursor-not-allowed opacity-65' : `hover:-translate-y-0.5 ${gameTone}`
             }`}
           >
@@ -586,7 +622,7 @@ function MillionaireTeamArena({
           <button
             type="button"
             onClick={toggleMusic}
-            className={`rounded-xl border px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] transition hover:-translate-y-0.5 sm:text-xs ${
+            className={`millionaire-secondary-btn rounded-xl border px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] transition hover:-translate-y-0.5 sm:text-xs ${
               musicOn
                 ? 'border-emerald-300/80 bg-emerald-500/20 text-emerald-100'
                 : 'border-slate-500/80 bg-slate-900/80 text-slate-200'
@@ -597,7 +633,7 @@ function MillionaireTeamArena({
           <button
             type="button"
             onClick={resetGame}
-            className="rounded-xl border border-slate-400/80 bg-slate-900/80 px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-100 transition hover:-translate-y-0.5 sm:text-xs"
+            className="millionaire-secondary-btn ui-secondary-btn ui-secondary-btn--sm rounded-xl px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] transition hover:-translate-y-0.5 sm:text-xs"
           >
             Qayta
           </button>
@@ -606,7 +642,7 @@ function MillionaireTeamArena({
 
       <div className="relative z-10 mt-4 grid gap-4 xl:grid-cols-[1fr_290px]">
         <div className="space-y-4">
-          <article className="rounded-[1.2rem] border border-slate-500/80 bg-slate-900/82 p-4">
+          <article className="millionaire-panel rounded-[1.2rem] border border-slate-500/80 bg-slate-900/82 p-4">
             <p className="text-sm font-extrabold text-white">Yordamlar</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-3">
               <button
@@ -663,7 +699,7 @@ function MillionaireTeamArena({
             </div>
           </article>
 
-          <article className="rounded-[1.2rem] border border-slate-500/80 bg-slate-900/82 p-4">
+          <article className="millionaire-panel rounded-[1.2rem] border border-slate-500/80 bg-slate-900/82 p-4">
             <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-extrabold uppercase">
               <span className="rounded-full border border-indigo-200/50 bg-indigo-300/15 px-2.5 py-1">
                 Savol {Math.min(round + (settled ? 1 : 0), totalRounds)}/{totalRounds}
@@ -675,7 +711,7 @@ function MillionaireTeamArena({
             <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-800">
               <div className={`h-full rounded-full bg-gradient-to-r ${gameTone}`} style={{ width: `${progress}%` }} />
             </div>
-            <div className="mt-4 rounded-[1rem] border border-indigo-200/35 bg-[linear-gradient(150deg,#0b122e_0%,#0f1a46_55%,#101938_100%)] px-4 py-4">
+            <div className="millionaire-question-card mt-4 rounded-[1rem] border border-indigo-200/35 bg-[linear-gradient(150deg,#0b122e_0%,#0f1a46_55%,#101938_100%)] px-4 py-4">
               <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-indigo-200">
                 Bosqich mukofoti: {formatMoney(stageValue)}
               </p>
@@ -686,7 +722,7 @@ function MillionaireTeamArena({
             {audience ? (
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 {audience.map((vote, index) => (
-                  <div key={`aud-${index}`} className="rounded-xl border border-slate-500/80 bg-slate-900/72 px-3 py-2 text-sm font-extrabold text-slate-100">
+                  <div key={`aud-${index}`} className="millionaire-subcard rounded-xl border border-slate-500/80 bg-slate-900/72 px-3 py-2 text-sm font-extrabold text-slate-100">
                     {String.fromCharCode(65 + index)}: {vote}%
                   </div>
                 ))}
@@ -694,12 +730,12 @@ function MillionaireTeamArena({
             ) : null}
           </article>
 
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className={`grid gap-4 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
             {([
               { side: 'left' as Side, label: leftLabel, team: teams.left, tone: 'from-cyan-500 to-blue-600' },
               { side: 'right' as Side, label: rightLabel, team: teams.right, tone: 'from-fuchsia-500 to-rose-500' },
-            ]).map((item) => (
-              <article key={item.side} className="rounded-[1.1rem] border border-slate-500/80 bg-slate-900/82 p-4">
+            ].filter((item) => !isSoloMode || item.side === 'left')).map((item) => (
+              <article key={item.side} className="millionaire-panel rounded-[1.1rem] border border-slate-500/80 bg-slate-900/82 p-4">
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-kid text-3xl text-white">{item.label}</h3>
                   <span className={`rounded-full bg-gradient-to-r px-3 py-1 text-xs font-extrabold text-white ${item.tone}`}>
@@ -751,7 +787,7 @@ function MillionaireTeamArena({
                             type="button"
                             onClick={() => askAnswerConfirm(item.side, index)}
                             disabled={disabled}
-                            className={`flex min-h-[82px] items-start gap-2 rounded-xl border px-3 py-3 text-left text-sm font-extrabold transition ${optionTone} ${disabled ? 'cursor-not-allowed opacity-90' : ''}`}
+                            className={`millionaire-answer-btn flex min-h-[82px] items-start gap-2 rounded-xl border px-3 py-3 text-left text-sm font-extrabold transition ${optionTone} ${disabled ? 'cursor-not-allowed opacity-90' : ''}`}
                           >
                             <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg border border-slate-500/70 bg-slate-900/80 text-xs font-black text-white">
                               {String.fromCharCode(65 + index)}
@@ -781,7 +817,7 @@ function MillionaireTeamArena({
         </div>
 
         <aside className="space-y-4">
-          <article className="rounded-[1.2rem] border border-slate-500/80 bg-slate-900/82 p-4">
+          <article className="millionaire-panel rounded-[1.2rem] border border-slate-500/80 bg-slate-900/82 p-4">
             <p className="text-sm font-extrabold text-white">Mukofot zinapoyasi</p>
             <div className="mt-3 space-y-1.5">
               {[...ladder].reverse().map((value, index) => {
@@ -809,7 +845,7 @@ function MillionaireTeamArena({
         </aside>
       </div>
 
-      <div className={`relative z-10 mt-4 rounded-xl border px-4 py-3 text-sm font-extrabold ${
+      <div className={`millionaire-status relative z-10 mt-4 rounded-xl border px-4 py-3 text-sm font-extrabold ${
         finished
           ? 'border-emerald-300/80 bg-emerald-500/20 text-emerald-50'
           : 'border-indigo-300/70 bg-indigo-500/20 text-indigo-50'
@@ -818,15 +854,15 @@ function MillionaireTeamArena({
       </div>
 
       {pendingPick && question ? (
-        <div className="fixed inset-0 z-[94] grid place-items-center bg-slate-950/70 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-xl rounded-[1.6rem] border border-indigo-300/70 bg-[linear-gradient(165deg,#070d22_0%,#101b46_52%,#171131_100%)] p-5 shadow-[0_22px_50px_rgba(15,23,42,0.55)]">
+        <div className="millionaire-modal-overlay fixed inset-0 z-[94] grid place-items-center bg-slate-950/70 p-4 backdrop-blur-sm">
+          <div className="millionaire-modal-panel w-full max-w-xl rounded-[1.6rem] border border-indigo-300/70 bg-[linear-gradient(165deg,#070d22_0%,#101b46_52%,#171131_100%)] p-5 shadow-[0_22px_50px_rgba(15,23,42,0.55)]">
             <p className="inline-flex rounded-full border border-indigo-300/70 bg-indigo-400/20 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-indigo-100">
               Javobni tasdiqlash
             </p>
             <h3 className="mt-3 font-kid text-4xl text-white sm:text-5xl">
               Shu javobda qolishingizga ishonchingiz komilmi?
             </h3>
-            <div className="mt-4 rounded-xl border border-slate-400/70 bg-slate-900/75 p-3 text-slate-100">
+            <div className="millionaire-subcard mt-4 rounded-xl border border-slate-400/70 bg-slate-900/75 p-3 text-slate-100">
               <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-300">
                 Jamoa: {pendingPick.side === 'left' ? leftLabel : rightLabel}
               </p>
@@ -838,14 +874,14 @@ function MillionaireTeamArena({
               <button
                 type="button"
                 onClick={confirmPendingPick}
-                className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
+                className={`millionaire-primary-btn ui-accent-btn rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
               >
                 Ha, qabul qilaman
               </button>
               <button
                 type="button"
                 onClick={cancelPendingPick}
-                className="rounded-xl border border-slate-400/80 bg-slate-900/80 px-4 py-2 text-sm font-extrabold text-slate-100 transition hover:-translate-y-0.5"
+                className="millionaire-secondary-btn ui-secondary-btn ui-secondary-btn--md rounded-xl px-4 py-2 text-sm font-extrabold transition hover:-translate-y-0.5"
               >
                 Yo'q, qayta tanlayman
               </button>
@@ -855,21 +891,21 @@ function MillionaireTeamArena({
       ) : null}
 
       {showModal ? (
-        <div className="fixed inset-0 z-[95] grid place-items-center bg-slate-900/65 p-4 backdrop-blur-sm">
+        <div className="millionaire-modal-overlay fixed inset-0 z-[95] grid place-items-center bg-slate-900/65 p-4 backdrop-blur-sm">
           <ConfettiOverlay burstKey={burst} variant={winner === 'draw' ? 'lose' : 'win'} pieces={winner === 'draw' ? 120 : 180} />
-          <div className="w-full max-w-2xl rounded-[1.6rem] border border-slate-400/80 bg-[linear-gradient(160deg,#070d22_0%,#0f193d_55%,#17112f_100%)] p-5">
+          <div className="millionaire-modal-panel w-full max-w-2xl rounded-[1.6rem] border border-slate-400/80 bg-[linear-gradient(160deg,#070d22_0%,#0f193d_55%,#17112f_100%)] p-5">
             <p className="inline-flex rounded-full border border-emerald-300/70 bg-emerald-300/15 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-emerald-100">
               Millioner yakuni
             </p>
             <h3 className="mt-3 font-kid text-4xl text-white sm:text-5xl">
-              {winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
-            </h3>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {!isSoloMode && winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
+              </h3>
+            <div className={`mt-4 grid gap-3 ${isSoloMode ? '' : 'sm:grid-cols-2'}`}>
               {([
                 { label: leftLabel, team: teams.left },
                 { label: rightLabel, team: teams.right },
-              ]).map((item) => (
-                <div key={item.label} className="rounded-xl border border-slate-500/80 bg-slate-900/75 p-3 text-center">
+              ].filter((item) => !isSoloMode || item.label === leftLabel)).map((item) => (
+                <div key={item.label} className="millionaire-subcard rounded-xl border border-slate-500/80 bg-slate-900/75 p-3 text-center">
                   <p className="text-xs font-extrabold uppercase text-slate-200">{item.label}</p>
                   <p className="mt-1 text-2xl font-extrabold text-white">{formatMoney(item.team.alive ? item.team.bank : item.team.finalPrize)}</p>
                   <p className="text-xs font-extrabold text-slate-300">To'g'ri: {item.team.correct}</p>
@@ -885,14 +921,14 @@ function MillionaireTeamArena({
               <button
                 type="button"
                 onClick={() => setShowModal(false)}
-                className="rounded-xl border border-slate-400/80 bg-slate-900/80 px-4 py-2 text-sm font-extrabold text-slate-100 transition hover:-translate-y-0.5"
+                className="millionaire-secondary-btn ui-secondary-btn ui-secondary-btn--md rounded-xl px-4 py-2 text-sm font-extrabold transition hover:-translate-y-0.5"
               >
                 Yopish
               </button>
               <button
                 type="button"
                 onClick={resetGame}
-                className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
+                className={`millionaire-primary-btn ui-accent-btn rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
               >
                 Yangi o'yin
               </button>

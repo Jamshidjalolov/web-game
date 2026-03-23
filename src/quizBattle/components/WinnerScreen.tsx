@@ -167,7 +167,7 @@ function WinnerScreen({ teams, onReplay, onBackToSetup }: WinnerScreenProps) {
             whileTap={{ scale: 0.97 }}
             onClick={onBackToSetup}
             type="button"
-            className="quizbattle-secondary-btn rounded-2xl border border-white/25 bg-white/10 px-5 py-3 text-xs font-black uppercase tracking-[0.11em] text-white sm:text-sm"
+            className="quizbattle-secondary-btn ui-secondary-btn rounded-2xl text-xs sm:text-sm"
           >
             Sozlamaga Qaytish
           </motion.button>

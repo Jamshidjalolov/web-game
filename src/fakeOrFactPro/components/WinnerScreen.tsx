@@ -10,6 +10,7 @@ function WinnerScreen({ onBackToSetup }: WinnerScreenProps) {
   const { burstKey, phase, restartGame, teams, winnerTeam } = useFakeOrFactGame()
   const orderedTeams = teams.slice().sort((left, right) => right.score - left.score)
   const runnerUp = orderedTeams.find((team) => team.id !== winnerTeam?.id) ?? null
+  const isSoloMode = teams.length === 1
 
   return (
     <AnimatePresence>
@@ -35,7 +36,7 @@ function WinnerScreen({ onBackToSetup }: WinnerScreenProps) {
               </p>
             </div>
 
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <div className={`mt-4 grid gap-3 ${isSoloMode ? '' : 'md:grid-cols-2'}`}>
               <div className="rounded-[1.4rem] border border-emerald-300/18 bg-emerald-400/10 p-4">
                 <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-100/82">Chempion natija</p>
                 <p className="mt-2 text-5xl font-black text-white">{winnerTeam.score}</p>
@@ -47,17 +48,19 @@ function WinnerScreen({ onBackToSetup }: WinnerScreenProps) {
                 </p>
               </div>
 
-              <div className="rounded-[1.4rem] border border-white/12 bg-white/8 p-4">
-                <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-300">Ikkinchi jamoa</p>
-                <p className="mt-2 text-2xl font-black text-white">{runnerUp?.name ?? 'Raqib jamoa'}</p>
-                <p className="mt-3 text-4xl font-black text-white">{runnerUp?.score ?? 0}</p>
-                <p className="mt-2 text-xs font-bold leading-5 text-slate-300 sm:text-sm">
-                  Yaxshi urinish. Keyingi o'yinda revansh olish mumkin.
-                </p>
-              </div>
+              {!isSoloMode ? (
+                <div className="rounded-[1.4rem] border border-white/12 bg-white/8 p-4">
+                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-slate-300">Ikkinchi jamoa</p>
+                  <p className="mt-2 text-2xl font-black text-white">{runnerUp?.name ?? 'Raqib jamoa'}</p>
+                  <p className="mt-3 text-4xl font-black text-white">{runnerUp?.score ?? 0}</p>
+                  <p className="mt-2 text-xs font-bold leading-5 text-slate-300 sm:text-sm">
+                    Yaxshi urinish. Keyingi o'yinda revansh olish mumkin.
+                  </p>
+                </div>
+              ) : null}
             </div>
 
-            <div className="mt-4 grid gap-2 md:grid-cols-2">
+            <div className={`mt-4 grid gap-2 ${orderedTeams.length > 1 ? 'md:grid-cols-2' : ''}`}>
               {orderedTeams.map((team, index) => (
                 <div key={`winner-${team.id}`} className="rounded-[1.2rem] border border-white/12 bg-white/8 p-3.5">
                   <div className="flex items-center justify-between gap-3">

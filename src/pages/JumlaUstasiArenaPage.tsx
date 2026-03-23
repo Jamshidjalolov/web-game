@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import JumlaUstasiArena, { type TeacherJumlaWord } from '../components/JumlaUstasiArena.tsx'
 import { findGameById } from '../data/games.ts'
 import useTeacherGameAccess from '../hooks/useTeacherGameAccess.ts'
 import { fetchGameQuestions, type BackendQuestion } from '../lib/backend.ts'
+import { getTeamName, parseTeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 
@@ -70,8 +72,9 @@ function JumlaUstasiArenaPage() {
   const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search])
 
   const difficulty = useMemo(() => parseDifficulty(searchParams.get('difficulty')), [searchParams])
-  const teamOneName = searchParams.get('team1')?.trim() || '1-Jamoa'
-  const teamTwoName = searchParams.get('team2')?.trim() || '2-Jamoa'
+  const teamCount = useMemo(() => parseTeamCount(searchParams.get('teamCount')), [searchParams])
+  const teamOneName = getTeamName(searchParams.get('team1'), 0)
+  const teamTwoName = getTeamName(searchParams.get('team2'), 1)
   const localTeacherWords = useMemo(() => loadTeacherWords(searchParams.get('custom')), [searchParams])
   const canUseTeacherContent = useTeacherGameAccess()
   const [teacherWords, setTeacherWords] = useState<TeacherJumlaWord[]>(localTeacherWords)
@@ -98,10 +101,11 @@ function JumlaUstasiArenaPage() {
     }
   }, [canUseTeacherContent, localTeacherWords])
 
-  const arenaKey = `${difficulty}-${teamOneName}-${teamTwoName}-${searchParams.get('custom') ?? 'none'}-${teacherWords.length}`
+  const arenaKey = `${difficulty}-${teamCount}-${teamOneName}-${teamTwoName}-${searchParams.get('custom') ?? 'none'}-${teacherWords.length}`
 
   if (!game) return null
   if (!questionsReady) return null
+  if (!teamOneName || (teamCount === 2 && !teamTwoName)) return <Navigate to="/games/jumla-ustasi" replace />
 
   return (
     <div className="relative min-h-screen overflow-x-hidden overflow-y-auto bg-[linear-gradient(145deg,#edf7ff_0%,#f5fbff_46%,#fff4dd_100%)] text-slate-800">
@@ -113,11 +117,15 @@ function JumlaUstasiArenaPage() {
           gameTone={game.tone}
           leftTeamName={teamOneName}
           rightTeamName={teamTwoName}
+          teamCount={teamCount}
           initialDifficulty={difficulty}
           teacherWords={teacherWords}
           setupPath="/games/jumla-ustasi"
         />
       </main>
+      <div className="relative z-10 mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+        <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+      </div>
     </div>
   )
 }

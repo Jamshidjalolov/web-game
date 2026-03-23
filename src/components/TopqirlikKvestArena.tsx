@@ -1467,7 +1467,7 @@ function TopqirlikKvestArena({
           <button
             type="button"
             onClick={resetMatch}
-            className="arena-3d-press rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5"
+            className="arena-3d-press ui-secondary-btn ui-secondary-btn--sm px-4 py-2.5"
           >
             Tozalash
           </button>

@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import MillionaireTeamArena, { type TeacherMillionaireQuestion } from '../components/MillionaireTeamArena.tsx'
 import { findGameById } from '../data/games.ts'
 import useTeacherGameAccess from '../hooks/useTeacherGameAccess.ts'
 import { fetchGameQuestions, type BackendQuestion } from '../lib/backend.ts'
+import { getTeamName, parseTeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 
@@ -88,8 +90,9 @@ function MillionaireArenaPage() {
   const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search])
 
   const difficulty = parseDifficulty(searchParams.get('difficulty'))
-  const teamOneName = searchParams.get('team1')?.trim() || ''
-  const teamTwoName = searchParams.get('team2')?.trim() || ''
+  const teamCount = parseTeamCount(searchParams.get('teamCount'))
+  const teamOneName = getTeamName(searchParams.get('team1'), 0)
+  const teamTwoName = getTeamName(searchParams.get('team2'), 1)
   const session = searchParams.get('session')?.trim() || ''
   const customKey = searchParams.get('custom')
   const localTeacherQuestions = useMemo(() => loadTeacherQuestions(customKey), [customKey])
@@ -122,7 +125,7 @@ function MillionaireArenaPage() {
     return null
   }
 
-  if (!teamOneName || !teamTwoName || !session) {
+  if (!teamOneName || (teamCount === 2 && !teamTwoName) || !session) {
     return (
       <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(145deg,#edf7ff_0%,#f7f8ff_44%,#fff3de_100%)] text-slate-800">
         <main className="mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-4 text-center">
@@ -145,7 +148,7 @@ function MillionaireArenaPage() {
     return null
   }
 
-  const arenaKey = `${difficulty}-${teamOneName}-${teamTwoName}-${session}-${customKey ?? 'none'}-${teacherQuestions.length}`
+  const arenaKey = `${difficulty}-${teamCount}-${teamOneName}-${teamTwoName}-${session}-${customKey ?? 'none'}-${teacherQuestions.length}`
 
   return (
     <div className="relative min-h-screen overflow-x-hidden overflow-y-auto bg-[linear-gradient(145deg,#edf7ff_0%,#f7f8ff_44%,#fff3de_100%)] text-slate-800">
@@ -158,11 +161,15 @@ function MillionaireArenaPage() {
           gameTone={game.tone}
           leftTeamName={teamOneName}
           rightTeamName={teamTwoName}
+          teamCount={teamCount}
           difficulty={difficulty}
           teacherQuestions={teacherQuestions}
           setupPath="/games/millioner"
         />
       </main>
+      <div className="relative z-10 mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+        <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+      </div>
     </div>
   )
 }

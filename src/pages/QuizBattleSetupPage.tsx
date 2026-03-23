@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FooterCTA from '../components/FooterCTA.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import Navbar from '../components/Navbar.tsx'
 import QuestionManagerLinkCard from '../components/QuestionManagerLinkCard.tsx'
 import { findGameById } from '../data/games.ts'
@@ -159,6 +160,9 @@ function QuizBattleSetupPage() {
             </div>
           </section>
         </main>
+        <div className="mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
         <FooterCTA />
       </div>
     </div>

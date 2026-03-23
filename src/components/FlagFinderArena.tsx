@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ConfettiOverlay from './ConfettiOverlay'
+import type { TeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 type Winner = 'left' | 'right' | 'draw'
@@ -12,6 +13,7 @@ type FlagFinderArenaProps = {
   gameTone: string
   leftTeamName?: string
   rightTeamName?: string
+  teamCount?: TeamCount
   initialDifficulty?: Difficulty
   setupPath?: string
 }
@@ -174,9 +176,11 @@ function FlagFinderArena({
   gameTone,
   leftTeamName = '1-Jamoa',
   rightTeamName = '2-Jamoa',
+  teamCount = 2,
   initialDifficulty = "O'rta",
   setupPath = '/games/bayroq-topish',
 }: FlagFinderArenaProps) {
+  const isSoloMode = teamCount === 1
   const config = DIFFICULTY_CONFIG[initialDifficulty]
   const totalTime = config.rounds * config.time
   const [roundPairs, setRoundPairs] = useState<RoundPair[]>(() => createRoundPairs(initialDifficulty))
@@ -207,12 +211,12 @@ function FlagFinderArena({
   const totalQuestions = roundPairs.length
   const leftQuestion = leftRound < totalQuestions ? roundPairs[leftRound]?.left : undefined
   const rightQuestion = rightRound < totalQuestions ? roundPairs[rightRound]?.right : undefined
-  const completedQuestions = Math.min(leftRound, totalQuestions) + Math.min(rightRound, totalQuestions)
+  const completedQuestions = Math.min(leftRound, totalQuestions) + (isSoloMode ? 0 : Math.min(rightRound, totalQuestions))
   const progressPercent = totalQuestions > 0
-    ? Math.round((completedQuestions / (totalQuestions * 2)) * 100)
+    ? Math.round((completedQuestions / (totalQuestions * (isSoloMode ? 1 : 2))) * 100)
     : 0
   const winnerLabel =
-    winner === 'left' ? leftLabel : winner === 'right' ? rightLabel : winner === 'draw' ? 'Durang' : ''
+    isSoloMode ? leftLabel : winner === 'left' ? leftLabel : winner === 'right' ? rightLabel : winner === 'draw' ? 'Durang' : ''
 
   const resultLabel = (result: RoundResult) => {
     if (result === 'correct') return "To'g'ri"
@@ -222,6 +226,7 @@ function FlagFinderArena({
   }
 
   const resolveWinner = () => {
+    if (isSoloMode) return 'left' as const
     if (leftScore > rightScore) return 'left' as const
     if (rightScore > leftScore) return 'right' as const
     if (leftCorrect > rightCorrect) return 'left' as const
@@ -285,7 +290,7 @@ function FlagFinderArena({
   const startGame = () => {
     if (finished || started) return
     setStarted(true)
-    setStatusText("Bellashuv boshlandi. Har jamoa o'zi mustaqil tezlikda davom etadi.")
+    setStatusText(isSoloMode ? "O'yin boshlandi. Savollar ketma-ket ochiladi." : "Bellashuv boshlandi. Har jamoa o'zi mustaqil tezlikda davom etadi.")
   }
 
   const resetGame = () => {
@@ -308,7 +313,7 @@ function FlagFinderArena({
     setRightCorrect(0)
     setWinner(null)
     setShowWinnerModal(false)
-    setStatusText("Boshlash tugmasini bosing, ikkala jamoa bir vaqtda o'ynaydi.")
+    setStatusText(isSoloMode ? "Boshlash tugmasini bosing, savollar ketma-ket ochiladi." : "Boshlash tugmasini bosing, ikkala jamoa bir vaqtda o'ynaydi.")
   }
 
   useEffect(() => {
@@ -322,13 +327,20 @@ function FlagFinderArena({
   useEffect(() => {
     if (!started || finished) return
     if (timeLeft > 0) return
-    finishGame("Vaqt tugadi. Bellashuv yakunlandi.")
-  }, [timeLeft, started, finished, finishGame])
+    finishGame(isSoloMode ? "Vaqt tugadi. Yakka o'yin yakunlandi." : "Vaqt tugadi. Bellashuv yakunlandi.")
+  }, [timeLeft, started, finished, finishGame, isSoloMode])
 
   useEffect(() => {
     if (!started || finished) return
     const leftDone = leftRound >= totalQuestions
     const rightDone = rightRound >= totalQuestions
+
+    if (isSoloMode) {
+      if (leftDone) {
+        finishGame(`${leftLabel} barcha savollarni tugatdi.`)
+      }
+      return
+    }
 
     if (!leftDone && !rightDone) return
 
@@ -343,7 +355,7 @@ function FlagFinderArena({
     }
 
     finishGame(`${rightLabel} barcha savollarni birinchi tugatdi.`)
-  }, [leftRound, rightRound, totalQuestions, started, finished, finishGame, leftLabel, rightLabel])
+  }, [leftRound, rightRound, totalQuestions, started, finished, finishGame, leftLabel, rightLabel, isSoloMode])
 
   useEffect(() => {
     if (!started || finished || !leftLocked) return
@@ -456,7 +468,7 @@ function FlagFinderArena({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <p className="inline-flex rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-cyan-700 sm:text-xs">
-            Real Flag Battle
+            {isSoloMode ? 'Yakka Flag Battle' : 'Real Flag Battle'}
           </p>
           <h2 className="mt-1 font-kid text-3xl text-slate-900 sm:text-4xl">{gameTitle} Arena</h2>
         </div>
@@ -481,18 +493,18 @@ function FlagFinderArena({
           <button
             type="button"
             onClick={resetGame}
-            className="arena-3d-press rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs"
+            className="arena-3d-press ui-secondary-btn ui-secondary-btn--sm"
           >
             Qayta boshlash
           </button>
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className={`mt-4 grid gap-3 ${isSoloMode ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2 lg:grid-cols-5'}`}>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Savollar</p>
           <p className="mt-1 font-kid text-3xl text-slate-900">
-            {completedQuestions}/{totalQuestions * 2}
+            {completedQuestions}/{totalQuestions * (isSoloMode ? 1 : 2)}
           </p>
         </div>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
@@ -505,10 +517,12 @@ function FlagFinderArena({
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{leftLabel}</p>
           <p className="mt-1 text-xl font-extrabold text-slate-900">{leftScore} ball</p>
         </div>
-        <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-          <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
-          <p className="mt-1 text-xl font-extrabold text-slate-900">{rightScore} ball</p>
-        </div>
+        {!isSoloMode ? (
+          <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
+            <p className="mt-1 text-xl font-extrabold text-slate-900">{rightScore} ball</p>
+          </div>
+        ) : null}
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Daraja</p>
           <p className="mt-1 text-base font-extrabold text-slate-700">{initialDifficulty}</p>
@@ -517,7 +531,7 @@ function FlagFinderArena({
 
       <div className="arena-3d-panel mt-4 rounded-2xl border border-slate-200 bg-white p-4">
         <div className="flex items-center justify-between gap-3 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">
-          <span>Ikkala jamoa ham bir vaqtda javob beradi</span>
+          <span>{isSoloMode ? "Savollar ketma-ket siz uchun ochiladi" : "Ikkala jamoa ham bir vaqtda javob beradi"}</span>
           <span>Progress: {progressPercent}%</span>
         </div>
         <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-200">
@@ -525,7 +539,7 @@ function FlagFinderArena({
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+      <div className={`mt-4 grid gap-4 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
         {renderTeamPanel(
           'left',
           leftLabel,
@@ -537,7 +551,7 @@ function FlagFinderArena({
           leftResult,
           'from-cyan-500 to-blue-500',
         )}
-        {renderTeamPanel(
+        {!isSoloMode ? renderTeamPanel(
           'right',
           rightLabel,
           rightQuestion,
@@ -547,7 +561,7 @@ function FlagFinderArena({
           rightCorrect,
           rightResult,
           'from-fuchsia-500 to-rose-500',
-        )}
+        ) : null}
       </div>
 
       <div className={`mt-4 rounded-2xl border px-4 py-3 text-sm font-extrabold ${
@@ -557,7 +571,7 @@ function FlagFinderArena({
       </div>
 
       <div className="mt-4 text-right text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">
-        {(leftLocked || rightLocked) && !finished ? "Natija ko'rsatilib, keyingi savol ochilmoqda..." : ' '}
+        {(leftLocked || (!isSoloMode && rightLocked)) && !finished ? "Natija ko'rsatilib, keyingi savol ochilmoqda..." : ' '}
       </div>
 
       {showWinnerModal ? (
@@ -582,25 +596,27 @@ function FlagFinderArena({
               </div>
 
               <h3 className="mt-3 font-kid text-4xl text-slate-900 sm:text-5xl">
-                {winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
+                {!isSoloMode && winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
               </h3>
               <p className="mt-1 text-base font-bold text-slate-600">
-                {winnerLabel === 'Durang'
+                {!isSoloMode && winnerLabel === 'Durang'
                   ? "Ikkala jamoa ham bir xil natija ko'rsatdi."
                   : `${winnerLabel} eng yuqori natija bilan yutdi.`}
               </p>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className={`mt-4 grid gap-3 ${isSoloMode ? '' : 'sm:grid-cols-2'}`}>
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
                   <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{leftLabel}</p>
                   <p className="mt-1 text-2xl font-extrabold text-slate-800">{leftScore}</p>
                   <p className="text-sm font-bold text-slate-500">{leftCorrect} ta to'g'ri</p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                  <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
-                  <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightScore}</p>
-                  <p className="text-sm font-bold text-slate-500">{rightCorrect} ta to'g'ri</p>
-                </div>
+                {!isSoloMode ? (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
+                    <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightScore}</p>
+                    <p className="text-sm font-bold text-slate-500">{rightCorrect} ta to'g'ri</p>
+                  </div>
+                ) : null}
               </div>
 
               <div className="mt-4 flex flex-wrap justify-end gap-2">
@@ -614,7 +630,7 @@ function FlagFinderArena({
                 <button
                   type="button"
                   onClick={resetGame}
-                  className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
+                  className={`ui-accent-btn rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
                 >
                   Yangi raund
                 </button>

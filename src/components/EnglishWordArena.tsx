@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ConfettiOverlay from './ConfettiOverlay'
+import type { TeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 type Side = 'left' | 'right'
@@ -18,6 +19,7 @@ type EnglishWordArenaProps = {
   gameTone: string
   leftTeamName?: string
   rightTeamName?: string
+  teamCount?: TeamCount
   initialDifficulty?: Difficulty
   teacherWords?: TeacherEnglishWord[]
   setupPath?: string
@@ -235,10 +237,12 @@ function EnglishWordArena({
   gameTone,
   leftTeamName = '1-Jamoa',
   rightTeamName = '2-Jamoa',
+  teamCount = 2,
   initialDifficulty = "O'rta",
   teacherWords = [],
   setupPath = '/games/inglizcha-soz',
 }: EnglishWordArenaProps) {
+  const isSoloMode = teamCount === 1
   const config = DIFFICULTY_CONFIG[initialDifficulty]
   const [questions, setQuestions] = useState<WordQuestion[]>(() =>
     createQuestionDeck(initialDifficulty, teacherWords),
@@ -273,7 +277,7 @@ function EnglishWordArena({
   const progressPercent =
     totalRounds > 0 ? Math.round((completedRounds / totalRounds) * 100) : 0
   const winnerLabel =
-    winner === 'left' ? leftLabel : winner === 'right' ? rightLabel : winner === 'draw' ? 'Durang' : ''
+    isSoloMode ? leftLabel : winner === 'left' ? leftLabel : winner === 'right' ? rightLabel : winner === 'draw' ? 'Durang' : ''
 
   const resultLabel = (result: RoundResult) => {
     if (result === 'correct') return "To'g'ri"
@@ -282,6 +286,7 @@ function EnglishWordArena({
   }
 
   const resolveWinner = (preferred: Winner | null = null) => {
+    if (isSoloMode) return 'left' as const
     if (preferred && preferred !== 'draw') return preferred
     if (leftScore > rightScore) return 'left' as const
     if (rightScore > leftScore) return 'right' as const
@@ -338,13 +343,19 @@ function EnglishWordArena({
     }
 
     if (isCorrect) {
-      if (side === 'left') {
+      if (!isSoloMode && side === 'left') {
         setRightLocked(true)
-      } else {
+      } else if (!isSoloMode) {
         setLeftLocked(true)
       }
       setRoundSettled(true)
       setStatusText(`${sideLabel} birinchi bo'lib to'g'ri topdi: ${question.answer}. +${config.points} +${speedBonus} bonus`)
+      return
+    }
+
+    if (isSoloMode) {
+      setRoundSettled(true)
+      setStatusText(`${sideLabel} xato javob berdi. To'g'ri javob: ${question.answer}`)
       return
     }
 
@@ -363,7 +374,7 @@ function EnglishWordArena({
   const startGame = () => {
     if (finished || started) return
     setStarted(true)
-    setStatusText("Bellashuv boshlandi. Ikkala jamoa bir xil savolga javob beradi.")
+    setStatusText(isSoloMode ? "O'yin boshlandi. Savollar ketma-ket ochiladi." : "Bellashuv boshlandi. Ikkala jamoa bir xil savolga javob beradi.")
   }
 
   const resetGame = () => {
@@ -386,7 +397,7 @@ function EnglishWordArena({
     setRightCorrect(0)
     setWinner(null)
     setShowWinnerModal(false)
-    setStatusText("Boshlash tugmasini bosing. Ikkala jamoa bir xil savolga javob beradi.")
+    setStatusText(isSoloMode ? "Boshlash tugmasini bosing. Savollar ketma-ket ochiladi." : "Boshlash tugmasini bosing. Ikkala jamoa bir xil savolga javob beradi.")
   }
 
   useEffect(() => {
@@ -562,7 +573,7 @@ function EnglishWordArena({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <p className="inline-flex rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-cyan-700 sm:text-xs">
-            Real English Battle
+            {isSoloMode ? 'Solo English Battle' : 'Real English Battle'}
           </p>
           <h2 className="mt-1 font-kid text-3xl text-slate-900 sm:text-4xl">{gameTitle} Arena</h2>
           {teacherWords.length > 0 ? (
@@ -592,14 +603,14 @@ function EnglishWordArena({
           <button
             type="button"
             onClick={resetGame}
-            className="arena-3d-press rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs"
+            className="arena-3d-press ui-secondary-btn ui-secondary-btn--sm"
           >
             Qayta boshlash
           </button>
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className={`mt-4 grid gap-3 sm:grid-cols-2 ${isSoloMode ? 'lg:grid-cols-4' : 'lg:grid-cols-5'}`}>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Savollar</p>
           <p className="mt-1 font-kid text-3xl text-slate-900">{Math.min(completedRounds, totalRounds)}/{totalRounds}</p>
@@ -614,10 +625,12 @@ function EnglishWordArena({
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{leftLabel}</p>
           <p className="mt-1 text-xl font-extrabold text-slate-900">{leftScore} ball</p>
         </div>
-        <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-          <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
-          <p className="mt-1 text-xl font-extrabold text-slate-900">{rightScore} ball</p>
-        </div>
+        {!isSoloMode ? (
+          <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
+            <p className="mt-1 text-xl font-extrabold text-slate-900">{rightScore} ball</p>
+          </div>
+        ) : null}
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Daraja</p>
           <p className="mt-1 text-base font-extrabold text-slate-700">{initialDifficulty}</p>
@@ -626,7 +639,7 @@ function EnglishWordArena({
 
       <div className="arena-3d-panel mt-4 rounded-2xl border border-slate-200 bg-white p-4">
         <div className="flex items-center justify-between gap-3 text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">
-          <span>Gruh bo'lib tez javob bering</span>
+          <span>{isSoloMode ? 'Savollarni ketma-ket yeching' : "Gruh bo'lib tez javob bering"}</span>
           <span>Progress: {progressPercent}%</span>
         </div>
         <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-200">
@@ -634,7 +647,7 @@ function EnglishWordArena({
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+      <div className={`mt-4 grid gap-4 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
         {renderTeamPanel(
           'left',
           leftLabel,
@@ -647,7 +660,7 @@ function EnglishWordArena({
           'from-cyan-500 to-blue-500',
           roundIndex,
         )}
-        {renderTeamPanel(
+        {!isSoloMode ? renderTeamPanel(
           'right',
           rightLabel,
           currentQuestion,
@@ -658,7 +671,7 @@ function EnglishWordArena({
           rightResult,
           'from-fuchsia-500 to-rose-500',
           roundIndex,
-        )}
+        ) : null}
       </div>
 
       <div className={`mt-4 rounded-2xl border px-4 py-3 text-sm font-extrabold ${
@@ -688,30 +701,32 @@ function EnglishWordArena({
                   Inglizcha raund yakunlandi
                 </p>
                 <p className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-extrabold text-slate-600">
-                  Savollar: {totalRounds} x 2
+                  Savollar: {totalRounds}{isSoloMode ? '' : ' x 2'}
                 </p>
               </div>
 
               <h3 className="mt-3 font-kid text-4xl text-slate-900 sm:text-5xl">
-                {winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
+                {!isSoloMode && winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
               </h3>
               <p className="mt-1 text-base font-bold text-slate-600">
-                {winnerLabel === 'Durang'
+                {!isSoloMode && winnerLabel === 'Durang'
                   ? "Ikkala jamoa ham teng natija ko'rsatdi."
                   : `${winnerLabel} eng yuqori natija bilan yutdi.`}
               </p>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className={`mt-4 grid gap-3 ${isSoloMode ? '' : 'sm:grid-cols-2'}`}>
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
                   <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{leftLabel}</p>
                   <p className="mt-1 text-2xl font-extrabold text-slate-800">{leftScore}</p>
                   <p className="text-sm font-bold text-slate-500">{leftCorrect} ta to'g'ri</p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                  <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
-                  <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightScore}</p>
-                  <p className="text-sm font-bold text-slate-500">{rightCorrect} ta to'g'ri</p>
-                </div>
+                {!isSoloMode ? (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
+                    <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightScore}</p>
+                    <p className="text-sm font-bold text-slate-500">{rightCorrect} ta to'g'ri</p>
+                  </div>
+                ) : null}
               </div>
 
               <div className="mt-4 flex flex-wrap justify-end gap-2">
@@ -725,7 +740,7 @@ function EnglishWordArena({
                 <button
                   type="button"
                   onClick={resetGame}
-                  className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
+                  className={`ui-accent-btn rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
                 >
                   Yangi raund
                 </button>

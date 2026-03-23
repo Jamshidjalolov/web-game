@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import FooterCTA from '../components/FooterCTA.tsx'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import Navbar from '../components/Navbar.tsx'
 import { findGameById } from '../data/games.ts'
+import { DEFAULT_TEAM_NAMES, type TeamCount } from '../lib/teamMode.ts'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 
@@ -22,25 +24,26 @@ function FlagFinderSetupPage() {
   const navigate = useNavigate()
   const game = findGameById('bayroq-topish')
   const [difficulty, setDifficulty] = useState<Difficulty>("O'rta")
-  const [teamOne, setTeamOne] = useState('1-Jamoa')
-  const [teamTwo, setTeamTwo] = useState('2-Jamoa')
+  const [teamCount, setTeamCount] = useState<TeamCount>(2)
+  const [teamNames, setTeamNames] = useState<string[]>([...DEFAULT_TEAM_NAMES])
   const [formHint, setFormHint] = useState('')
 
   const info = useMemo(() => difficultyInfo[difficulty], [difficulty])
 
   const handleOpenArena = () => {
-    const cleanTeamOne = teamOne.trim()
-    const cleanTeamTwo = teamTwo.trim()
+    const activeTeamNames = teamNames.slice(0, teamCount).map((name) => name.trim())
 
-    if (!cleanTeamOne || !cleanTeamTwo) {
-      setFormHint('Ikkala jamoa nomini ham kiriting.')
+    if (activeTeamNames.some((name) => !name)) {
+      setFormHint(teamCount === 1 ? "Jamoa nomini kiriting." : 'Ikkala jamoa nomini ham kiriting.')
       return
     }
 
     const params = new URLSearchParams({
       difficulty,
-      team1: cleanTeamOne,
-      team2: cleanTeamTwo,
+      teamCount: String(teamCount),
+    })
+    activeTeamNames.forEach((name, index) => {
+      params.set(`team${index + 1}`, name)
     })
 
     navigate(`/games/bayroq-topish/arena?${params.toString()}`)
@@ -68,8 +71,9 @@ function FlagFinderSetupPage() {
                   {game.title}
                 </h1>
                 <p className="mt-3 text-lg font-bold text-slate-600">
-                  Bayroq rasmi chiqadi, ikkala jamoa bir vaqtda javob beradi.
-                  Har raundda yangi bayroqlar keladi, daraja oshsa vaqt qisqaradi va ball ko'payadi.
+                  {teamCount === 1
+                    ? "Bayroq rasmi chiqadi, siz ketma-ket bayroqlarni topib borasiz. Daraja oshsa vaqt qisqaradi va ball ko'payadi."
+                    : "Bayroq rasmi chiqadi, ikkala jamoa bir vaqtda javob beradi. Har raundda yangi bayroqlar keladi, daraja oshsa vaqt qisqaradi va ball ko'payadi."}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-3">
                   <span className={`rounded-full bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white ${game.tone}`}>
@@ -96,8 +100,9 @@ function FlagFinderSetupPage() {
             <article className="rounded-[2rem] border border-white/85 bg-white/92 p-5 shadow-soft sm:p-6">
               <h2 className="font-kid text-4xl text-slate-900 sm:text-5xl">O'yin haqida</h2>
               <p className="mt-3 text-lg font-bold leading-relaxed text-slate-600">
-                Har savolda har jamoaga alohida yangi bayroq chiqadi.
-                Ikkalasi ham bir vaqtda javob beradi, raund oxirida eng ko'p ball olgan jamoa g'olib bo'ladi.
+                {teamCount === 1
+                  ? "Har savolda yangi bayroq chiqadi. Vaqt tugaganda yoki barcha savollar yakunlanganda umumiy natijangiz ko'rsatiladi."
+                  : "Har savolda har jamoaga alohida yangi bayroq chiqadi. Ikkalasi ham bir vaqtda javob beradi, raund oxirida eng ko'p ball olgan jamoa g'olib bo'ladi."}
               </p>
 
               <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-5">
@@ -109,20 +114,47 @@ function FlagFinderSetupPage() {
               </div>
 
               <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-lg font-extrabold text-slate-800">Jamoa nomlari</p>
+                <p className="text-lg font-extrabold text-slate-800">Rejim va nomlar</p>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <input
-                    value={teamOne}
-                    onChange={(event) => setTeamOne(event.target.value)}
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-cyan-400"
-                    placeholder="1-Jamoa"
-                  />
-                  <input
-                    value={teamTwo}
-                    onChange={(event) => setTeamTwo(event.target.value)}
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-cyan-400"
-                    placeholder="2-Jamoa"
-                  />
+                  <button
+                    type="button"
+                    onClick={() => setTeamCount(1)}
+                    className={`rounded-2xl border px-4 py-3 text-left transition ${
+                      teamCount === 1
+                        ? `bg-gradient-to-r text-white shadow-soft ${game.tone}`
+                        : 'border-slate-200 bg-white text-slate-700'
+                    }`}
+                  >
+                    <p className="text-sm font-extrabold">1 jamoa</p>
+                    <p className={`mt-1 text-xs font-bold ${teamCount === 1 ? 'text-white/85' : 'text-slate-500'}`}>Yakka o'yin</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setTeamCount(2)}
+                    className={`rounded-2xl border px-4 py-3 text-left transition ${
+                      teamCount === 2
+                        ? `bg-gradient-to-r text-white shadow-soft ${game.tone}`
+                        : 'border-slate-200 bg-white text-slate-700'
+                    }`}
+                  >
+                    <p className="text-sm font-extrabold">2 jamoa</p>
+                    <p className={`mt-1 text-xs font-bold ${teamCount === 2 ? 'text-white/85' : 'text-slate-500'}`}>Bellashuv</p>
+                  </button>
+                </div>
+                <div className={`mt-3 grid gap-3 ${teamCount === 2 ? 'sm:grid-cols-2' : ''}`}>
+                  {Array.from({ length: teamCount }, (_, index) => (
+                    <input
+                      key={`flag-team-${index + 1}`}
+                      value={teamNames[index] ?? ''}
+                      onChange={(event) => {
+                        const next = [...teamNames]
+                        next[index] = event.target.value
+                        setTeamNames(next)
+                      }}
+                      className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-bold text-slate-700 outline-none transition focus:border-cyan-400"
+                      placeholder={teamCount === 1 ? "Jamoa yoki o'yinchi nomi" : `${index + 1}-Jamoa`}
+                    />
+                  ))}
                 </div>
               </div>
 
@@ -188,6 +220,9 @@ function FlagFinderSetupPage() {
           </section>
         </main>
 
+        <div className="mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+          <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+        </div>
         <FooterCTA />
       </div>
     </div>

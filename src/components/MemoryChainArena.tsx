@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ConfettiOverlay from './ConfettiOverlay'
+import { TeamCount } from '../lib/teamMode'
 
 type Difficulty = 'Oson' | "O'rta" | 'Qiyin'
 type Side = 'left' | 'right'
@@ -13,6 +14,7 @@ type MemoryChainArenaProps = {
   gameTone: string
   leftTeamName?: string
   rightTeamName?: string
+  teamCount?: TeamCount
   initialDifficulty?: Difficulty
   setupPath?: string
 }
@@ -122,6 +124,7 @@ function MemoryChainArena({
   gameTone,
   leftTeamName = '1-Jamoa',
   rightTeamName = '2-Jamoa',
+  teamCount = 2,
   initialDifficulty = "O'rta",
   setupPath = '/games/xotira-zanjiri',
 }: MemoryChainArenaProps) {
@@ -129,6 +132,7 @@ function MemoryChainArena({
   const totalRounds = config.rounds
   const leftLabel = leftTeamName.trim() || '1-Jamoa'
   const rightLabel = rightTeamName.trim() || '2-Jamoa'
+  const isSoloMode = teamCount === 1
 
   const [round, setRound] = useState(1)
   const [phase, setPhase] = useState<Phase>('ready')
@@ -150,12 +154,13 @@ function MemoryChainArena({
   const roundLabel = `${round}/${totalRounds}`
 
   const resolveWinner = useCallback((): Winner => {
+    if (isSoloMode) return 'left'
     if (leftTeam.score > rightTeam.score) return 'left'
     if (rightTeam.score > leftTeam.score) return 'right'
     if (leftTeam.roundsWon > rightTeam.roundsWon) return 'left'
     if (rightTeam.roundsWon > leftTeam.roundsWon) return 'right'
     return 'draw'
-  }, [leftTeam.score, rightTeam.score, leftTeam.roundsWon, rightTeam.roundsWon])
+  }, [isSoloMode, leftTeam.score, rightTeam.score, leftTeam.roundsWon, rightTeam.roundsWon])
 
   const openRound = useCallback(
     (nextRound: number) => {
@@ -179,9 +184,13 @@ function MemoryChainArena({
         timeLeft: config.inputSeconds,
       }))
       setPhase('preview')
-      setStatusText(`${nextRound}-raund: zanjirni eslab qoling.`)
+      setStatusText(
+        isSoloMode
+          ? `${nextRound}-raund: zanjirni eslab qoling va qaytaring.`
+          : `${nextRound}-raund: zanjirni eslab qoling.`,
+      )
     },
-    [config.startLength, config.inputSeconds],
+    [config.startLength, config.inputSeconds, isSoloMode],
   )
 
   const startMatch = () => {
@@ -204,12 +213,16 @@ function MemoryChainArena({
     setRightFlash(null)
     setWinner(null)
     setShowWinnerModal(false)
-    setStatusText("Boshlash tugmasini bosing, zanjirni eslab qoling va tez toping.")
+    setStatusText(
+      isSoloMode
+        ? "Boshlash tugmasini bosing, zanjirni eslab qoling va imkon qadar tez toping."
+        : "Boshlash tugmasini bosing, zanjirni eslab qoling va tez toping.",
+    )
   }
 
   const evaluatePress = (side: Side, padId: number) => {
     if (phase !== 'input') return
-    if (leftTeam.status === 'correct' || rightTeam.status === 'correct') return
+    if (leftTeam.status === 'correct' || (!isSoloMode && rightTeam.status === 'correct')) return
 
     if (side === 'left') {
       if (leftTeam.status !== 'waiting') return
@@ -217,7 +230,11 @@ function MemoryChainArena({
 
       if (padId !== expected) {
         setLeftTeam((prev) => ({ ...prev, status: 'wrong', streak: 0 }))
-        setStatusText(`${leftLabel} xato bosdi. Raund yakunini kuting.`)
+        setStatusText(
+          isSoloMode
+            ? `${leftLabel} xato bosdi. Raund yakunlandi.`
+            : `${leftLabel} xato bosdi. Raund yakunini kuting.`,
+        )
         return
       }
 
@@ -246,7 +263,7 @@ function MemoryChainArena({
       return
     }
 
-    if (rightTeam.status !== 'waiting') return
+    if (isSoloMode || rightTeam.status !== 'waiting') return
     const expected = rightSequence[rightTeam.input.length]
 
     if (padId !== expected) {
@@ -295,7 +312,11 @@ function MemoryChainArena({
         setLeftFlash(null)
         setRightFlash(null)
         setPhase('input')
-        setStatusText(`Raund ${roundLabel}: ${leftLabel} va ${rightLabel}, ketma-ketlikni qaytaring.`)
+        setStatusText(
+          isSoloMode
+            ? `Raund ${roundLabel}: ${leftLabel}, ketma-ketlikni qaytaring.`
+            : `Raund ${roundLabel}: ${leftLabel} va ${rightLabel}, ketma-ketlikni qaytaring.`,
+        )
         return
       }
 
@@ -331,6 +352,7 @@ function MemoryChainArena({
     roundLabel,
     leftLabel,
     rightLabel,
+    isSoloMode,
   ])
 
   useEffect(() => {
@@ -345,22 +367,26 @@ function MemoryChainArena({
         return { ...prev, timeLeft: prev.timeLeft - 1 }
       })
 
-      setRightTeam((prev) => {
-        if (prev.status !== 'waiting') return prev
-        if (prev.timeLeft <= 1) {
-          return { ...prev, timeLeft: 0, status: 'timeout', streak: 0 }
-        }
-        return { ...prev, timeLeft: prev.timeLeft - 1 }
-      })
+      if (!isSoloMode) {
+        setRightTeam((prev) => {
+          if (prev.status !== 'waiting') return prev
+          if (prev.timeLeft <= 1) {
+            return { ...prev, timeLeft: 0, status: 'timeout', streak: 0 }
+          }
+          return { ...prev, timeLeft: prev.timeLeft - 1 }
+        })
+      }
     }, 1000)
 
     return () => window.clearInterval(timer)
-  }, [phase])
+  }, [phase, isSoloMode])
 
   useEffect(() => {
     if (phase !== 'input') return
     const someoneCorrect = leftTeam.status === 'correct' || rightTeam.status === 'correct'
-    const bothResolved = leftTeam.status !== 'waiting' && rightTeam.status !== 'waiting'
+    const bothResolved = isSoloMode
+      ? leftTeam.status !== 'waiting'
+      : leftTeam.status !== 'waiting' && rightTeam.status !== 'waiting'
     if (!someoneCorrect && !bothResolved) return
 
     setPhase('result')
@@ -369,12 +395,16 @@ function MemoryChainArena({
       setStatusText(`${leftLabel} birinchi bo'lib to'g'ri topdi va raundni yutdi.`)
       return
     }
-    if (rightTeam.status === 'correct') {
+    if (!isSoloMode && rightTeam.status === 'correct') {
       setStatusText(`${rightLabel} birinchi bo'lib to'g'ri topdi va raundni yutdi.`)
       return
     }
-    setStatusText("Ikkala jamoa ham topa olmadi. Keyingi zanjirga o'tiladi.")
-  }, [phase, leftTeam.status, rightTeam.status, leftTeam.timeLeft, rightTeam.timeLeft, leftLabel, rightLabel])
+    setStatusText(
+      isSoloMode
+        ? `Bu safar ${leftLabel} topa olmadi. Keyingi zanjirga o'tiladi.`
+        : "Ikkala jamoa ham topa olmadi. Keyingi zanjirga o'tiladi.",
+    )
+  }, [phase, leftTeam.status, rightTeam.status, leftTeam.timeLeft, rightTeam.timeLeft, leftLabel, rightLabel, isSoloMode])
 
   useEffect(() => {
     if (phase !== 'result') return
@@ -391,11 +421,11 @@ function MemoryChainArena({
           setStatusText(`${leftLabel} g'olib bo'ldi.`)
           return
         }
-        if (resolved === 'right') {
+        if (!isSoloMode && resolved === 'right') {
           setStatusText(`${rightLabel} g'olib bo'ldi.`)
           return
         }
-        setStatusText('Durang natija.')
+        setStatusText(isSoloMode ? `${leftLabel} natijasi yakunlandi.` : 'Durang natija.')
         return
       }
 
@@ -403,7 +433,7 @@ function MemoryChainArena({
     }, config.nextRoundMs)
 
     return () => window.clearTimeout(timer)
-  }, [phase, round, totalRounds, resolveWinner, leftLabel, rightLabel, openRound, config.nextRoundMs])
+  }, [phase, round, totalRounds, resolveWinner, leftLabel, rightLabel, openRound, config.nextRoundMs, isSoloMode])
 
   const winnerLabel = useMemo(() => {
     if (winner === 'left') return leftLabel
@@ -522,9 +552,11 @@ function MemoryChainArena({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <p className="inline-flex rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.14em] text-cyan-700 sm:text-xs">
-            Real xotira zanjiri
+            {isSoloMode ? 'Solo xotira zanjiri' : 'Real xotira zanjiri'}
           </p>
-          <h2 className="mt-1 font-kid text-3xl text-slate-900 sm:text-4xl">{gameTitle} Arena</h2>
+          <h2 className="mt-1 font-kid text-3xl text-slate-900 sm:text-4xl">
+            {isSoloMode ? `${gameTitle} Solo` : `${gameTitle} Arena`}
+          </h2>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -544,14 +576,14 @@ function MemoryChainArena({
           <button
             type="button"
             onClick={resetMatch}
-            className="arena-3d-press rounded-xl border border-slate-200 bg-white px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-slate-700 transition hover:-translate-y-0.5 sm:text-xs"
+            className="arena-3d-press ui-secondary-btn ui-secondary-btn--sm"
           >
             Nolga tushir
           </button>
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className={`mt-4 grid gap-3 sm:grid-cols-2 ${isSoloMode ? 'lg:grid-cols-4' : 'lg:grid-cols-5'}`}>
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Raund</p>
           <p className="mt-1 font-kid text-3xl text-slate-900">{roundLabel}</p>
@@ -564,10 +596,12 @@ function MemoryChainArena({
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{leftLabel}</p>
           <p className="mt-1 text-xl font-extrabold text-slate-900">{leftTeam.score} ball</p>
         </div>
-        <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-          <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
-          <p className="mt-1 text-xl font-extrabold text-slate-900">{rightTeam.score} ball</p>
-        </div>
+        {!isSoloMode ? (
+          <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">{rightLabel}</p>
+            <p className="mt-1 text-xl font-extrabold text-slate-900">{rightTeam.score} ball</p>
+          </div>
+        ) : null}
         <div className="arena-3d-card rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-400">Uzunlik</p>
           <p className="mt-1 text-xl font-extrabold text-slate-900">{currentLength} belgi</p>
@@ -595,9 +629,11 @@ function MemoryChainArena({
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+      <div className={`mt-4 grid gap-4 ${isSoloMode ? '' : 'lg:grid-cols-2'}`}>
         {renderTeamPanel('left', leftLabel, leftTeam, leftFlash, 'border-cyan-200 bg-cyan-50/35', 'from-cyan-500 to-blue-500')}
-        {renderTeamPanel('right', rightLabel, rightTeam, rightFlash, 'border-fuchsia-200 bg-fuchsia-50/35', 'from-fuchsia-500 to-rose-500')}
+        {!isSoloMode
+          ? renderTeamPanel('right', rightLabel, rightTeam, rightFlash, 'border-fuchsia-200 bg-fuchsia-50/35', 'from-fuchsia-500 to-rose-500')
+          : null}
       </div>
 
       <div
@@ -620,25 +656,29 @@ function MemoryChainArena({
                 Xotira zanjiri yakunlandi
               </p>
               <h3 className="mt-3 font-kid text-4xl text-slate-900 sm:text-5xl">
-                {winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
+                {!isSoloMode && winnerLabel === 'Durang' ? 'Durang natija' : `G'olib: ${winnerLabel}`}
               </h3>
               <p className="mt-1 text-base font-bold text-slate-600">
-                {winnerLabel === 'Durang'
+                {!isSoloMode && winnerLabel === 'Durang'
                   ? "Ikkala jamoa ham teng natija ko'rsatdi."
-                  : `${winnerLabel} eng kuchli xotira natijasini ko'rsatdi.`}
+                  : isSoloMode
+                    ? `${leftLabel} eng kuchli xotira natijasini ko'rsatdi.`
+                    : `${winnerLabel} eng kuchli xotira natijasini ko'rsatdi.`}
               </p>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className={`mt-4 grid gap-3 ${isSoloMode ? '' : 'sm:grid-cols-2'}`}>
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
                   <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{leftLabel}</p>
                   <p className="mt-1 text-2xl font-extrabold text-slate-800">{leftTeam.score}</p>
                   <p className="text-sm font-bold text-slate-500">{leftTeam.roundsWon} raund | combo {leftTeam.bestStreak}</p>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
-                  <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
-                  <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightTeam.score}</p>
-                  <p className="text-sm font-bold text-slate-500">{rightTeam.roundsWon} raund | combo {rightTeam.bestStreak}</p>
-                </div>
+                {!isSoloMode ? (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-center">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-slate-400">{rightLabel}</p>
+                    <p className="mt-1 text-2xl font-extrabold text-slate-800">{rightTeam.score}</p>
+                    <p className="text-sm font-bold text-slate-500">{rightTeam.roundsWon} raund | combo {rightTeam.bestStreak}</p>
+                  </div>
+                ) : null}
               </div>
 
               <div className="mt-4 flex flex-wrap justify-end gap-2">
@@ -652,7 +692,7 @@ function MemoryChainArena({
                 <button
                   type="button"
                   onClick={startMatch}
-                  className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
+                  className={`ui-accent-btn rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
                 >
                   Yangi raund
                 </button>

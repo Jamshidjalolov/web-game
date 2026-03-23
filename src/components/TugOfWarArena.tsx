@@ -924,7 +924,7 @@ function TugOfWarArena({
           <button
             type="button"
             onClick={startNewRound}
-            className={`arena-3d-press rounded-xl bg-gradient-to-r px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-soft transition hover:-translate-y-0.5 sm:text-xs ${gameTone}`}
+            className={`arena-3d-press ui-accent-btn rounded-xl bg-gradient-to-r px-3 py-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-soft transition hover:-translate-y-0.5 sm:text-xs ${gameTone}`}
           >
             {!running && !finished ? "O'yinni boshlash" : 'Yangi raund'}
           </button>
@@ -1151,7 +1151,7 @@ function TugOfWarArena({
               <button
                 type="button"
                 onClick={startNewRound}
-                className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
+                className={`ui-accent-btn rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-extrabold text-white shadow-soft transition hover:-translate-y-0.5 ${gameTone}`}
               >
                 Yangi raund
               </button>

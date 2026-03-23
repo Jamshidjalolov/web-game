@@ -1,7 +1,9 @@
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
+import GameCommentsSection from '../components/GameCommentsSection.tsx'
 import PuzzleArena, { type Difficulty, type Operator } from '../components/PuzzleArena.tsx'
 import { findGameById } from '../data/games.ts'
+import { getTeamName, parseTeamCount } from '../lib/teamMode.ts'
 
 const allowedOps: Operator[] = ['+', '-', 'x', '/']
 const fallbackOps: Operator[] = ['+', '-', 'x', '/']
@@ -37,9 +39,10 @@ function PuzzleArenaPage() {
   const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search])
   const selectedOps = useMemo(() => parseOperators(searchParams.get('ops')), [searchParams])
   const difficulty = useMemo(() => parseDifficulty(searchParams.get('difficulty')), [searchParams])
-  const teamOneName = searchParams.get('team1')?.trim() || '1-Jamoa'
-  const teamTwoName = searchParams.get('team2')?.trim() || '2-Jamoa'
-  const arenaKey = `${difficulty}-${selectedOps.join(',')}-${teamOneName}-${teamTwoName}`
+  const teamCount = useMemo(() => parseTeamCount(searchParams.get('teamCount')), [searchParams])
+  const teamOneName = getTeamName(searchParams.get('team1'), 0)
+  const teamTwoName = getTeamName(searchParams.get('team2'), 1)
+  const arenaKey = `${difficulty}-${teamCount}-${selectedOps.join(',')}-${teamOneName}-${teamTwoName}`
 
   if (!game) {
     return null
@@ -55,12 +58,16 @@ function PuzzleArenaPage() {
           gameTone={game.tone}
           leftTeamName={teamOneName}
           rightTeamName={teamTwoName}
+          teamCount={teamCount}
           initialDifficulty={difficulty}
           initialEnabledOps={selectedOps}
           lockSettings
           setupPath="/games/puzzle-mozaika"
         />
       </main>
+      <div className="relative z-10 mx-auto max-w-[1320px] px-4 pb-10 sm:px-6">
+        <GameCommentsSection gameId={game.id} gameTitle={game.title} />
+      </div>
     </div>
   )
 }
