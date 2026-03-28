@@ -8,6 +8,20 @@ from jose import JWTError, jwt
 from app.core.config import settings
 
 
+def _normalize_decoded_token(payload: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(payload)
+    normalized["uid"] = str(
+        payload.get("uid")
+        or payload.get("user_id")
+        or payload.get("sub")
+        or "",
+    )
+    normalized["email"] = str(payload.get("email") or "").strip().lower()
+    normalized["name"] = payload.get("name") or payload.get("displayName")
+    normalized["picture"] = payload.get("picture") or payload.get("photoUrl")
+    return normalized
+
+
 def _initialize_firebase_app() -> None:
     if firebase_admin._apps:
         return
@@ -32,7 +46,7 @@ def _initialize_firebase_app() -> None:
 def verify_firebase_id_token(id_token: str) -> dict[str, Any]:
     try:
         _initialize_firebase_app()
-        return auth.verify_id_token(id_token, clock_skew_seconds=60)
+        return _normalize_decoded_token(auth.verify_id_token(id_token, clock_skew_seconds=60))
     except Exception:
         project_id = settings.firebase_project_id
         if project_id:
@@ -47,12 +61,14 @@ def verify_firebase_id_token(id_token: str) -> dict[str, Any]:
                 certs = certs_response.json()
                 public_key = certs.get(key_id)
                 if public_key:
-                    return jwt.decode(
-                        id_token,
-                        public_key,
-                        algorithms=["RS256"],
-                        audience=project_id,
-                        issuer=f"https://securetoken.google.com/{project_id}",
+                    return _normalize_decoded_token(
+                        jwt.decode(
+                            id_token,
+                            public_key,
+                            algorithms=["RS256"],
+                            audience=project_id,
+                            issuer=f"https://securetoken.google.com/{project_id}",
+                        ),
                     )
             except (JWTError, ValueError, httpx.HTTPError):
                 pass
@@ -69,12 +85,14 @@ def verify_firebase_id_token(id_token: str) -> dict[str, Any]:
                 users = payload.get("users") or []
                 if users:
                     user = users[0]
-                    return {
-                        "uid": user.get("localId"),
-                        "email": user.get("email"),
-                        "name": user.get("displayName"),
-                        "picture": user.get("photoUrl"),
-                    }
+                    return _normalize_decoded_token(
+                        {
+                            "uid": user.get("localId"),
+                            "email": user.get("email"),
+                            "name": user.get("displayName"),
+                            "picture": user.get("photoUrl"),
+                        },
+                    )
             except httpx.HTTPError:
                 pass
 

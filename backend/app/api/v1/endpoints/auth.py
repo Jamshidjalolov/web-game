@@ -152,7 +152,7 @@ def firebase_login(payload: FirebaseLoginRequest, db: Session = Depends(get_db))
             detail="Firebase token tasdiqlanmadi.",
         ) from exc
 
-    firebase_uid = str(decoded.get("uid") or "")
+    firebase_uid = str(decoded.get("uid") or decoded.get("user_id") or decoded.get("sub") or "")
     email = str(decoded.get("email") or "").strip().lower()
     full_name = str(decoded.get("name") or "").strip() or None
     photo_url = str(decoded.get("picture") or "").strip() or None
