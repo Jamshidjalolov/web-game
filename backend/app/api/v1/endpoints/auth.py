@@ -53,8 +53,14 @@ def _normalize_email(email: str) -> str:
     return cleaned
 
 
-def _resolve_role(email: str) -> UserRole:
+def _resolve_new_user_role(email: str) -> UserRole:
     return UserRole.ADMIN if email in settings.admin_emails else UserRole.TEACHER
+
+
+def _resolve_existing_user_role(user: User, email: str) -> UserRole:
+    if email in settings.admin_emails:
+        return UserRole.ADMIN
+    return user.role
 
 
 @router.post("/register", response_model=AuthResponse)
@@ -63,7 +69,7 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> AuthRes
         email = _normalize_email(payload.email)
         full_name = payload.full_name.strip() if payload.full_name else None
         password_hash = hash_password(payload.password)
-        role = _resolve_role(email)
+        role = _resolve_new_user_role(email)
 
         user = db.scalar(select(User).where(User.email == email))
         if user is None:
@@ -115,7 +121,7 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)) -> AuthResponse:
                 detail="Email yoki parol noto'g'ri.",
             )
 
-        expected_role = _resolve_role(email)
+        expected_role = _resolve_existing_user_role(user, email)
         if user.role != expected_role:
             user.role = expected_role
             db.commit()
@@ -165,7 +171,7 @@ def firebase_login(payload: FirebaseLoginRequest, db: Session = Depends(get_db))
         )
 
         if user is None:
-            role = _resolve_role(email)
+            role = _resolve_new_user_role(email)
             user = User(
                 firebase_uid=firebase_uid,
                 email=email,
@@ -179,7 +185,7 @@ def firebase_login(payload: FirebaseLoginRequest, db: Session = Depends(get_db))
             user.email = email
             user.full_name = full_name or user.full_name
             user.photo_url = photo_url or user.photo_url
-            user.role = _resolve_role(email)
+            user.role = _resolve_existing_user_role(user, email)
 
         db.commit()
         db.refresh(user)

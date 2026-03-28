@@ -1,10 +1,13 @@
+import os
 from functools import lru_cache
 from typing import Annotated
 
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 DEFAULT_CORS_ORIGIN_REGEX = r"https://.*\.vercel\.app"
+DEFAULT_LOCAL_DATABASE_URL = "postgresql+psycopg2://postgres:postgres@localhost:5432/game_web"
+BOOT_ENVIRONMENT = (os.getenv("ENVIRONMENT") or "development").strip().lower()
 DEFAULT_CORS_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
@@ -17,17 +20,17 @@ DEFAULT_CORS_ORIGINS = [
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=None if BOOT_ENVIRONMENT == "production" else ".env",
         env_file_encoding="utf-8",
         extra="ignore",
         case_sensitive=False,
     )
 
     app_name: str = "Game Web API"
-    environment: str = "development"
+    environment: str = BOOT_ENVIRONMENT or "development"
     api_v1_prefix: str = "/api/v1"
 
-    database_url: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/game_web"
+    database_url: str = DEFAULT_LOCAL_DATABASE_URL
     cors_origins: Annotated[list[str], NoDecode] = Field(default_factory=lambda: list(DEFAULT_CORS_ORIGINS))
     cors_origin_regex: str | None = DEFAULT_CORS_ORIGIN_REGEX
 
@@ -82,6 +85,19 @@ class Settings(BaseSettings):
     @classmethod
     def normalize_admin_emails(cls, value: list[str]) -> list[str]:
         return [item.lower() for item in value]
+
+    @model_validator(mode="after")
+    def validate_production_database_url(self) -> "Settings":
+        if self.environment != "production":
+            return self
+
+        normalized = self.database_url.strip().lower()
+        if not normalized or "localhost" in normalized or "127.0.0.1" in normalized:
+            raise ValueError(
+                "Production muhitda DATABASE_URL localhost bo'lmasligi kerak. "
+                "Render Postgres external URL yoki boshqa remote Postgres URL kiriting.",
+            )
+        return self
 
 
 @lru_cache

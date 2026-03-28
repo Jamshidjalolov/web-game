@@ -1,5 +1,11 @@
-import { useEffect, useState, type FormEvent } from 'react'
-import { getRedirectResult, signInWithRedirect, type UserCredential } from 'firebase/auth'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
+import {
+  getRedirectResult,
+  onAuthStateChanged,
+  signInWithRedirect,
+  type User,
+  type UserCredential,
+} from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom'
 import joinSideImage from '../assets/join-side.svg'
 import {
@@ -9,7 +15,22 @@ import {
   loadStoredAuthSession,
   registerWithEmailPassword,
 } from '../lib/backend.ts'
-import { firebaseAuth, googleProvider, isFirebaseConfigured } from '../lib/firebase.ts'
+import {
+  activeFirebaseAuthDomain,
+  activeFirebaseProjectId,
+  firebaseAuth,
+  googleProvider,
+  isFirebaseConfigured,
+} from '../lib/firebase.ts'
+
+const toFirebaseUiErrorMessage = (error: unknown) => {
+  const fallback = error instanceof Error ? error.message : "Google orqali kirishda xatolik yuz berdi."
+  const firebaseError = error as { code?: string } | null
+  if (firebaseError?.code !== 'auth/unauthorized-domain') return fallback
+
+  const domainHint = typeof window === 'undefined' ? 'joriy-domain' : window.location.hostname
+  return `Firebase bu domenni ruxsat bermagan: ${domainHint}. Firebase Console -> Authentication -> Settings -> Authorized domains ga ${domainHint} ni qo'shing. Project: ${activeFirebaseProjectId}, authDomain: ${activeFirebaseAuthDomain}.`
+}
 
 function LoginPage() {
   const navigate = useNavigate()
@@ -21,11 +42,46 @@ function LoginPage() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
   const [formHint, setFormHint] = useState('')
   const [errorText, setErrorText] = useState('')
+  const googleAuthRequestRef = useRef<Promise<void> | null>(null)
+  const handledFirebaseUidRef = useRef<string | null>(null)
 
-  const completeFirebaseAuth = async (authResult: UserCredential) => {
-    const idToken = await authResult.user.getIdToken(true)
-    await loginWithFirebaseToken(idToken)
-    navigate('/', { replace: true })
+  const completeFirebaseAuth = async (firebaseUserOrResult: UserCredential | User) => {
+    const firebaseUser = 'user' in firebaseUserOrResult ? firebaseUserOrResult.user : firebaseUserOrResult
+    const storedSession = loadStoredAuthSession()
+    const normalizedEmail = firebaseUser.email?.trim().toLowerCase()
+
+    if (
+      storedSession?.accessToken
+      && normalizedEmail
+      && storedSession.user.email.trim().toLowerCase() === normalizedEmail
+    ) {
+      handledFirebaseUidRef.current = firebaseUser.uid
+      navigate('/', { replace: true })
+      return
+    }
+
+    if (handledFirebaseUidRef.current === firebaseUser.uid) {
+      navigate('/', { replace: true })
+      return
+    }
+
+    if (googleAuthRequestRef.current) {
+      await googleAuthRequestRef.current
+      return
+    }
+
+    googleAuthRequestRef.current = (async () => {
+      const idToken = await firebaseUser.getIdToken(true)
+      await loginWithFirebaseToken(idToken)
+      handledFirebaseUidRef.current = firebaseUser.uid
+      navigate('/', { replace: true })
+    })()
+
+    try {
+      await googleAuthRequestRef.current
+    } finally {
+      googleAuthRequestRef.current = null
+    }
   }
 
   useEffect(() => {
@@ -52,23 +108,57 @@ function LoginPage() {
   useEffect(() => {
     if (!isFirebaseConfigured || !firebaseAuth) return
     const auth = firebaseAuth
+    let isCancelled = false
+
+    const restoreSessionFromFirebaseUser = async (firebaseUser: User | null) => {
+      if (isCancelled || !firebaseUser) return
+
+      setIsGoogleLoading(true)
+      setErrorText('')
+      try {
+        await completeFirebaseAuth(firebaseUser)
+      } catch (error) {
+        if (isCancelled) return
+        const message = toFirebaseUiErrorMessage(error)
+        setErrorText(message)
+      } finally {
+        if (!isCancelled) {
+          setIsGoogleLoading(false)
+        }
+      }
+    }
 
     const restoreSessionFromRedirect = async () => {
       try {
         const authResult = await getRedirectResult(auth)
-        if (!authResult) return
-        setIsGoogleLoading(true)
-        await completeFirebaseAuth(authResult)
+        if (isCancelled) return
+        if (authResult) {
+          await restoreSessionFromFirebaseUser(authResult.user)
+          return
+        }
+
+        if (auth.currentUser && !loadStoredAuthSession()?.accessToken) {
+          await restoreSessionFromFirebaseUser(auth.currentUser)
+        }
       } catch (error) {
-        const message = error instanceof Error ? error.message : "Google orqali kirishda xatolik yuz berdi."
+        if (isCancelled) return
+        const message = toFirebaseUiErrorMessage(error)
         setErrorText(message)
-      } finally {
-        setIsGoogleLoading(false)
       }
     }
 
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (!firebaseUser || loadStoredAuthSession()?.accessToken) return
+      void restoreSessionFromFirebaseUser(firebaseUser)
+    })
+
     void restoreSessionFromRedirect()
-  }, [])
+
+    return () => {
+      isCancelled = true
+      unsubscribe()
+    }
+  }, [navigate])
 
   const handleEmailSignup = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -119,7 +209,7 @@ function LoginPage() {
       await signInWithRedirect(firebaseAuth, googleProvider)
       return
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Google orqali kirishda xatolik yuz berdi."
+      const message = toFirebaseUiErrorMessage(error)
       setErrorText(message)
       setIsGoogleLoading(false)
     }

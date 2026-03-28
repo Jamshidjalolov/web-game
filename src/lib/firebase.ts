@@ -10,16 +10,20 @@ const DEFAULT_FIREBASE_CONFIG = {
   appId: '1:189429271711:web:ed5af9202e5454429a26aa',
 }
 
-const envOrDefault = (value: string | undefined, fallback: string) => value?.trim() || fallback
+const normalizeEnvValue = (value: string | undefined) => value?.trim() || ''
 
-const firebaseConfig = {
-  apiKey: envOrDefault(import.meta.env.VITE_FIREBASE_API_KEY, DEFAULT_FIREBASE_CONFIG.apiKey),
-  authDomain: envOrDefault(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN, DEFAULT_FIREBASE_CONFIG.authDomain),
-  projectId: envOrDefault(import.meta.env.VITE_FIREBASE_PROJECT_ID, DEFAULT_FIREBASE_CONFIG.projectId),
-  storageBucket: envOrDefault(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET, DEFAULT_FIREBASE_CONFIG.storageBucket),
-  messagingSenderId: envOrDefault(import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID, DEFAULT_FIREBASE_CONFIG.messagingSenderId),
-  appId: envOrDefault(import.meta.env.VITE_FIREBASE_APP_ID, DEFAULT_FIREBASE_CONFIG.appId),
+const envFirebaseConfig = {
+  apiKey: normalizeEnvValue(import.meta.env.VITE_FIREBASE_API_KEY),
+  authDomain: normalizeEnvValue(import.meta.env.VITE_FIREBASE_AUTH_DOMAIN),
+  projectId: normalizeEnvValue(import.meta.env.VITE_FIREBASE_PROJECT_ID),
+  storageBucket: normalizeEnvValue(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET),
+  messagingSenderId: normalizeEnvValue(import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID),
+  appId: normalizeEnvValue(import.meta.env.VITE_FIREBASE_APP_ID),
 }
+
+const hasCompleteEnvFirebaseConfig = Object.values(envFirebaseConfig).every(Boolean)
+
+const firebaseConfig = hasCompleteEnvFirebaseConfig ? envFirebaseConfig : DEFAULT_FIREBASE_CONFIG
 
 const requiredFirebaseKeys = [
   firebaseConfig.apiKey,
@@ -36,3 +40,5 @@ const firebaseApp: FirebaseApp | null = isFirebaseConfigured
 
 export const firebaseAuth = firebaseApp ? getAuth(firebaseApp) : null
 export const googleProvider = new GoogleAuthProvider()
+export const activeFirebaseProjectId = firebaseConfig.projectId
+export const activeFirebaseAuthDomain = firebaseConfig.authDomain
